@@ -6,7 +6,7 @@
       :hoverEffect="false"
       :clickEffect="false"
       class="particle-background"
-    ></vue-particles>
+    />
     <div class="topbar">
       <div class="container">
         <div class="logo">
@@ -52,6 +52,7 @@ export default {
 body {
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 #app {
