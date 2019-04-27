@@ -2,16 +2,16 @@
   <div class="home">
     <div class="container">
       <div class="grid">
-        <div class="home__left">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque expedita dignissimos ducimus iusto quas aut voluptate reprehenderit magnam. Ab accusantium doloribus sed voluptatem est. Aut eaque vitae officiis aliquam aspernatur.
+        <div class="grid__left">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae necessitatibus quis sed! Amet inventore ipsa, illo quod fugiat voluptatem itaque rem laudantium provident nisi, deserunt maiores sint saepe aut dolorum!
         </div>
 
-        <div class="home__center">
+        <div class="grid__center">
           <high-charts v-parallax="0.5" />
         </div>
 
-        <div class="home__right">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, ipsum corrupti ipsam sunt odio ullam sed quos accusantium laboriosam voluptatum dolorem ipsa totam, facere assumenda quisquam voluptatem? Iusto, dolorum earum?
+        <div class="grid__right">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint quibusdam suscipit doloremque voluptate ab quisquam doloribus magnam distinctio animi molestias, quidem deleniti consectetur porro, cum nemo mollitia accusamus labore excepturi.
         </div>
       </div>
     </div>
@@ -33,7 +33,22 @@ export default {
 .grid {
   display: grid;
   grid-template-columns: repeat(3, auto);
+  grid-gap: 10em;
   align-items: center;
   height: 100vh;
+  z-index: 3;
+  position: relative;
+
+  &__center {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+
+  &__right {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+  }
 }
 </style>

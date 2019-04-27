@@ -9,7 +9,10 @@
     ></vue-particles>
     <div class="topbar">
       <div class="container">
-        <div class="logo">DataTube</div>
+        <div class="logo">
+          <LogoSVG />
+        </div>
+        <SelectBox :options="countries"/>
       </div>
     </div>
     <router-view/>
@@ -17,11 +20,31 @@
 </template>
 
 <script>
-export default {};
+import LogoSVG from '@/components/LogoSVG.vue'
+import SelectBox from '@/components/SelectBox.vue'
+export default {
+  components: {SelectBox, LogoSVG},
+  data(){
+    return {
+      countries : [
+        {
+          label: "France",
+          value: "FR",
+        },
+        {
+          label: "USA",
+          value: "US",
+        }
+      ],
+    }
+  }
+};
 </script>
 
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
 * {
   box-sizing: border-box;
 }
@@ -32,10 +55,9 @@ body {
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #180940;
 }
 
 .container {
@@ -50,6 +72,16 @@ body {
   right: 0;
   z-index: 999;
   padding: 2em 0;
+
+  .container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+
+  .select {
+    margin-left: 24px;
+  }
 }
 
 .highcharts-background {
@@ -57,6 +89,7 @@ body {
 }
 
 .particle-background {
+  background: #fafafa;
   position: absolute;
   top: -10%;
   left: -10%;
