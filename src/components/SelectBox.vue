@@ -12,11 +12,17 @@
 
 <script>
 export default {
-  props: ["options"],
+  props: {
+    options: {
+      type: Array,
+      required: true,
+      default: () => [{ label: 'un label', value: 'value' }],
+    },
+  },
   data() {
     return {
       isOpen: false,
-      picked: "FR"
+      picked: 'FR',
     };
   },
   methods: {
@@ -24,13 +30,13 @@ export default {
       return (() => {
         this.isOpen = !this.isOpen;
       })();
-    }
+    },
   },
   computed: {
     current() {
       return this.options.find(option => option.value === this.picked);
-    }
-  }
+    },
+  },
 };
 </script>
 
