@@ -20,29 +20,31 @@
 </template>
 
 <script>
-import LogoSVG from '@/components/LogoSVG.vue'
-import SelectBox from '@/components/SelectBox.vue'
+import LogoSVG from '@/components/LogoSVG.vue';
+import SelectBox from '@/components/SelectBox.vue';
+
 export default {
-  components: {SelectBox, LogoSVG},
-  data(){
+  components: { SelectBox, LogoSVG },
+  data() {
     return {
-      countries : [
+      countries: [
         {
-          label: "France",
-          value: "FR",
+          label: 'France',
+          value: 'FR',
         },
         {
-          label: "USA",
-          value: "US",
-        }
+          label: 'USA',
+          value: 'US',
+        },
       ],
-    }
-  }
+    };
+  },
 };
 </script>
 
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
 * {
