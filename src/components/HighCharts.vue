@@ -1,6 +1,5 @@
 <template>
-<div>
-  <div id="container"></div>
+<div id="container">
 </div>
 </template>
 
@@ -13,7 +12,12 @@ export default {
   data() {
     return {
       options: {
+        title: {
+          text: undefined,
+        },
         chart: {
+          margin: [0, 0, 0, 0],
+          width: null,
           polar: true,
           type: 'areaspline',
         },
