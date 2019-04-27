@@ -17,10 +17,15 @@
           <high-charts v-parallax="0.5" />
         </div>
 
-        <div
+        <div 
           class="grid__right"
-          v-parallax="0.2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint quibusdam suscipit doloremque voluptate ab quisquam doloribus magnam distinctio animi molestias, quidem deleniti consectetur porro, cum nemo mollitia accusamus labore excepturi.
+          v-parallax="0.2"
+        >
+          <home-navigation 
+            :categories="categories"
+            :selected="selectedCategory"
+            @select="changeCategory"
+          />
         </div>
       </div>
     </div>
@@ -30,12 +35,14 @@
 <script>
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
+import HomeNavigation from '@/components/HomeNavigation.vue';
 
 export default {
   name: 'home',
   components: {
     HighCharts,
     HomeBlock,
+    HomeNavigation,
   },
   data() {
     return {
@@ -71,7 +78,49 @@ export default {
           important: false,
         },
       ],
-    };
+      categories: [
+        {
+          id: 1,
+          name: 'Musique 🎤',
+          selected: true,
+        },
+        {
+          id: 2,
+          name: 'Sport ⚽️',
+          selected: false,
+        },
+        {
+          id: 3,
+          name: 'Makeup 💁🏻‍♀️',
+          selected: false,
+        },
+        {
+          id: 4,
+          name: 'Politique 📰',
+          selected: false,
+        },
+        {
+          id: 5,
+          name: 'Jeux vidéo 🎮',
+          selected: false,
+        },
+      ]
+    }
+  },
+  methods: {
+    changeCategory(category) {
+      let newCategory = this.categories.find(thisCat => thisCat.id === category.id);
+      if(newCategory.selected === true) return;
+      this.categories.forEach(el => {
+        el.selected = false;
+      })
+      newCategory.selected = true;
+    },
+  },
+  computed: {
+    selectedCategory() {
+      return this.categories.find(category => category.selected);
+    },
   },
 };
 </script>
