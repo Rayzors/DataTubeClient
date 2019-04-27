@@ -90,11 +90,14 @@ export default {
     border-radius: 28px;
     list-style: none;
     margin: 10px 0;
-    padding: 10px 0;
+    padding: 0;
     max-height: 50vh;
     overflow: auto;
 
     li {
+      &:hover {
+        background: #fafafa;
+      }
       & + li {
         border-top: 1px solid rgba(0, 0, 0, 0.06);
       }
