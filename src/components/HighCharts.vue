@@ -39,10 +39,10 @@ export default {
         xAxis: {
           type: 'category',
           categories: [
-            'Likes',
-            'Followers',
-            'Dislikes',
-            'lol2',
+            'Nombre de vue',
+            'Like',
+            'Durée',
+            'Dislike',
           ],
           tickmarkPlacement: 'on',
         },
