@@ -1,7 +1,7 @@
 <template>
   <div class="home-nav">
     <div class="home-nav__title">
-      {{ `${twoNumber(index + 1)}.  ${categories[index].name}` }}
+      {{ `${twoNumber(index + 1)}.  ${categories[index].name} ${categories[index].emoji}` }}
     </div>
     <div class="home-nav__top">
       <span>Top {{ categories.length }} categories</span>
@@ -12,6 +12,7 @@
         :key="index"
         :index="index"
         :name="category.name"
+        :emoji="category.emoji"
         @select="select"
       />
     </ul>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import Utils from '@/mixins/Utils.vue';
 import HomeNavigationItem from '@/components/HomeNavigationItem.vue';
 
@@ -36,10 +38,23 @@ export default {
       default: () => [{ id: 0, name: 'Please chose a category' }],
     },
   },
+  created() {
+    if (window.location.hash) {
+      this.index = this.findCategoryIndexByName(window.location.hash);
+    }
+  },
+  watch: {
+    index(val) {
+      window.location.hash = _.kebabCase(this.categories[val].name);
+      this.$emit('selectedCategory', val);
+    },
+  },
   methods: {
+    findCategoryIndexByName(_name) {
+      return this.categories.findIndex(({ name }) => _.kebabCase(name) === _.kebabCase(_name));
+    },
     select(index) {
       this.index = index;
-      this.$emit('selectedCategory', index);
     },
   },
 };

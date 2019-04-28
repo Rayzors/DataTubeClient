@@ -4,7 +4,7 @@
     class="home-nav__list-item"
    @click="select"
   >
-    <span>{{ `${twoNumber(index + 1)}. ${name}` }}</span>
+    <span>{{ `${twoNumber(index + 1)}. ${name} ${emoji}` }}</span>
     <span class="home-nav__dot"></span>
   </li>
 </template>
@@ -22,6 +22,10 @@ export default {
     name: {
       type: String,
       default: 'Category',
+    },
+    emoji: {
+      type: String,
+      default: '🙈',
     },
   },
   methods: {

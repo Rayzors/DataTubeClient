@@ -49,7 +49,8 @@ export default {
       categories: [
         {
           id: 1,
-          name: 'Musique 🎤',
+          emoji: '🎤',
+          name: 'Musique',
           averages: [
             {
               title: 'Nombre de vues',
@@ -85,7 +86,8 @@ export default {
         },
         {
           id: 2,
-          name: 'Sport ⚽️',
+          emoji: '⚽️',
+          name: 'Sport',
           averages: [
             {
               title: 'Nombre de vues',
@@ -121,7 +123,8 @@ export default {
         },
         {
           id: 3,
-          name: 'Makeup 💁🏻‍♀️',
+          emoji: '💁🏻‍♀️',
+          name: 'Makeup',
           averages: [
             {
               title: 'Nombre de vues',
@@ -157,7 +160,8 @@ export default {
         },
         {
           id: 4,
-          name: 'Politique 📰',
+          emoji: '📰',
+          name: 'Politique',
           averages: [
             {
               title: 'Nombre de vues',
@@ -193,7 +197,8 @@ export default {
         },
         {
           id: 5,
-          name: 'Jeux vidéo 🎮',
+          emoji: '🎮',
+          name: 'Jeux vidéo',
           averages: [
             {
               title: 'Nombre de vues',
