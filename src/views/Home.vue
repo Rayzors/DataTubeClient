@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <top-bar :countries="countries" />
     <div class="container">
       <div class="grid">
         <div
