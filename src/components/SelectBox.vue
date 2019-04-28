@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      picked: 'FR',
+      picked: this.options[0].value,
     };
   },
   methods: {

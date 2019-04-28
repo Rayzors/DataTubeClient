@@ -13,6 +13,7 @@
           <LogoSVG />
         </div>
         <SelectBox :options="countries"/>
+        <SelectBox :options="subscribersRanges"/>
       </div>
     </div>
     <router-view/>
@@ -35,6 +36,16 @@ export default {
         {
           label: 'USA',
           value: 'US',
+        },
+      ],
+      subscribersRanges: [
+        {
+          label: '0 - 1000 abonnés',
+          value: '1',
+        },
+        {
+          label: '1000 - 10 000 abonnés',
+          value: '2',
         },
       ],
     };
