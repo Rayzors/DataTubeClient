@@ -170,7 +170,7 @@ export default {
           id: 4,
           emoji: '📰',
           name: 'Politique',
-          averageData: [60, 30, 10, 45],
+          averageData: [50, 30, 10, 45],
           averages: [
             {
               title: 'Nombre de vues',

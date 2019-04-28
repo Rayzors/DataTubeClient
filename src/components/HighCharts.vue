@@ -23,20 +23,20 @@ export default {
           text: undefined,
         },
         chart: {
+          opacity: 1,
+          clip: false,
           margin: [0, 0, 0, 0],
           width: null,
-          height: '100%',
+          height: '95%',
           polar: true,
-          type: 'areaspline',
         },
-        colors: ['#f00'],
         legend: {
           enabled: false,
         },
         tooltip: {
           enabled: false,
         },
-        xAxis: {
+        xAxis: [{
           type: 'category',
           categories: [
             'Nombre de vue',
@@ -44,23 +44,38 @@ export default {
             'Durée',
             'Dislike',
           ],
+          labels: {
+            style: {
+              color: '#151515',
+              cursor: 'default',
+              fontSize: '13px',
+              textOverflow: 'none',
+              whiteSpace: 'nowrap',
+              fontFamily: 'Josefin Sans',
+              letterSpacing: '0.1px',
+            },
+          },
+          tickColor: '#FF0000',
+          tickPosition: 'inside',
           tickmarkPlacement: 'on',
-        },
+          tickPixelInterval: 45,
+          gridLineColor: '#ddd',
+          lineColor: '#ddd',
+        }],
         yAxis: {
           min: 0,
           max: 50,
-        },
-        plotOptions: {
-          series: {
-            marker: false,
-          },
-          areaspline: {
-            linecap: 'lol',
+          gridLineColor: '#ddd',
+          gridLineWidth: 0,
+          labels: {
+            enabled: false,
           },
         },
         series:
         [
           {
+            color: '#ee5355',
+            fillOpacity: 1,
             name: 'Column',
             data: [],
             pointPlacement: 'on',
@@ -69,6 +84,26 @@ export default {
               mouseOver: false,
             },
             enableMouseTracking: false,
+            type: 'areaspline',
+            marker: false,
+          },
+          {
+            fillOpacity: 0,
+            animation: false,
+            name: 'dots',
+            data: [50, 50, 50, 50],
+            pointPlacement: 'on',
+            lineWidth: 0,
+            events: {
+              mouseOver: false,
+            },
+            enableMouseTracking: false,
+            type: 'area',
+            marker: {
+              enabled: true,
+              fillColor: '#ee5355',
+              symbol: 'circle',
+            },
           },
         ],
       },
@@ -77,6 +112,7 @@ export default {
   },
   mounted() {
     this.chart = Highcharts.chart('container', this.options);
+    this.chart.update(this.options);
   },
   watch: {
     values: {
