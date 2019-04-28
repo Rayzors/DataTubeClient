@@ -1,7 +1,7 @@
 <template>
   <div class="home-nav">
     <div class="home-nav__title">
-      {{ `0${index + 1}.  ${categories[index].name}` }}
+      {{ `${twoNumber(index + 1)}.  ${categories[index].name}` }}
     </div>
     <div class="home-nav__top">
       <span>Top {{ categories.length }} categories</span>
@@ -19,9 +19,11 @@
 </template>
 
 <script>
+import Utils from '@/mixins/Utils.vue';
 import HomeNavigationItem from '@/components/HomeNavigationItem.vue';
 
 export default {
+  mixins: [Utils],
   components: { HomeNavigationItem },
   data() {
     return {

@@ -4,13 +4,16 @@
     class="home-nav__list-item"
    @click="select"
   >
-    <span>{{ `0${index + 1}. ${name}` }}</span>
+    <span>{{ `${twoNumber(index + 1)}. ${name}` }}</span>
     <span class="home-nav__dot"></span>
   </li>
 </template>
 
 <script>
+import Utils from '@/mixins/Utils.vue';
+
 export default {
+  mixins: [Utils],
   props: {
     index: {
       type: Number,
