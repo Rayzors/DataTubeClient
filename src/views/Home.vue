@@ -40,18 +40,10 @@
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import HomeNavigation from '@/components/HomeNavigation.vue';
-import TopBar from '@/components/TopBar.vue';
 
 export default {
   name: 'home',
-  props: {
-    countries: {
-      type: Array,
-      default: [{label: 'France', value: 'FR'}]
-    },
-  },
   components: {
-    TopBar,
     HighCharts,
     HomeBlock,
     HomeNavigation,
