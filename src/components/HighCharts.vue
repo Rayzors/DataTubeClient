@@ -5,7 +5,6 @@
 
 <script>
 import Highcharts from 'highcharts';
-import { setTimeout } from 'timers';
 
 require('highcharts/highcharts-more')(Highcharts);
 
