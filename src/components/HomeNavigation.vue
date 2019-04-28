@@ -1,7 +1,7 @@
 <template>
   <div class="home-nav">
     <div class="home-nav__title">
-      {{ `${twoNumber(index + 1)}.  ${categories[index].name} ${categories[index].emoji}` }}
+      {{ `${twoNumber(index + 1)}.  ${categories[index].name}` }}
     </div>
     <div class="home-nav__top">
       <span>Top {{ categories.length }} categories</span>
