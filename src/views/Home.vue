@@ -256,7 +256,7 @@ export default {
 .grid {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  grid-gap: 5em;
+  grid-gap: 0;
   align-items: center;
   height: 100vh;
   z-index: 3;

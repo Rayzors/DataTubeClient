@@ -25,6 +25,7 @@ export default {
         chart: {
           margin: [0, 0, 0, 0],
           width: null,
+          height: '100%',
           polar: true,
           type: 'areaspline',
         },
@@ -93,4 +94,7 @@ export default {
 
 <style lang="scss">
 .highcharts-credits { display: none; }
+#container {
+  width: 100%;
+}
 </style>
