@@ -7,24 +7,17 @@
       :clickEffect="false"
       class="particle-background"
     />
-    <div class="topbar">
-      <div class="container">
-        <div class="logo">
-          <LogoSVG />
-        </div>
-        <SelectBox :options="countries"/>
-      </div>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
-import LogoSVG from '@/components/LogoSVG.vue';
-import SelectBox from '@/components/SelectBox.vue';
+import TopBar from '@/components/TopBar.vue';
 
 export default {
-  components: { SelectBox, LogoSVG },
+  components: {
+    TopBar,
+  },
   data() {
     return {
       countries: [

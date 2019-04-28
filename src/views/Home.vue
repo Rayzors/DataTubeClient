@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <top-bar :countries="countries" />
     <div class="container">
       <div class="grid">
         <div
@@ -39,10 +40,12 @@
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import HomeNavigation from '@/components/HomeNavigation.vue';
+import TopBar from '@/components/TopBar.vue';
 
 export default {
   name: 'home',
   components: {
+    TopBar,
     HighCharts,
     HomeBlock,
     HomeNavigation,

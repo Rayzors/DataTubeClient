@@ -1,23 +1,26 @@
 <template>
-<svg width="115px" height="29px" viewBox="0 0 115 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
-    <title>Artboard</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="JosefinSans-SemiBold, Josefin Sans" font-size="24" font-weight="500" letter-spacing="0.0963541">
-        <text id="DataTube.">
-            <tspan x="0" y="23" fill="#000000">DataTube</tspan>
-            <tspan x="110.042833" y="23" fill="#EE5355">.</tspan>
-        </text>
-    </g>
+<svg preserveAspectRatio="xMinYMin meet" :width="`${115 * ratio}px`" :height="`${29 * ratio}px`" :viewBox="`0 0 ${115 * ratio} ${29 * ratio}`" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+  <title>Artboard</title>
+  <desc>Created with Sketch.</desc>
+  <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="JosefinSans-SemiBold, Josefin Sans" font-size="24" font-weight="500" letter-spacing="0.0963541">
+    <text id="DataTube." :font-size="`${24  * ratio}px`">
+      <tspan x="0" :y="`${23 * ratio}`" fill="#000000">DataTube</tspan>
+      <tspan :x="`${110.042833 * ratio}`" :y="`${23 * ratio}`" fill="#EE5355">.</tspan>
+    </text>
+  </g>
 </svg>
 </template>
 
 <script>
-  export default {
-
-  }
+export default {
+  props: {
+    ratio: {
+        type: Number,
+        default: 1
+    },
+  },
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
