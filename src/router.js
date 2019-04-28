@@ -19,5 +19,10 @@ export default new Router({
       name: 'home',
       component: Home,
     },
+    {
+      path: '/home/:category',
+      name: 'homeCategory',
+      component: Home,
+    },
   ],
 });

@@ -13,7 +13,6 @@
         :index="index"
         :name="category.name"
         :emoji="category.emoji"
-        @select="select"
       />
     </ul>
   </div>
@@ -38,23 +37,20 @@ export default {
       default: () => [{ id: 0, name: 'Please chose a category' }],
     },
   },
-  created() {
-    if (window.location.hash) {
-      this.index = this.findCategoryIndexByName(window.location.hash);
-    }
-  },
   watch: {
-    index(val) {
-      window.location.hash = _.kebabCase(this.categories[val].name);
-      this.$emit('selectedCategory', val);
+    $route: {
+      handler(to) {
+        if (to.params && to.params.category) {
+          this.index = this.findCategoryIndexByName(to.params.category);
+        }
+        this.$emit('selectedCategory', this.index);
+      },
+      immediate: true,
     },
   },
   methods: {
     findCategoryIndexByName(_name) {
       return this.categories.findIndex(({ name }) => _.kebabCase(name) === _.kebabCase(_name));
-    },
-    select(index) {
-      this.index = index;
     },
   },
 };

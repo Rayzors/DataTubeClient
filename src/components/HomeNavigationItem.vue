@@ -1,15 +1,17 @@
 <template>
-  <li
+  <router-link
     :class="{'home-nav__list-item--selected': isSelected}"
     class="home-nav__list-item"
-   @click="select"
+    :to="`/home/${slugifyName}`"
+    tag="li"
   >
     <span>{{ `${twoNumber(index + 1)}. ${name} ${emoji}` }}</span>
     <span class="home-nav__dot"></span>
-  </li>
+  </router-link>
 </template>
 
 <script>
+import _ from 'lodash';
 import Utils from '@/mixins/Utils.vue';
 
 export default {
@@ -28,12 +30,10 @@ export default {
       default: '🙈',
     },
   },
-  methods: {
-    select() {
-      this.$emit('select', this.index);
-    },
-  },
   computed: {
+    slugifyName() {
+      return _.kebabCase(this.name);
+    },
     isSelected() {
       return this.index === this.$parent.index;
     },
