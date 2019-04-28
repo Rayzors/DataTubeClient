@@ -1,43 +1,34 @@
 <template>
-  <div class="home-nav">
-    <div class="home-nav__title">
-      {{ `0${index + 1}.  ${categories[index].name}` }}
-    </div>
-    <div class="home-nav__top">
-      <span>Top {{ categories.length }} categories</span>
-    </div>
-    <ul class="home-nav__list-container">
-      <HomeNavigationItem
-        v-for="(category, index) in categories"
-        :key="index"
-        :index="index"
-        :name="category.name"
-        @select="select"
-      />
-    </ul>
-  </div>
+  <li
+    :class="{'home-nav__list-item--selected': isSelected}"
+    class="home-nav__list-item"
+   @click="select"
+  >
+    <span>{{ `0${index + 1}. ${name}` }}</span>
+    <span class="home-nav__dot"></span>
+  </li>
 </template>
 
 <script>
-import HomeNavigationItem from '@/components/HomeNavigationItem.vue';
-
 export default {
-  components: { HomeNavigationItem },
-  data() {
-    return {
-      index: 0,
-    };
-  },
   props: {
-    categories: {
-      type: Array,
-      default: () => [{ id: 0, name: 'Please chose a category' }],
+    index: {
+      type: Number,
+      default: 0,
+    },
+    name: {
+      type: String,
+      default: 'Category',
     },
   },
   methods: {
-    select(index) {
-      this.index = index;
-      this.$emit('selectedCategory', index);
+    select() {
+      this.$emit('select', this.index);
+    },
+  },
+  computed: {
+    isSelected() {
+      return this.index === this.$parent.index;
     },
   },
 };

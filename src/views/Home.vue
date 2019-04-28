@@ -6,7 +6,7 @@
           class="grid__left"
           v-parallax="0.2">
           <HomeBlock
-            v-for="(average, i) in averages"
+            v-for="(average, i) in selectedCategory.averages"
             :key="i"
             :title="average.title"
             :value="average.value"
@@ -17,14 +17,13 @@
           <high-charts v-parallax="0.5" />
         </div>
 
-        <div 
+        <div
           class="grid__right"
           v-parallax="0.2"
         >
-          <home-navigation 
+          <home-navigation
             :categories="categories"
-            :selected="selectedCategory"
-            @select="changeCategory"
+            @selectedCategory="selectedCategoryID = $event"
           />
         </div>
       </div>
@@ -46,80 +45,194 @@ export default {
   },
   data() {
     return {
-      averages: [
-        {
-          title: 'Nombre de vues',
-          value: '1 667 093',
-          important: true,
-        },
-        {
-          title: 'Durée',
-          value: '3 minutes',
-          important: false,
-        },
-        {
-          title: 'Meilleur jour de publication',
-          value: 'Lundi',
-          important: false,
-        },
-        {
-          title: 'Meilleur moment de publication',
-          value: 'Après-midi (15h30)',
-          important: false,
-        },
-        {
-          title: 'Likes',
-          value: '61%',
-          important: false,
-        },
-        {
-          title: 'Dislikes',
-          value: '39%',
-          important: false,
-        },
-      ],
+      selectedCategoryID: 0,
       categories: [
         {
           id: 1,
           name: 'Musique 🎤',
-          selected: true,
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '1 667 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
         },
         {
           id: 2,
           name: 'Sport ⚽️',
-          selected: false,
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '1 500 000',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
         },
         {
           id: 3,
           name: 'Makeup 💁🏻‍♀️',
-          selected: false,
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '1 000 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
         },
         {
           id: 4,
           name: 'Politique 📰',
-          selected: false,
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '667 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
         },
         {
           id: 5,
           name: 'Jeux vidéo 🎮',
-          selected: false,
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '367 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
         },
-      ]
-    }
-  },
-  methods: {
-    changeCategory(category) {
-      let newCategory = this.categories.find(thisCat => thisCat.id === category.id);
-      if(newCategory.selected === true) return;
-      this.categories.forEach(el => {
-        el.selected = false;
-      })
-      newCategory.selected = true;
-    },
+      ],
+    };
   },
   computed: {
     selectedCategory() {
-      return this.categories.find(category => category.selected);
+      return this.categories.find((category, i) => i === this.selectedCategoryID);
     },
   },
 };
