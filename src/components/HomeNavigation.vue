@@ -42,7 +42,7 @@ export default {
       handler(to) {
         if (to.params && to.params.category) {
           this.index = this.findCategoryIndexByName(to.params.category);
-        }else {
+        } else {
           this.index = 0;
         }
         this.$emit('selectedCategory', this.index);

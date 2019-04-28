@@ -3,8 +3,18 @@
     <div class="select__picked" @click="toggleDropdown">{{ current.label }}</div>
     <ul class="select__dropdown" v-show="isOpen">
       <li v-for="(option, i) in options" :key="i">
-        <label :for="`select-${i}${option.value}`" @click="toggleDropdown">{{ option.label }}</label>
-        <input type="radio" :value="option.value" :id="`select-${i}${option.value}`" v-model="picked">
+        <label
+          :for="`select-${i}${option.value}`"
+          @click="toggleDropdown"
+        >
+          {{ option.label }}
+        </label>
+        <input
+          type="radio"
+          :value="option.value"
+          :id="`select-${i}${option.value}`"
+          v-model="picked"
+        >
       </li>
     </ul>
   </div>
@@ -69,7 +79,7 @@ export default {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       right: 16px;
       top: 50%;

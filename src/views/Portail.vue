@@ -2,7 +2,9 @@
   <div class="portail">
     <div class="portail__caption" v-parallax="0.2">
       <LogoSVG :ratio="2"/>
-      <div class="portail__description">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+      <div class="portail__description">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </div>
     </div>
     <div class="portail__image" v-parallax="0.2">
       <img :src="image" alt="image avec des gens qui font de la dataviz">
