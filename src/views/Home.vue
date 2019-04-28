@@ -255,8 +255,8 @@ export default {
 <style lang="scss" scoped>
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  grid-gap: 10em;
+  grid-template-columns: 1fr auto 1fr;
+  grid-gap: 5em;
   align-items: center;
   height: 100vh;
   z-index: 3;
