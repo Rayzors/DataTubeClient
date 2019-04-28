@@ -10,11 +10,15 @@
             :key="i"
             :title="average.title"
             :value="average.value"
-            :important="average.important"/>
+            :important="average.important"
+          />
         </div>
 
         <div class="grid__center">
-          <high-charts v-parallax="0.5" :averageData="selectedCategory.averageData" />
+          <high-charts
+            v-parallax="0.5"
+            :values="selectedCategory.averageData"
+          />
         </div>
 
         <div
@@ -242,7 +246,7 @@ export default {
   },
   computed: {
     selectedCategory() {
-      return this.categories.find((category, i) => i === this.selectedCategoryID);
+      return this.categories[this.selectedCategoryID];
     },
   },
 };

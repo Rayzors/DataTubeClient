@@ -5,12 +5,13 @@
 
 <script>
 import Highcharts from 'highcharts';
+import { setTimeout } from 'timers';
 
 require('highcharts/highcharts-more')(Highcharts);
 
 export default {
   props: {
-    averageData: {
+    values: {
       type: Array,
       required: true,
       default: () => [10, 10, 10, 10],
@@ -61,7 +62,7 @@ export default {
         [
           {
             name: 'Column',
-            data: this.averageData,
+            data: [],
             pointPlacement: 'on',
             lineWidth: 0,
             events: {
@@ -71,16 +72,21 @@ export default {
           },
         ],
       },
-      chart: {},
+      chart: null,
     };
   },
   mounted() {
     this.chart = Highcharts.chart('container', this.options);
   },
   watch: {
-    averageData(val) {
-      this.options.series[0].data = val;
-      this.chart.update(this.options);
+    values: {
+      handler(val) {
+        this.options.series[0].data = [...val];
+        if (this.chart) {
+          this.chart.update(this.options);
+        }
+      },
+      immediate: true,
     },
   },
 };

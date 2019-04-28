@@ -97,6 +97,7 @@ $main-red: #ee5355;
   &__list-item {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     margin-bottom: 32px;
 
     font-size: 18px;
