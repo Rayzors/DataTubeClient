@@ -1,20 +1,19 @@
 import Vue from 'vue';
 import _ from 'lodash';
 
+const parallaxFunc = (element, binding) => _.throttle((e) => {
+  const el = element;
+  const x = ((e.pageX - window.innerWidth / 2) * binding.value) / 5;
+  const y = ((e.pageY - window.innerHeight / 2) * binding.value) / 5;
+  el.style.transition = '260ms ease';
+  el.style.transform = `translate(${x}px, ${y}px)`;
+}, 100);
+
 Vue.directive('parallax', {
   bind(el, binding) {
-    const element = el;
-    window.addEventListener(
-      'mousemove',
-      _.throttle((e) => {
-        const x = ((e.pageX - window.innerWidth / 2) * binding.value) / 5;
-        const y = ((e.pageY - window.innerHeight / 2) * binding.value) / 5;
-        element.style.transition = '260ms ease';
-        element.style.transform = `translate(${x}px, ${y}px)`;
-      }, 100),
-    );
+    window.addEventListener('mousemove', parallaxFunc(el, binding));
   },
-  unbind() {
-    window.removeEventListener('mousemove');
+  unbind(el, binding) {
+    window.removeEventListener('mousemove', parallaxFunc(el, binding));
   },
 });
