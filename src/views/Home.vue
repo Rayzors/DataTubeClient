@@ -44,6 +44,12 @@ import TopBar from '@/components/TopBar.vue';
 
 export default {
   name: 'home',
+  props: {
+    countries: {
+      type: Array,
+      default: [{label: 'France', value: 'FR'}]
+    },
+  },
   components: {
     TopBar,
     HighCharts,
