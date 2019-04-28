@@ -7,7 +7,7 @@
       :clickEffect="false"
       class="particle-background"
     />
-    <router-view/>
+    <router-view :countries="countries"/>
   </div>
 </template>
 
