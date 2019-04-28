@@ -9,6 +9,13 @@ import Highcharts from 'highcharts';
 require('highcharts/highcharts-more')(Highcharts);
 
 export default {
+  props: {
+    averageData: {
+      type: Array,
+      required: true,
+      default: () => [10, 10, 10, 10],
+    },
+  },
   data() {
     return {
       options: {
@@ -54,7 +61,7 @@ export default {
         [
           {
             name: 'Column',
-            data: [38.6593, 28, 40, 45],
+            data: this.averageData,
             pointPlacement: 'on',
             lineWidth: 0,
             events: {
@@ -64,7 +71,6 @@ export default {
           },
         ],
       },
-      table: [38.6593, 28, 40, 45],
       chart: {},
     };
   },
@@ -72,8 +78,8 @@ export default {
     this.chart = Highcharts.chart('container', this.options);
   },
   watch: {
-    table(prevValue, newValue) {
-      this.options.series[0].data = newValue;
+    averageData(val) {
+      this.options.series[0].data = val;
       this.chart.update(this.options);
     },
   },

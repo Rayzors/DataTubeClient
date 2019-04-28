@@ -14,7 +14,7 @@
         </div>
 
         <div class="grid__center">
-          <high-charts v-parallax="0.5" />
+          <high-charts v-parallax="0.5" :averageData="selectedCategory.averageData" />
         </div>
 
         <div
@@ -51,6 +51,7 @@ export default {
           id: 1,
           emoji: '🎤',
           name: 'Musique',
+          averageData: [38.6593, 28, 40, 45],
           averages: [
             {
               title: 'Nombre de vues',
@@ -88,6 +89,7 @@ export default {
           id: 2,
           emoji: '⚽️',
           name: 'Sport',
+          averageData: [18, 28, 40, 10],
           averages: [
             {
               title: 'Nombre de vues',
@@ -125,6 +127,7 @@ export default {
           id: 3,
           emoji: '💁🏻‍♀️',
           name: 'Makeup',
+          averageData: [50, 28, 20, 45],
           averages: [
             {
               title: 'Nombre de vues',
@@ -162,6 +165,7 @@ export default {
           id: 4,
           emoji: '📰',
           name: 'Politique',
+          averageData: [60, 30, 10, 45],
           averages: [
             {
               title: 'Nombre de vues',
@@ -199,6 +203,7 @@ export default {
           id: 5,
           emoji: '🎮',
           name: 'Jeux vidéo',
+          averageData: [10, 20, 30, 40],
           averages: [
             {
               title: 'Nombre de vues',
