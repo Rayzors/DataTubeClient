@@ -6,14 +6,19 @@
       :hoverEffect="false"
       :clickEffect="false"
       class="particle-background"
+      ref="vueParticles"
     />
     <div class="topbar" v-if="$route.path !== '/'">
       <div class="container">
         <div class="logo">
           <LogoSVG />
         </div>
-        <SelectBox :options="countries"/>
-        <SelectBox :options="subscribersRanges"/>
+        <select-box-container
+          :countries="countries"
+          :categories="categories"
+          :subscribersRanges="subscribersRanges"
+        />
+        <button @click="toggleCompare">Lol compare</button>
       </div>
     </div>
     <router-view/>
@@ -22,10 +27,10 @@
 
 <script>
 import LogoSVG from '@/components/LogoSVG.vue';
-import SelectBox from '@/components/SelectBox.vue';
+import SelectBoxContainer from '@/components/SelectBoxContainer.vue';
 
 export default {
-  components: { SelectBox, LogoSVG },
+  components: { SelectBoxContainer, LogoSVG },
   data() {
     return {
       countries: [
@@ -38,6 +43,7 @@ export default {
           value: 'US',
         },
       ],
+      categories: [{label: 'divertissement', value: 24}, {label: 'sport', value: 3}],
       subscribersRanges: [
         {
           label: '0 - 1000 abonnés',
@@ -48,7 +54,18 @@ export default {
           value: '2',
         },
       ],
+      hideParticles: false
     };
+  },
+  methods: {
+    toggleCompare() {
+      this.$store.dispatch('toggleCompare')
+    }
+  },
+  mounted () {
+    if(this.hideParticles) {
+      this.$refs.vueParticles.$el.style.display = 'none'
+    }
   },
 };
 </script>

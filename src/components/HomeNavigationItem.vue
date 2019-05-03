@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :class="{'home-nav__list-item--selected': isSelected}"
+    :class="{'home-nav__list-item--selected': isSelected }"
     class="home-nav__list-item"
     :to="`/home/${slugifyName}`"
     tag="li"
@@ -62,6 +62,10 @@ $main-red: #ee5355;
       & .home-nav__dot {
         background-color: #fff;
       }
+    }
+
+    &--right {
+      text-align: right;
     }
   }
 

@@ -1,11 +1,5 @@
 <template>
   <div class="home-nav">
-    <div class="home-nav__title">
-      {{ `${twoNumber(index + 1)}.  ${categories[index].name}` }}
-    </div>
-    <div class="home-nav__top">
-      <span>Top {{ categories.length }} categories</span>
-    </div>
     <ul class="home-nav__list-container">
       <HomeNavigationItem
         v-for="(category, index) in categories"
@@ -35,7 +29,7 @@ export default {
     categories: {
       type: Array,
       default: () => [{ id: 0, name: 'Please chose a category' }],
-    },
+    }
   },
   watch: {
     $route: {
@@ -63,32 +57,11 @@ $dots-border: 2px;
 $dots-size: 16px - $dots-border;
 $main-red: #ee5355;
 .home-nav {
-  &__title {
-    margin-bottom: 72px;
-
-    color: #151515;
-    font-size: 32px;
-    font-weight: bold;
-    text-align: right;
-  }
-
-  &__top {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 48px;
-    span {
-      padding: 16px;
-      background-color: $main-red;
-
-      color: #fff;
-      font-size: 14px;
-      line-height: 24px;
-      text-transform: uppercase;
-    }
-  }
+  position: fixed;
+  bottom: 0;
 
   &__list-container {
+    display: flex;
     margin: 0;
     padding: 0;
   }
@@ -96,7 +69,7 @@ $main-red: #ee5355;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 32px;
+    margin-right: 32px;
 
     font-size: 18px;
     list-style-type: none;
