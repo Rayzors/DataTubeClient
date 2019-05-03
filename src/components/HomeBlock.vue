@@ -1,5 +1,5 @@
 <template>
-  <div class="block">
+  <div class="block" :class="{'block--right': alignRight}">
     <h3 class="block__title">{{ title }}</h3>
     <p class="block__value" :class="{important}">{{ value }}</p>
   </div>
@@ -20,13 +20,27 @@ export default {
       type: String,
       required: true,
     },
+    alignRight: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .block {
+  $block: &;
   margin-bottom: 32px;
+
+  &--right {
+    text-align: right;
+
+    #{$block}__value.important {
+      color: #3f78de;
+    }
+  }
 
   &__title {
     font-weight: normal;

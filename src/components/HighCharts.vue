@@ -5,7 +5,6 @@
 
 <script>
 import Highcharts from 'highcharts';
-
 require('highcharts/highcharts-more')(Highcharts);
 
 export default {
@@ -63,8 +62,6 @@ export default {
           lineColor: '#ddd',
         }],
         yAxis: {
-          min: 0,
-          max: 50,
           gridLineColor: '#ddd',
           gridLineWidth: 0,
           labels: {
@@ -75,35 +72,32 @@ export default {
         [
           {
             color: '#ee5355',
-            fillOpacity: 1,
+            fillOpacity: 0.65,
             name: 'Column',
             data: [],
             pointPlacement: 'on',
-            lineWidth: 0,
-            events: {
-              mouseOver: false,
-            },
-            enableMouseTracking: false,
-            type: 'areaspline',
-            marker: false,
-          },
-          {
-            fillOpacity: 0,
-            animation: false,
-            name: 'dots',
-            data: [50, 50, 50, 50],
-            pointPlacement: 'on',
-            lineWidth: 0,
+            lineWidth: 3,
             events: {
               mouseOver: false,
             },
             enableMouseTracking: false,
             type: 'area',
-            marker: {
-              enabled: true,
-              fillColor: '#ee5355',
-              symbol: 'circle',
+            marker: false,
+          },
+          {
+            color: '#3f78de',
+            fillOpacity: 0.65,
+            name: 'Column',
+            data: [],
+            pointPlacement: 'on',
+            lineWidth: 3,
+            data: [20, 50, 30, 10],
+            events: {
+              mouseOver: false,
             },
+            enableMouseTracking: false,
+            type: 'area',
+            marker: false
           },
         ],
       },

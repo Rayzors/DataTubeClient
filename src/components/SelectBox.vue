@@ -4,7 +4,7 @@
     <ul class="select__dropdown" v-show="isOpen">
       <li v-for="(option, i) in options" :key="i">
         <label
-          :for="`select-${i}${option.value}`"
+          :for="`select-${i}${option.value}${name}`"
           @click="toggleDropdown"
         >
           {{ option.label }}
@@ -12,7 +12,7 @@
         <input
           type="radio"
           :value="option.value"
-          :id="`select-${i}${option.value}`"
+          :id="`select-${i}${option.value}${name}`"
           v-model="picked"
         >
       </li>
@@ -28,6 +28,15 @@ export default {
       required: true,
       default: () => [{ label: 'un label', value: 'value' }],
     },
+    name: {
+      type: String,
+      required: true
+    },
+    mutation: {
+      type: String,
+      required: true,
+      default: '',
+    }
   },
   data() {
     return {
@@ -46,6 +55,18 @@ export default {
     current() {
       return this.options.find(option => option.value === this.picked);
     },
+  },
+  watch: {
+    picked: {
+      handler(value) {
+        this.$store.dispatch('setSelect', {
+          index: this.name,
+          mutationName: this.mutation,
+          value,
+        });
+      },
+      immediate: true
+    }
   },
 };
 </script>
@@ -75,7 +96,7 @@ export default {
     width: 251px;
     padding: 8px 16px;
     background: #fff;
-    border-radius: 28px;
+    border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 
     &::after {

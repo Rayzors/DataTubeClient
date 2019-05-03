@@ -5,7 +5,7 @@
         <div
           class="grid__left"
           v-parallax="0.2">
-          <HomeBlock
+          <home-block
             v-for="(average, i) in selectedCategory.averages"
             :key="i"
             :title="average.title"
@@ -25,11 +25,19 @@
           class="grid__right"
           v-parallax="0.2"
         >
-          <home-navigation
-            :categories="categories"
-            @selectedCategory="selectedCategoryID = $event"
+          <home-block
+            v-for="(average, i) in selectedCategory.averages"
+            :key="i"
+            :title="average.title"
+            :value="average.value"
+            :important="average.important"
+            :alignRight="true"
           />
         </div>
+        <home-navigation
+          :categories="categories"
+          @selectedCategory="selectedCategoryID = $event"
+        />
       </div>
     </div>
   </div>
@@ -269,9 +277,7 @@ export default {
   }
 
   &__right {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-end;
+    display: block;
   }
 }
 </style>
