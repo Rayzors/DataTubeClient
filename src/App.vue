@@ -6,7 +6,7 @@
       :hoverEffect="false"
       :clickEffect="false"
       class="particle-background"
-      ref="vueParticles"
+      v-if="!hideParticles"
     />
     <div class="topbar" v-if="$route.path !== '/'">
       <div class="container">
@@ -60,11 +60,6 @@ export default {
   methods: {
     toggleCompare() {
       this.$store.dispatch('toggleCompare')
-    }
-  },
-  mounted () {
-    if(this.hideParticles) {
-      this.$refs.vueParticles.$el.style.display = 'none'
     }
   },
 };
