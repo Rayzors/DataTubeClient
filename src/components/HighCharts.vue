@@ -27,19 +27,30 @@ export default {
   mounted() {
     this.chart = Highcharts.chart('container', this.options);
     this.chart.update(this.options);
+    window.chart = this.chart;
+    window.options = this.options;
   },
   watch: {
     options: {
       handler(newValue) {
         if (this.chart) {
-          const [newOptions1, newOptions2] = [newValue.series[0].data, newValue.series[1].data]
-          this.chart.series[0].setData(newOptions1)
-          this.chart.series[1].setData(newOptions2)
+          const [newOptions1, newOptions2] = [newValue.series[0].data, newValue.series[1].data];
+          this.chart.series[0].setData(newOptions1);
+          this.chart.series[1].setData(newOptions2);
           // this.chart.update(newValue);
         }
       },
       deep: true,
     },
+    // values: {
+    //   handler(val) {
+    //     this.options.series[0].data = [...val];
+    //     if (this.chart) {
+    //       this.chart.update(this.options);
+    //     }
+    //   },
+    //   immediate: true,
+    // },
   },
 };
 </script>
