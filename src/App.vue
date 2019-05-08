@@ -13,13 +13,13 @@
         <div class="logo">
           <LogoSVG />
         </div>
-        <select-box-container
-          :countries="countries"
-          :categories="categories"
-          :subscribersRanges="subscribersRanges"
-        />
-        <button @click="toggleCompare">Lol compare</button>
       </div>
+      <select-box-container
+        :countries="countries"
+        :categories="categories"
+        :subscribersRanges="subscribersRanges"
+      />
+      <button @click="toggleCompare">Lol compare</button>
     </div>
     <router-view/>
   </div>
@@ -43,7 +43,198 @@ export default {
           value: 'US',
         },
       ],
-      categories: [{label: 'divertissement', value: 24}, {label: 'sport', value: 3}],
+      categories: [
+        {
+          id: 1,
+          emoji: '🎤',
+          name: 'Musique',
+          averageData: [38.6593, 28, 40, 45],
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '1 667 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
+        },
+        {
+          id: 2,
+          emoji: '⚽️',
+          name: 'Sport',
+          averageData: [18, 28, 40, 10],
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '1 500 000',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
+        },
+        {
+          id: 3,
+          emoji: '💁🏻‍♀️',
+          name: 'Makeup',
+          averageData: [50, 28, 20, 45],
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '1 000 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
+        },
+        {
+          id: 4,
+          emoji: '📰',
+          name: 'Politique',
+          averageData: [50, 30, 10, 45],
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '667 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
+        },
+        {
+          id: 5,
+          emoji: '🎮',
+          name: 'Jeux vidéo',
+          averageData: [10, 20, 30, 40],
+          averages: [
+            {
+              title: 'Nombre de vues',
+              value: '367 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
+        },
+      ],
       subscribersRanges: [
         {
           label: '0 - 1000 abonnés',
@@ -54,7 +245,7 @@ export default {
           value: '2',
         },
       ],
-      hideParticles: false
+      hideParticles: true
     };
   },
   methods: {

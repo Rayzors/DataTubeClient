@@ -6,7 +6,7 @@
           class="grid__left"
           v-parallax="0.2">
           <home-block
-            v-for="(average, i) in selectedCategory.averages"
+            v-for="(average, i) in selectedCategory1.averages"
             :key="i"
             :title="average.title"
             :value="average.value"
@@ -17,7 +17,8 @@
         <div class="grid__center">
           <high-charts
             v-parallax="0.5"
-            :values="selectedCategory.averageData"
+            :values="selectedCategory1.averageData"
+            :options="options"
           />
         </div>
 
@@ -25,18 +26,21 @@
           class="grid__right"
           v-parallax="0.2"
         >
-          <home-block
-            v-for="(average, i) in selectedCategory.averages"
-            :key="i"
-            :title="average.title"
-            :value="average.value"
-            :important="average.important"
-            :alignRight="true"
-          />
+          <transition-group name="slide-fade">
+            <home-block
+              v-if="$store.state.compare"
+              v-for="(average, i) in selectedCategory2.averages"
+              :key="i"
+              :title="average.title"
+              :value="average.value"
+              :important="average.important"
+              :alignRight="true"
+            />
+          </transition-group>
         </div>
         <home-navigation
           :categories="categories"
-          @selectedCategory="selectedCategoryID = $event"
+          @selectedCategory="selectedCategoryID1 = $event"
         />
       </div>
     </div>
@@ -47,6 +51,7 @@
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import HomeNavigation from '@/components/HomeNavigation.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'home',
@@ -57,7 +62,8 @@ export default {
   },
   data() {
     return {
-      selectedCategoryID: 0,
+      selectedCategoryID1: 0,
+      selectedCategoryID2: 1,
       categories: [
         {
           id: 1,
@@ -282,12 +288,120 @@ export default {
           ],
         },
       ],
+      options: {
+        title: {
+          text: undefined,
+        },
+        chart: {
+          opacity: 1,
+          clip: false,
+          margin: [0, 0, 0, 0],
+          width: null,
+          height: '95%',
+          polar: true,
+        },
+        legend: {
+          enabled: false,
+        },
+        tooltip: {
+          enabled: false,
+        },
+        xAxis: [{
+          type: 'category',
+          categories: [
+            'Nombre de vue',
+            'Like',
+            'Durée',
+            'Dislike',
+          ],
+          labels: {
+            style: {
+              color: '#151515',
+              cursor: 'default',
+              fontSize: '13px',
+              textOverflow: 'none',
+              whiteSpace: 'nowrap',
+              fontFamily: 'Josefin Sans',
+              letterSpacing: '0.1px',
+            },
+          },
+          tickColor: '#FF0000',
+          tickPosition: 'inside',
+          tickmarkPlacement: 'on',
+          tickPixelInterval: 45,
+          gridLineColor: '#ddd',
+          lineColor: '#ddd',
+        }],
+        yAxis: {
+          gridLineColor: '#ddd',
+          gridLineWidth: 0,
+          labels: {
+            enabled: false,
+          },
+        },
+        series:
+        [
+          {
+            color: '#ee5355',
+            fillOpacity: 0.65,
+            name: 'Column',
+            data: [],
+            pointPlacement: 'on',
+            lineWidth: 3,
+            events: {
+              mouseOver: false,
+            },
+            enableMouseTracking: false,
+            type: 'area',
+            marker: false,
+          },
+          {
+            color: '#3f78de',
+            fillOpacity: 0.65,
+            name: 'Column',
+            pointPlacement: 'on',
+            lineWidth: 3,
+            data: [20, 50, 30, 10],
+            events: {
+              mouseOver: false,
+            },
+            enableMouseTracking: false,
+            type: 'area',
+            marker: false
+          },
+        ],
+      },
     };
   },
   computed: {
-    selectedCategory() {
-      return this.categories[this.selectedCategoryID];
+    selectedCategory1() {
+      return this.categories[this.selectedCategoryID1];
     },
+    selectedCategory2() {
+      return this.categories[this.selectedCategoryID2];
+    },
+    ...mapState(['selectedCategories'])
+  },
+  watch: {
+    selectedCategory1: {
+      handler(newValue) {
+        this.$set(this.options.series[0], 'data', [...newValue.averageData])
+      },
+      immediate: true
+    },
+    selectedCategory2: {
+      handler(newValue) {
+        this.$set(this.options.series[1], 'data', [...newValue.averageData])
+      },
+      immediate: true
+    },
+    selectedCategories: {
+      handler(value) {
+        this.selectedCategoryID1 = value.category1
+        this.selectedCategoryID2 = value.category2
+      }
+    }
+
   },
 };
 </script>
@@ -310,6 +424,16 @@ export default {
 
   &__right {
     display: block;
+  }
+}
+
+.slide-fade {
+  &-enter-active, &-leave-active {
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  &-enter, &-leave-to {
+    transform: translateX(25px);
+    opacity: 0;
   }
 }
 </style>
