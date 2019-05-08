@@ -7,7 +7,7 @@
       mutation="setCountry"
     />
     <select-box
-      :options="categories"
+      :options="modifiedCategories"
       name="category1"
       mutation="setCategory"
     />
@@ -24,7 +24,7 @@
       mutation="setCountry"
     />
     <select-box
-      :options="categories"
+      :options="modifiedCategories"
       name="category2"
       mutation="setCategory"
     />
@@ -61,6 +61,15 @@ export default {
       required: true
     },
   },
+  computed: {
+    modifiedCategories() {
+      this.categories.map(category => {
+        category.label = category.name
+        category.value = category.id
+      });
+      return this.categories
+    }
+  },
 }
 </script>
 
@@ -68,5 +77,10 @@ export default {
 .select-box {
   display: flex;
   justify-content: space-between;
+
+  &-left, &-right {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 }
 </style>
