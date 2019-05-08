@@ -19,10 +19,7 @@
             v-parallax="0.5"
             :values="selectedCategory1.averageData"
             :options="options"
-<<<<<<< HEAD
             :updateOptions="updateOptions"
-=======
->>>>>>> feat: begin highcharts refactoring
           />
         </div>
 
@@ -43,12 +40,7 @@
           </transition-group>
         </div>
         <home-navigation
-<<<<<<< HEAD
           :sections="sections"
-=======
-          :categories="categories"
-          @selectedCategory="selectedCategoryID1 = $event"
->>>>>>> feat: begin highcharts refactoring
         />
       </div>
     </div>
@@ -59,11 +51,7 @@
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import HomeNavigation from '@/components/HomeNavigation.vue';
-<<<<<<< HEAD
 import { mapGetters } from 'vuex';
-=======
-import { mapState } from 'vuex';
->>>>>>> feat: begin highcharts refactoring
 
 export default {
   name: 'home',
@@ -76,35 +64,32 @@ export default {
     return {
       selectedCategoryID1: 0,
       selectedCategoryID2: 1,
-<<<<<<< HEAD
       sections: [
         {
           id: 0,
-          name: 'Moyenne des catégories'
+          name: 'Moyenne des catégories',
         },
         {
           id: 1,
-          name: 'Youtubeurs'
+          name: 'Youtubeurs',
         },
         {
           id: 2,
-          name: 'Nombre de vues'
+          name: 'Nombre de vues',
         },
         {
           id: 3,
-          name: 'Durée des vidéos'
+          name: 'Durée des vidéos',
         },
         {
           id: 4,
-          name: 'Meilleur moment de publication'
+          name: 'Meilleur moment de publication',
         },
         {
           id: 5,
-          name: 'Like / dislike'
+          name: 'Like / dislike',
         },
       ],
-=======
->>>>>>> feat: begin highcharts refactoring
       categories: [
         {
           id: 1,
@@ -423,35 +408,35 @@ export default {
   },
   methods: {
     toggleCompareData() {
-      if(this.getCompare) {
-        this.$set(this.options.series[1], 'data', [...this.selectedCategory2.averageData])
-        this.$set(this.options.series[1], 'lineWidth', 3)
+      if (this.getCompare) {
+        this.$set(this.options.series[1], 'data', [...this.selectedCategory2.averageData]);
+        this.$set(this.options.series[1], 'lineWidth', 3);
       } else {
-        this.$set(this.options.series[1], 'data', [0, 0, 0, 0])
-        this.$set(this.options.series[1], 'lineWidth', 0)
+        this.$set(this.options.series[1], 'data', [0, 0, 0, 0]);
+        this.$set(this.options.series[1], 'lineWidth', 0);
       }
-    }
+    },
   },
   watch: {
     selectedCategory1: {
       handler(newValue) {
-        this.$set(this.options.series[0], 'data', [...newValue.averageData])
+        this.$set(this.options.series[0], 'data', [...newValue.averageData]);
       },
-      immediate: true
+      immediate: true,
     },
     selectedCategory2: {
       handler(newValue) {
-        this.toggleCompareData()
+        this.toggleCompareData();
       },
-      immediate: true
+      immediate: true,
     },
     getSelectedCategories(newValue) {
-      this.selectedCategoryID1 = newValue.category1
-      this.selectedCategoryID2 = newValue.category2
+      this.selectedCategoryID1 = newValue.category1;
+      this.selectedCategoryID2 = newValue.category2;
     },
     getCompare(value) {
-      this.toggleCompareData()
-    }
+      this.toggleCompareData();
+    },
   },
 };
 </script>
