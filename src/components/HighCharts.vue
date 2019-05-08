@@ -10,10 +10,9 @@ require('highcharts/highcharts-more')(Highcharts);
 
 export default {
   props: {
-    values: {
-      type: Array,
-      required: true,
-      default: () => [10, 10, 10, 10],
+    options: {
+      type: Object,
+      default: {},
     },
   },
   data() {
@@ -107,17 +106,25 @@ export default {
   mounted() {
     this.chart = Highcharts.chart('container', this.options);
     this.chart.update(this.options);
+    window.chart = this.chart
+    window.options = this.options
   },
   watch: {
-    values: {
-      handler(val) {
-        this.options.series[0].data = [...val];
-        if (this.chart) {
-          this.chart.update(this.options);
-        }
+    options: {
+      handler(newValue, oldValue) {
+        this.chart && this.chart.update(newValue);
       },
-      immediate: true,
-    },
+      deep: true
+    }
+    // values: {
+    //   handler(val) {
+    //     this.options.series[0].data = [...val];
+    //     if (this.chart) {
+    //       this.chart.update(this.options);
+    //     }
+    //   },
+    //   immediate: true,
+    // },
   },
 };
 </script>
