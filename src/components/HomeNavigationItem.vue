@@ -5,8 +5,7 @@
     :to="`/home/${slugifyName}`"
     tag="li"
   >
-    <span>{{ `${twoNumber(index + 1)}. ${name} ${emoji}` }}</span>
-    <span class="home-nav__dot"></span>
+    <span>{{ `${twoNumber(index + 1)}. ${name}` }}</span>
   </router-link>
 </template>
 
@@ -25,10 +24,6 @@ export default {
       type: String,
       default: 'Category',
     },
-    emoji: {
-      type: String,
-      default: '🙈',
-    },
   },
   computed: {
     slugifyName() {
@@ -42,25 +37,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$dots-border: 2px;
-$dots-size: 16px - $dots-border;
+// $dots-border: 2px;
+// $dots-size: 16px - $dots-border;
 $main-red: #ee5355;
+$light-red: #ffbdb3;
+$main-grey: #9a9a9a;
+
 .home-nav {
   &__list-item {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 32px;
 
-    color: #7a7089;
+    color: $main-grey;
     font-size: 18px;
     list-style-type: none;
+    text-transform: uppercase;
 
     cursor: pointer;
     &--selected {
+      position: relative;
       color: $main-red;
+      &:after {
+        content:'';
+        display: block;
+        position: absolute;
+        bottom: 0;
 
-      & .home-nav__dot {
-        background-color: #fff;
+        background-color: $light-red;
+        width: 100%;
+        height: 4px;
       }
     }
 
@@ -69,16 +74,16 @@ $main-red: #ee5355;
     }
   }
 
-  &__dot {
-    display: block;
-    width: $dots-size;
-    height: $dots-size;
-    margin-left: 12px;
+  // &__dot {
+  //   display: block;
+  //   width: $dots-size;
+  //   height: $dots-size;
+  //   margin-left: 12px;
 
-    background-color: $main-red;
+  //   background-color: $main-red;
 
-    border: solid $dots-border $main-red;
-    border-radius: $dots-size;
-  }
+  //   border: solid $dots-border $main-red;
+  //   border-radius: $dots-size;
+  // }
 }
 </style>

@@ -61,8 +61,7 @@ export default {
       categories: [
         {
           id: 1,
-          emoji: '🎤',
-          name: 'Musique',
+          name: 'Moyenne des catégories',
           averageData: [38.6593, 28, 40, 45],
           averages: [
             {
@@ -99,8 +98,7 @@ export default {
         },
         {
           id: 2,
-          emoji: '⚽️',
-          name: 'Sport',
+          name: 'Youtubeurs',
           averageData: [18, 28, 40, 10],
           averages: [
             {
@@ -137,8 +135,7 @@ export default {
         },
         {
           id: 3,
-          emoji: '💁🏻‍♀️',
-          name: 'Makeup',
+          name: 'Nombre de vues',
           averageData: [50, 28, 20, 45],
           averages: [
             {
@@ -175,8 +172,7 @@ export default {
         },
         {
           id: 4,
-          emoji: '📰',
-          name: 'Politique',
+          name: 'Durée des vidéos',
           averageData: [50, 30, 10, 45],
           averages: [
             {
@@ -213,13 +209,49 @@ export default {
         },
         {
           id: 5,
-          emoji: '🎮',
-          name: 'Jeux vidéo',
+          name: 'Meilleur moment de publication',
           averageData: [10, 20, 30, 40],
           averages: [
             {
               title: 'Nombre de vues',
               value: '367 093',
+              important: true,
+            },
+            {
+              title: 'Durée',
+              value: '3 minutes',
+              important: false,
+            },
+            {
+              title: 'Meilleur jour de publication',
+              value: 'Lundi',
+              important: false,
+            },
+            {
+              title: 'Meilleur moment de publication',
+              value: 'Après-midi (15h30)',
+              important: false,
+            },
+            {
+              title: 'Likes',
+              value: '61%',
+              important: false,
+            },
+            {
+              title: 'Dislikes',
+              value: '39%',
+              important: false,
+            },
+          ],
+        },
+                {
+          id: 6,
+          name: 'Like / dislike',
+          averageData: [50, 30, 10, 45],
+          averages: [
+            {
+              title: 'Like / dislike',
+              value: '667 093',
               important: true,
             },
             {

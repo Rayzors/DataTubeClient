@@ -6,7 +6,6 @@
         :key="index"
         :index="index"
         :name="category.name"
-        :emoji="category.emoji"
       />
     </ul>
   </div>
@@ -53,43 +52,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$dots-border: 2px;
-$dots-size: 16px - $dots-border;
 $main-red: #ee5355;
 .home-nav {
   position: fixed;
   bottom: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 65px;
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
 
   &__list-container {
     display: flex;
+    justify-content: space-around;
     margin: 0;
     padding: 0;
+
+    height: 100%;
   }
   &__list-item {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-right: 32px;
 
-    font-size: 18px;
+    font-size: 13px;
     list-style-type: none;
 
     cursor: pointer;
     &--selected .home-nav__dot {
       background-color: #fff;
     }
-  }
-
-  &__dot {
-    display: block;
-    width: $dots-size;
-    height: $dots-size;
-    margin-left: 12px;
-
-    background-color: $main-red;
-
-    border: solid $dots-border $main-red;
-    border-radius: $dots-size;
   }
 }
 </style>
