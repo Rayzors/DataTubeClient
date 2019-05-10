@@ -244,7 +244,7 @@ export default {
             },
           ],
         },
-                {
+        {
           id: 6,
           name: 'Like / dislike',
           averageData: [50, 30, 10, 45],

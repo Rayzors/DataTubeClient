@@ -5,6 +5,7 @@
 
 <script>
 import Highcharts from 'highcharts';
+
 require('highcharts/highcharts-more')(Highcharts);
 
 export default {
@@ -88,7 +89,6 @@ export default {
             color: '#3f78de',
             fillOpacity: 0.65,
             name: 'Column',
-            data: [],
             pointPlacement: 'on',
             lineWidth: 3,
             data: [20, 50, 30, 10],
@@ -97,7 +97,7 @@ export default {
             },
             enableMouseTracking: false,
             type: 'area',
-            marker: false
+            marker: false,
           },
         ],
       },
