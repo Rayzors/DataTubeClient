@@ -37,8 +37,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// $dots-border: 2px;
-// $dots-size: 16px - $dots-border;
+
 $main-red: #ee5355;
 $light-red: #ffbdb3;
 $main-grey: #9a9a9a;
@@ -73,17 +72,5 @@ $main-grey: #9a9a9a;
       text-align: right;
     }
   }
-
-  // &__dot {
-  //   display: block;
-  //   width: $dots-size;
-  //   height: $dots-size;
-  //   margin-left: 12px;
-
-  //   background-color: $main-red;
-
-  //   border: solid $dots-border $main-red;
-  //   border-radius: $dots-size;
-  // }
 }
 </style>

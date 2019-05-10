@@ -70,12 +70,12 @@ export default {
               important: true,
             },
             {
-              title: 'Durée',
+              title: 'Durée moyenne des vidéos',
               value: '3 minutes',
               important: false,
             },
             {
-              title: 'Meilleur jour de publication',
+              title: 'Meilleur moment de publication',
               value: 'Lundi',
               important: false,
             },
