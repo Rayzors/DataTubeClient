@@ -51,7 +51,7 @@
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import HomeNavigation from '@/components/HomeNavigation.vue';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'home',
@@ -380,7 +380,12 @@ export default {
     selectedCategory2() {
       return this.categories[this.selectedCategoryID2];
     },
-    ...mapState(['selectedCategories'])
+    // Les 3 font la meme chose
+    ...mapState(['selectedCategories']),
+    ...mapGetters(['getSelectedCategories']),
+    someComputedProperty() {
+      return this.selectedCategories;
+    },
   },
   watch: {
     selectedCategory1: {
@@ -395,13 +400,27 @@ export default {
       },
       immediate: true
     },
-    selectedCategories: {
-      handler(value) {
-        this.selectedCategoryID1 = value.category1
-        this.selectedCategoryID2 = value.category2
-      }
+    selectedCategories() {
+      console.log('lolol');
+    },
+    someComputedProperty() {
+      console.log('passe bordel');
+    },
+    getSelectedCategories() {
+      console.log('stp')
     }
+  },
+  mounted() {
+    console.log('mounted')
+    this.$store.watch(
+      (state, getters) => getters.getSelectedCategories,
+      (newValue, oldValue) => {
+        console.log(`Updating from ${oldValue} to ${newValue}`);
 
+        // Do whatever makes sense now
+        
+      },
+    );
   },
 };
 </script>
