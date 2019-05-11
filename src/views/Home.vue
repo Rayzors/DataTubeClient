@@ -19,10 +19,7 @@
             v-parallax="0.5"
             :values="selectedCategory1.averageData"
             :options="options"
-<<<<<<< HEAD
             :updateOptions="updateOptions"
-=======
->>>>>>> feat: begin highcharts refactoring
           />
         </div>
 
@@ -43,12 +40,7 @@
           </transition-group>
         </div>
         <home-navigation
-<<<<<<< HEAD
           :sections="sections"
-=======
-          :categories="categories"
-          @selectedCategory="selectedCategoryID1 = $event"
->>>>>>> feat: begin highcharts refactoring
         />
       </div>
     </div>
@@ -59,11 +51,7 @@
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import HomeNavigation from '@/components/HomeNavigation.vue';
-<<<<<<< HEAD
 import { mapGetters } from 'vuex';
-=======
-import { mapState } from 'vuex';
->>>>>>> feat: begin highcharts refactoring
 
 export default {
   name: 'home',
@@ -76,7 +64,6 @@ export default {
     return {
       selectedCategoryID1: 0,
       selectedCategoryID2: 1,
-<<<<<<< HEAD
       sections: [
         {
           id: 0,
@@ -103,8 +90,6 @@ export default {
           name: 'Like / dislike',
         },
       ],
-=======
->>>>>>> feat: begin highcharts refactoring
       categories: [
         {
           id: 1,
@@ -393,23 +378,15 @@ export default {
           {
             color: '#3f78de',
             fillOpacity: 0.65,
-<<<<<<< HEAD
             name: 'Column2',
             pointPlacement: 'on',
             lineWidth: 3,
             data: [],
-=======
-            name: 'Column',
-            pointPlacement: 'on',
-            lineWidth: 3,
-            data: [20, 50, 30, 10],
->>>>>>> feat: begin highcharts refactoring
             events: {
               mouseOver: false,
             },
             enableMouseTracking: false,
             type: 'area',
-<<<<<<< HEAD
             marker: false,
             animation: {
               duration: 1000,
@@ -418,12 +395,6 @@ export default {
         ],
       },
       updateOptions: 0,
-=======
-            marker: false
-          },
-        ],
-      },
->>>>>>> feat: begin highcharts refactoring
     };
   },
   computed: {
@@ -433,6 +404,7 @@ export default {
     selectedCategory2() {
       return this.categories[this.selectedCategoryID2];
     },
+<<<<<<< HEAD
 <<<<<<< HEAD
     ...mapGetters(['getSelectedCategories', 'getCompare']),
   },
@@ -449,6 +421,14 @@ export default {
 =======
     ...mapState(['selectedCategories'])
 >>>>>>> feat: begin highcharts refactoring
+=======
+    // Les 3 font la meme chose
+    ...mapState(['selectedCategories']),
+    ...mapGetters(['getSelectedCategories']),
+    someComputedProperty() {
+      return this.selectedCategories;
+    },
+>>>>>>> wip: connexion between selectbox and highchart
   },
   watch: {
     selectedCategory1: {
@@ -482,13 +462,27 @@ export default {
       immediate: true
 >>>>>>> feat: begin highcharts refactoring
     },
-    selectedCategories: {
-      handler(value) {
-        this.selectedCategoryID1 = value.category1
-        this.selectedCategoryID2 = value.category2
-      }
+    selectedCategories() {
+      console.log('lolol');
+    },
+    someComputedProperty() {
+      console.log('passe bordel');
+    },
+    getSelectedCategories() {
+      console.log('stp')
     }
+  },
+  mounted() {
+    console.log('mounted')
+    this.$store.watch(
+      (state, getters) => getters.getSelectedCategories,
+      (newValue, oldValue) => {
+        console.log(`Updating from ${oldValue} to ${newValue}`);
 
+        // Do whatever makes sense now
+
+      },
+    );
   },
 };
 </script>
