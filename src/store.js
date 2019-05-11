@@ -18,7 +18,10 @@ export default new Vuex.Store({
       state.selectedRanges[index] = value
     },
     setCategory(state, {index, value}) {
-      state.selectedCategories[index] = value
+      state.selectedCategories = { 
+        ...state.selectedCategories,
+        [index]: value,
+      };
     },
     toggleCompare(state) {
       state.compare = !state.compare

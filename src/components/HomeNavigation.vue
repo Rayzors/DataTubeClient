@@ -2,10 +2,10 @@
   <div class="home-nav">
     <ul class="home-nav__list-container">
       <HomeNavigationItem
-        v-for="(category, index) in categories"
+        v-for="(section, index) in sections"
         :key="index"
         :index="index"
-        :name="category.name"
+        :name="section.name"
       />
     </ul>
   </div>
@@ -25,27 +25,26 @@ export default {
     };
   },
   props: {
-    categories: {
+    sections: {
       type: Array,
-      default: () => [{ id: 0, name: 'Please chose a category' }],
+      default: () => [{ id: 0, name: 'Section name' }],
     }
   },
   watch: {
     $route: {
       handler(to) {
-        if (to.params && to.params.category) {
-          this.index = this.findCategoryIndexByName(to.params.category);
+        if (to.params && to.params.section) {
+          this.index = this.findSectionIndexByName(to.params.section);
         } else {
           this.index = 0;
         }
-        this.$emit('selectedCategory', this.index);
       },
       immediate: true,
     },
   },
   methods: {
-    findCategoryIndexByName(_name) {
-      return this.categories.findIndex(({ name }) => _.kebabCase(name) === _.kebabCase(_name));
+    findSectionIndexByName(_name) {
+      return this.sections.findIndex(({ name }) => _.kebabCase(name) === _.kebabCase(_name));
     },
   },
 };
