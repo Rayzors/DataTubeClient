@@ -17,7 +17,7 @@
       mutation="setRange"
     />
   </div>
-  <div class="select-box-right">
+  <div class="select-box-right" v-show="$store.state.compare">
     <select-box 
       :options="countries"
       name="country2"

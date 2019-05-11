@@ -39,8 +39,7 @@
           </transition-group>
         </div>
         <home-navigation
-          :categories="categories"
-          @selectedCategory="selectedCategoryID1 = $event"
+          :sections="sections"
         />
       </div>
     </div>
@@ -64,10 +63,35 @@ export default {
     return {
       selectedCategoryID1: 0,
       selectedCategoryID2: 1,
+      sections: [
+        {
+          id: 0,
+          name: 'Moyenne des catégories'
+        },
+        {
+          id: 1,
+          name: 'Youtubeurs'
+        },
+        {
+          id: 2,
+          name: 'Nombre de vues'
+        },
+        {
+          id: 3,
+          name: 'Durée des vidéos'
+        },
+        {
+          id: 4,
+          name: 'Meilleur moment de publication'
+        },
+        {
+          id: 5,
+          name: 'Like / dislike'
+        },
+      ],
       categories: [
         {
           id: 1,
-          name: 'Moyenne des catégories',
           averageData: [38.6593, 28, 40, 45],
           averages: [
             {
@@ -104,7 +128,6 @@ export default {
         },
         {
           id: 2,
-          name: 'Youtubeurs',
           averageData: [18, 28, 40, 10],
           averages: [
             {
@@ -141,7 +164,6 @@ export default {
         },
         {
           id: 3,
-          name: 'Nombre de vues',
           averageData: [50, 28, 20, 45],
           averages: [
             {
@@ -178,7 +200,6 @@ export default {
         },
         {
           id: 4,
-          name: 'Durée des vidéos',
           averageData: [50, 30, 10, 45],
           averages: [
             {
@@ -215,7 +236,6 @@ export default {
         },
         {
           id: 5,
-          name: 'Meilleur moment de publication',
           averageData: [10, 20, 30, 40],
           averages: [
             {
@@ -250,9 +270,8 @@ export default {
             },
           ],
         },
-                {
+        {
           id: 6,
-          name: 'Like / dislike',
           averageData: [50, 30, 10, 45],
           averages: [
             {
@@ -380,12 +399,7 @@ export default {
     selectedCategory2() {
       return this.categories[this.selectedCategoryID2];
     },
-    // Les 3 font la meme chose
-    ...mapState(['selectedCategories']),
     ...mapGetters(['getSelectedCategories']),
-    someComputedProperty() {
-      return this.selectedCategories;
-    },
   },
   watch: {
     selectedCategory1: {
@@ -400,27 +414,10 @@ export default {
       },
       immediate: true
     },
-    selectedCategories() {
-      console.log('lolol');
+    getSelectedCategories(newValue) {
+      this.selectedCategoryID1 = newValue.category1
+      this.selectedCategoryID2 = newValue.category2
     },
-    someComputedProperty() {
-      console.log('passe bordel');
-    },
-    getSelectedCategories() {
-      console.log('stp')
-    }
-  },
-  mounted() {
-    console.log('mounted')
-    this.$store.watch(
-      (state, getters) => getters.getSelectedCategories,
-      (newValue, oldValue) => {
-        console.log(`Updating from ${oldValue} to ${newValue}`);
-
-        // Do whatever makes sense now
-        
-      },
-    );
   },
 };
 </script>

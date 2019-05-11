@@ -20,8 +20,8 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/home/:category',
-      name: 'homeCategory',
+      path: '/home/:section',
+      name: 'homeSection',
       component: Home,
     },
   ],
