@@ -404,8 +404,7 @@ export default {
     selectedCategory2() {
       return this.categories[this.selectedCategoryID2];
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     ...mapGetters(['getSelectedCategories', 'getCompare']),
   },
   methods: {
@@ -418,22 +417,10 @@ export default {
         this.$set(this.options.series[1], 'lineWidth', 0);
       }
     },
-=======
-    ...mapState(['selectedCategories'])
->>>>>>> feat: begin highcharts refactoring
-=======
-    // Les 3 font la meme chose
-    ...mapState(['selectedCategories']),
-    ...mapGetters(['getSelectedCategories']),
-    someComputedProperty() {
-      return this.selectedCategories;
-    },
->>>>>>> wip: connexion between selectbox and highchart
   },
   watch: {
     selectedCategory1: {
       handler(newValue) {
-<<<<<<< HEAD
         this.$set(this.options.series[0], 'data', [...newValue.averageData]);
       },
       immediate: true,
@@ -450,39 +437,7 @@ export default {
     },
     getCompare(value) {
       this.toggleCompareData();
-=======
-        this.$set(this.options.series[0], 'data', [...newValue.averageData])
-      },
-      immediate: true
     },
-    selectedCategory2: {
-      handler(newValue) {
-        this.$set(this.options.series[1], 'data', [...newValue.averageData])
-      },
-      immediate: true
->>>>>>> feat: begin highcharts refactoring
-    },
-    selectedCategories() {
-      console.log('lolol');
-    },
-    someComputedProperty() {
-      console.log('passe bordel');
-    },
-    getSelectedCategories() {
-      console.log('stp')
-    }
-  },
-  mounted() {
-    console.log('mounted')
-    this.$store.watch(
-      (state, getters) => getters.getSelectedCategories,
-      (newValue, oldValue) => {
-        console.log(`Updating from ${oldValue} to ${newValue}`);
-
-        // Do whatever makes sense now
-
-      },
-    );
   },
 };
 </script>

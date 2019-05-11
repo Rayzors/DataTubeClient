@@ -6,25 +6,25 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     selectedCountries: {},
-    selectedRanges: {},
-    selectedCategories: {},
+    selectedRanges: {},
+    selectedCategories: {},
     compare: false,
   },
   mutations: {
-    setCountry(state, {index, value}) {
-      state.selectedCountries[index] = value
+    setCountry(state, { index, value }) {
+      state.selectedCountries[index] = value;
     },
-    setRange(state, {index, value}) {
-      state.selectedRanges[index] = value
+    setRange(state, { index, value }) {
+      state.selectedRanges[index] = value;
     },
-    setCategory(state, {index, value}) {
-      state.selectedCategories = { 
+    setCategory(state, { index, value }) {
+      state.selectedCategories = {
         ...state.selectedCategories,
         [index]: value,
       };
     },
     toggleCompare(state) {
-      state.compare = !state.compare
+      state.compare = !state.compare;
     },
     updateSelectedCategory(state, { index, value }) {
       state.selectedCategories[`category${index}`] = value;
@@ -32,17 +32,17 @@ export default new Vuex.Store({
   },
   actions: {
     setSelect({ commit }, payload) {
-      commit(payload.mutationName, payload)
+      commit(payload.mutationName, payload);
     },
     toggleCompare({ commit }) {
-      commit('toggleCompare')
+      commit('toggleCompare');
     },
     updateSelectedCategory({ commit }, payload) {
-      commit('updateSelectedCategory', payload)
-    }
+      commit('updateSelectedCategory', payload);
+    },
   },
   getters: {
     getSelectedCategories: state => state.selectedCategories,
     getCompare: state => state.compare,
-  }
+  },
 });
