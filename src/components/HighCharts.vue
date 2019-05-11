@@ -116,15 +116,6 @@ export default {
       },
       deep: true
     }
-    // values: {
-    //   handler(val) {
-    //     this.options.series[0].data = [...val];
-    //     if (this.chart) {
-    //       this.chart.update(this.options);
-    //     }
-    //   },
-    //   immediate: true,
-    // },
   },
 };
 </script>

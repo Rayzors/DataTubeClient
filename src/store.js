@@ -22,7 +22,10 @@ export default new Vuex.Store({
     },
     toggleCompare(state) {
       state.compare = !state.compare
-    }
+    },
+    updateSelectedCategory(state, { index, value }) {
+      state.selectedCategories[`category${index}`] = value;
+    },
   },
   actions: {
     setSelect({ commit }, payload) {
@@ -30,6 +33,12 @@ export default new Vuex.Store({
     },
     toggleCompare({ commit }) {
       commit('toggleCompare')
+    },
+    updateSelectedCategory({ commit }, payload) {
+      commit('updateSelectedCategory', payload)
     }
   },
+  getters: {
+    getSelectedCategories: state => state.selectedCategories
+  }
 });
