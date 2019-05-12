@@ -18,6 +18,10 @@ export default {
       type: Number,
       default: 0,
     },
+    updateOptions: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -42,15 +46,6 @@ export default {
       },
       deep: true,
     },
-    // values: {
-    //   handler(val) {
-    //     this.options.series[0].data = [...val];
-    //     if (this.chart) {
-    //       this.chart.update(this.options);
-    //     }
-    //   },
-    //   immediate: true,
-    // },
   },
 };
 </script>
