@@ -31,8 +31,6 @@ export default {
   mounted() {
     this.chart = Highcharts.chart('container', this.options);
     this.chart.update(this.options);
-    window.chart = this.chart;
-    window.options = this.options;
   },
   watch: {
     options: {
