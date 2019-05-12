@@ -19,6 +19,7 @@
             v-parallax="0.5"
             :values="selectedCategory1.averageData"
             :options="options"
+            :updateOptions="updateOptions"
           />
         </div>
 
@@ -390,6 +391,7 @@ export default {
           },
         ],
       },
+      updateOptions: 0,
     };
   },
   computed: {
@@ -399,7 +401,16 @@ export default {
     selectedCategory2() {
       return this.categories[this.selectedCategoryID2];
     },
-    ...mapGetters(['getSelectedCategories']),
+    ...mapGetters(['getSelectedCategories', 'getCompare']),
+  },
+  methods: {
+    toggleCompareData() {
+      if(this.getCompare) {
+        this.$set(this.options.series[1], 'data', [...this.selectedCategory2.averageData])
+      } else {
+        this.$set(this.options.series[1], 'data', [])
+      }
+    }
   },
   watch: {
     selectedCategory1: {
@@ -410,7 +421,7 @@ export default {
     },
     selectedCategory2: {
       handler(newValue) {
-        this.$set(this.options.series[1], 'data', [...newValue.averageData])
+        this.toggleCompareData()
       },
       immediate: true
     },
@@ -418,6 +429,9 @@ export default {
       this.selectedCategoryID1 = newValue.category1
       this.selectedCategoryID2 = newValue.category2
     },
+    getCompare(value) {
+      this.toggleCompareData()
+    }
   },
 };
 </script>

@@ -42,6 +42,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getSelectedCategories: state => state.selectedCategories
+    getSelectedCategories: state => state.selectedCategories,
+    getCompare: state => state.compare,
   }
 });

@@ -14,6 +14,10 @@ export default {
       type: Object,
       default: {},
     },
+    updateOptions: {
+      type: Number,
+      default: 0,
+    }
   },
   data() {
     return {
@@ -115,7 +119,7 @@ export default {
         this.chart && this.chart.update(newValue);
       },
       deep: true
-    }
+    },
   },
 };
 </script>
