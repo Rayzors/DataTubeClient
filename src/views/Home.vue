@@ -404,7 +404,6 @@ export default {
     selectedCategory2() {
       return this.categories[this.selectedCategoryID2];
     },
-
     ...mapGetters(['getSelectedCategories', 'getCompare']),
   },
   methods: {
