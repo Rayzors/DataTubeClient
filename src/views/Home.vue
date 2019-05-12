@@ -51,7 +51,7 @@
 import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import HomeNavigation from '@/components/HomeNavigation.vue';
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'home',
@@ -378,16 +378,19 @@ export default {
           {
             color: '#3f78de',
             fillOpacity: 0.65,
-            name: 'Column',
+            name: 'Column2',
             pointPlacement: 'on',
             lineWidth: 3,
-            data: [20, 50, 30, 10],
+            data: [],
             events: {
               mouseOver: false,
             },
             enableMouseTracking: false,
             type: 'area',
-            marker: false
+            marker: false,
+            animation: {
+              duration: 1000,
+            },
           },
         ],
       },
@@ -407,8 +410,10 @@ export default {
     toggleCompareData() {
       if(this.getCompare) {
         this.$set(this.options.series[1], 'data', [...this.selectedCategory2.averageData])
+        this.$set(this.options.series[1], 'lineWidth', 3)
       } else {
-        this.$set(this.options.series[1], 'data', [])
+        this.$set(this.options.series[1], 'data', [0, 0, 0, 0])
+        this.$set(this.options.series[1], 'lineWidth', 0)
       }
     }
   },
