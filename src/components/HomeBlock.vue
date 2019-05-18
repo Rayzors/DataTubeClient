@@ -20,11 +20,11 @@ export default {
       type: String,
       required: true,
     },
-    alignRight: {
+    alignRight: {
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
   },
 };
 </script>
