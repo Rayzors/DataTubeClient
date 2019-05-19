@@ -34,13 +34,11 @@ export default {
         if (this.chart) {
           const [newData1, newData2] = [newValue.series[0].data, newValue.series[1].data];
           const [newLineWidth1, newLineWidth2] = [newValue.series[0].lineWidth, newValue.series[1].lineWidth];
-          this.chart.series[0].setData(newData1);
-          this.chart.series[1].setData(newData2);
           this.chart.update({
             series: [{
               data: newData1,
               lineWidth: newLineWidth1,
-            },{
+            }, {
               data: newData2,
               lineWidth: newLineWidth2,
             }],
