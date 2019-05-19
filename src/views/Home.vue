@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      selectedCategoryID1: 0,
+      selectedCategoryID1: 1, // le premier id dans categories
       selectedCategoryID2: 1,
       sections: [
         {
@@ -430,9 +430,12 @@ export default {
       },
       immediate: true,
     },
-    getSelectedCategories(newValue) {
-      this.selectedCategoryID1 = newValue.category1;
-      this.selectedCategoryID2 = newValue.category2;
+    getSelectedCategories: {
+      handler(newValue) {
+        this.selectedCategoryID1 = newValue.category1;
+        this.selectedCategoryID2 = newValue.category2;
+      },
+      immediate: true
     },
     getCompare(value) {
       this.toggleCompareData();
