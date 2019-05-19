@@ -18,10 +18,6 @@ export default {
       type: Number,
       default: 0,
     },
-    updateOptions: {
-      type: Number,
-      default: 0,
-    },
   },
   data() {
     return {
@@ -37,15 +33,15 @@ export default {
       handler(newValue) {
         if (this.chart) {
           const [newData1, newData2] = [newValue.series[0].data, newValue.series[1].data];
-          const [newLineWidth1, newLineWidth2] = [newValue.series[0].lineWidth, newValue.series[1].lineWidth]
+          const [newLineWidth1, newLineWidth2] = [newValue.series[0].lineWidth, newValue.series[1].lineWidth];
           this.chart.series[0].setData(newData1);
           this.chart.series[1].setData(newData2);
           this.chart.update({
             series: [{
               lineWidth: newLineWidth1,
-            },{
+            }, {
               lineWidth: newLineWidth2,
-            }]
+            }],
           });
         }
       },
