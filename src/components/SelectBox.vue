@@ -66,6 +66,7 @@ export default {
 .select {
   font-size: 17px;
   letter-spacing: 0.1px;
+  letter-spacing: 0.1px;
   display: inline-block;
   user-select: none;
   position: relative;

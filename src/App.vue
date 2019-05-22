@@ -258,8 +258,13 @@ export default {
 
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css?family=Playfair+Display");
-@import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
+@font-face {
+  font-family: "Geomanist";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Geomanist Regular"),
+    url("/fonts/Geomanist-Regular.woff") format("woff");
+}
 
 * {
   box-sizing: border-box;
@@ -272,7 +277,7 @@ body {
 }
 
 #app {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Geomanist", sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #180940;
 }
