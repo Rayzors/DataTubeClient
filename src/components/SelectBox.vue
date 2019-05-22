@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     filteredOptions() {
-      return this.options.filter(option => option.label.match(new RegExp(this.searchFilter, 'i')),);
+      return this.options.filter(option => option.label.match(new RegExp(this.searchFilter, 'i')));
     },
   },
   watch: {
@@ -124,7 +124,6 @@ export default {
 <style lang="scss" scoped>
 .select {
   font-size: 17px;
-  letter-spacing: 0.1px;
   letter-spacing: 0.1px;
   display: inline-block;
   user-select: none;
