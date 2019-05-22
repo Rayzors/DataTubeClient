@@ -11,7 +11,7 @@
     <div class="topbar" v-if="$route.path !== '/'">
       <div class="container">
         <div class="logo">
-          <LogoSVG />
+          <LogoSVG/>
         </div>
       </div>
       <select-box-container
@@ -245,21 +245,21 @@ export default {
           value: '2',
         },
       ],
-      hideParticles: true
+      hideParticles: true,
     };
   },
   methods: {
     toggleCompare() {
-      this.$store.dispatch('toggleCompare')
-    }
+      this.$store.dispatch('toggleCompare');
+    },
   },
 };
 </script>
 
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display");
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
 
 * {
   box-sizing: border-box;
@@ -272,7 +272,7 @@ body {
 }
 
 #app {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #180940;
 }
@@ -294,10 +294,6 @@ body {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-  }
-
-  .select {
-    margin-left: 24px;
   }
 }
 
