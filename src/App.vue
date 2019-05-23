@@ -6,7 +6,7 @@
       :hoverEffect="false"
       :clickEffect="false"
       class="particle-background"
-      v-if="false"
+      v-if="hideParticles"
     />
     <div class="topbar" v-if="$route.path !== '/'">
       <div class="container">
@@ -18,6 +18,7 @@
         :countries="countries"
         :categories="categories"
         :subscribersRanges="subscribersRanges"
+        v-if="countries.length && categories.length"
       />
     </div>
     <router-view/>
@@ -27,227 +28,50 @@
 <script>
 import LogoSVG from '@/components/LogoSVG.vue';
 import SelectBoxContainer from '@/components/SelectBoxContainer.vue';
+import RegionService from '@/services/regions.service.vue';
+import CategoryService from '@/services/categories.service.vue';
 
 export default {
+  mixins: [RegionService, CategoryService],
   components: { SelectBoxContainer, LogoSVG },
   data() {
     return {
-      countries: [
-        {
-          label: 'France',
-          value: 'FR',
-        },
-        {
-          label: 'USA',
-          value: 'US',
-        },
-      ],
-      categories: [
-        {
-          id: 1,
-          emoji: '🎤',
-          name: 'Musique',
-          averageData: [38.6593, 28, 40, 45],
-          averages: [
-            {
-              title: 'Nombre de vues',
-              value: '1 667 093',
-              important: true,
-            },
-            {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
-            },
-            {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
-            },
-            {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
-            },
-            {
-              title: 'Likes',
-              value: '61%',
-              important: false,
-            },
-            {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
-        },
-        {
-          id: 2,
-          emoji: '⚽️',
-          name: 'Sport',
-          averageData: [18, 28, 40, 10],
-          averages: [
-            {
-              title: 'Nombre de vues',
-              value: '1 500 000',
-              important: true,
-            },
-            {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
-            },
-            {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
-            },
-            {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
-            },
-            {
-              title: 'Likes',
-              value: '61%',
-              important: false,
-            },
-            {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
-        },
-        {
-          id: 3,
-          emoji: '💁🏻‍♀️',
-          name: 'Makeup',
-          averageData: [50, 28, 20, 45],
-          averages: [
-            {
-              title: 'Nombre de vues',
-              value: '1 000 093',
-              important: true,
-            },
-            {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
-            },
-            {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
-            },
-            {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
-            },
-            {
-              title: 'Likes',
-              value: '61%',
-              important: false,
-            },
-            {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
-        },
-        {
-          id: 4,
-          emoji: '📰',
-          name: 'Politique',
-          averageData: [50, 30, 10, 45],
-          averages: [
-            {
-              title: 'Nombre de vues',
-              value: '667 093',
-              important: true,
-            },
-            {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
-            },
-            {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
-            },
-            {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
-            },
-            {
-              title: 'Likes',
-              value: '61%',
-              important: false,
-            },
-            {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
-        },
-        {
-          id: 5,
-          emoji: '🎮',
-          name: 'Jeux vidéo',
-          averageData: [10, 20, 30, 40],
-          averages: [
-            {
-              title: 'Nombre de vues',
-              value: '367 093',
-              important: true,
-            },
-            {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
-            },
-            {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
-            },
-            {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
-            },
-            {
-              title: 'Likes',
-              value: '61%',
-              important: false,
-            },
-            {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
-        },
-      ],
+      hideParticles: false,
+      categories: [],
+      countries: [],
       subscribersRanges: [
         {
-          label: '0 - 1000 abonnés',
-          value: '1',
+          label: '0 - 10 000',
+          nbChannelInRange: '1',
+          value: '0-10000',
         },
         {
-          label: '1000 - 10 000 abonnés',
-          value: '2',
+          label: '1 000 000 - 10 000 000',
+          nbChannelInRange: '11',
+          value: '1000000-10000000',
+        },
+        {
+          label: '10 000 - 100 000',
+          nbChannelInRange: '11',
+          value: '10000-100000',
+        },
+        {
+          label: '100 000 - 500 000',
+          nbChannelInRange: '22',
+          value: '100000-500000',
+        },
+        {
+          label: '500 000 - 1 000 000',
+          nbChannelInRange: '12',
+          value: '500000-1000000',
         },
       ],
-      hideParticles: true,
     };
   },
-  methods: {},
+  async created() {
+    this.countries = await this.getAllRegions();
+    this.categories = await this.getAllCategories();
+  },
 };
 </script>
 
@@ -259,6 +83,13 @@ export default {
   font-weight: normal;
   src: local("Geomanist Regular"),
     url("/fonts/Geomanist-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Geomanist";
+  font-style: bold;
+  font-weight: bold;
+  src: local("Geomanist Bold"), url("/fonts/Geomanist-Bold.woff") format("woff");
 }
 
 * {
