@@ -27,9 +27,8 @@
           class="grid__right"
           v-parallax="0.2"
         >
-          <transition-group name="slide-fade">
+          <transition-group name="slide-fade" v-if="$store.state.compare">
             <home-block
-              v-if="$store.state.compare"
               v-for="(average, i) in selectedCategory2.averages"
               :key="i"
               :title="average.title"
