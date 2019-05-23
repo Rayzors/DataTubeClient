@@ -11,91 +11,89 @@ export default {
     };
   },
   mounted () {
-    const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']
-    days.forEach(category => this.chartDatas.push({category}));
+    const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+    const url = 'https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000';
+    days.forEach(day => this.chartDatas.push({category: day, values: []}));
 
-    const margin = {
-      top: 20,
-      right: 20,
-      bottom: 70,
-      left: 40,
-    };
-    const width = 600 - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
+    const container = d3.select(this.$refs.barChart),
+    width = 500,
+    height = 300,
+    margin = {top: 30, right: 20, bottom: 30, left: 50},
+    barPadding = .2,
+    axisTicks = {qty: 5, outerSize: 0, dateFormat: '%m-%d'};
 
-
-
-    const svg = d3.select(this.$refs.barChart).append('svg')
-                  .attr('width', width + margin.left + margin.right)
-                  .attr('height', height + margin.top + margin.bottom)
-    const g = svg.append("g")
-                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+const svg = container
+   .append("svg")
+   .attr("width", width)
+   .attr("height", height)
+   .append("g")
+   .attr("transform", `translate(${margin.left},${margin.top})`);
+    // const svg = d3.select(this.$refs.barChart).append('svg')
+    //               .attr('width', width + margin.left + margin.right)
+    //               .attr('height', height + margin.top + margin.bottom)
+    // const g = svg.append("g")
+    //               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    // const barPadding = .2;
+    // const axisTicks = {qty: 5, outerSize: 0, dateFormat: '%m-%d'};
 
     d3.json('https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000')
       .then((data) => {
         const { numberOfPublicationByDay } = data
         numberOfPublicationByDay.push(numberOfPublicationByDay.shift())
+        numberOfPublicationByDay.forEach(i => {
+            i.value2 = i.value + 1 // temporaire en attente des comparaisons
+          });
+        console.log(numberOfPublicationByDay)
+        var xScale0 = d3.scaleBand().range([0, width - margin.left - margin.right]).padding(barPadding);
+        var xScale1 = d3.scaleBand();
+        var yScale = d3.scaleLinear().range([height - margin.top - margin.bottom, 0]);
 
-        this.chartDatas = [
-          ...this.chartDatas,
-        ];
+        var xAxis = d3.axisBottom(xScale0).tickSizeOuter(axisTicks.outerSize);
+        var yAxis = d3.axisLeft(yScale).ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
 
-        const categoriesNames = this.chartDatas.values.map((d) => d.label);
-        const rateNames = this.chartDatas.values.map((d) => d.value);
+        xScale0.domain(numberOfPublicationByDay.map(d => d.label));
+        xScale1.domain(['value', 'value2']).range([0, xScale0.bandwidth()]);
+        yScale.domain([0, d3.max(numberOfPublicationByDay, d => d.value > d.value2 ? d.value : d.value2)]);
 
-        const x0 = d3.scaleBand()
-                .rangeRound([0, width]).padding(0.1)
-                .domain(categoriesNames);
-        const x1 = d3.scaleBand()
-                .rangeRound([0, width]).padding(0.1)
-                .domain(rateNames)
-          .rangeRoundBands([0, x0.bandwidth()]);
+        const chartName = svg.selectAll(".model_name")
+                              .data(numberOfPublicationByDay)
+                              .enter().append("g")
+                              .attr("class", "model_name")
+                              .attr("transform", d => `translate(${xScale0(d.label)},0)`);
+
+        chartName.selectAll(".bar.value")
+          .data(d => [d])
+          .enter()
+          .append("rect")
+          .attr("class", "bar value")
+          .style("fill","#3f78de")
+          .attr("x", d =>  xScale1('value'))
+          .attr("y", d => yScale(d.value))
+          .attr("width", xScale1.bandwidth())
+          .attr("height", d => {
+            return height - margin.top - margin.bottom - yScale(d.value)
+          });
+          chartName.selectAll(".bar.value2")
+            .data(d => [d])
+            .enter()
+            .append("rect")
+            .attr("class", "bar value2")
+          .style("fill","#de543f")
+            .attr("x", d => xScale1('value2'))
+            .attr("y", d => yScale(d.value2))
+            .attr("width", xScale1.bandwidth())
+            .attr("height", d => {
+              return height - margin.top - margin.bottom - yScale(d.value2)
+            });
         
-        const y = d3.scaleLinear().rangeRound([height, 0])
-                    .domain([0, d3.max(data, function(categorie) { return d3.max(categorie.values, function(d) { return d.value; }); })]);
-
-
-        const xAxis = d3.axisBottom(x0)
-                        .tickFormat(0)
-
-        const yAxis = d3.axisLeft(y)
-
-        x0.domain(this.chartDatas.values.map((d, i) => d.label))
-        y.domain([0, d3.max(this.chartDatas.values, (d) => d.value)])
-
-        g.append("g")
+        svg.append("g")
           .attr("class", "x axis")
-          .attr("transform", `translate(0,${height})`)
+          .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
           .call(xAxis);
-            
-        g.append("g")
+        
+        svg.append("g")
           .attr("class", "y axis")
-          .call(yAxis)
-
-        const slice = g.selectAll('.slice')
-                        .data(this.chartDatas)
-                        .enter()
-                          .append("g")
-                            .attr("class", "g")
-                            .attr("transform",(d, i) => `translate(${x0(d.value)},0)`);
-        console.log(this.chartDatas.values)
-        slice.selectAll("rect")
-              .data((d) => d.values)
-              .enter()
-                .append("rect")
-                  .attr("width", x0.bandwidth())
-                  .attr("x", (d) => x0(d.label))
-                  .attr("y", (d) => y(d.value))
-                  .attr("height", (d) => height - y(d.value))
-
-        // g.selectAll(".bar")
-        //     .data(numberOfPublicationByDay)
-        //     .enter().append("rect")
-        //     .attr("class", "bar")
-        //     .attr("x", (d) => x1(d.label))
-        //     .attr("width", x1.bandwidth())
-        //     .attr("y", (d) => y(d.value) )
-        //     .attr("height", (d) =>  height - y(d.value))
+          .call(yAxis); 
       })
   },
   
