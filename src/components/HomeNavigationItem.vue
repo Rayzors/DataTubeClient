@@ -2,10 +2,10 @@
   <router-link
     :class="{'home-nav__list-item--selected': isSelected }"
     class="home-nav__list-item"
-    :to="`/home/${slugifyName}`"
+    :to="{ name: section.routeName }"
     tag="li"
   >
-    <span>{{ `${twoNumber(index + 1)}. ${name}` }}</span>
+    <span>{{ `${twoNumber(index + 1)}. ${section.name}` }}</span>
   </router-link>
 </template>
 
@@ -16,22 +16,9 @@ import Utils from '@/mixins/Utils.vue';
 export default {
   mixins: [Utils],
   props: {
-    index: {
-      type: Number,
-      default: 0,
-    },
-    name: {
-      type: String,
-      default: 'Category',
-    },
-  },
-  computed: {
-    slugifyName() {
-      return _.kebabCase(this.name);
-    },
-    isSelected() {
-      return this.index === this.$parent.index;
-    },
+    index: Number,
+    section: Object,
+    isSelected: Boolean
   },
 };
 </script>

@@ -38,9 +38,7 @@
             />
           </transition-group>
         </div>
-        <home-navigation
-          :sections="sections"
-        />
+        <home-navigation />
       </div>
     </div>
   </div>
@@ -63,32 +61,6 @@ export default {
     return {
       selectedCategoryID1: 1, // le premier id dans categories
       selectedCategoryID2: 1,
-      sections: [
-        {
-          id: 0,
-          name: 'Moyenne des catégories',
-        },
-        {
-          id: 1,
-          name: 'Youtubeurs',
-        },
-        {
-          id: 2,
-          name: 'Nombre de vues',
-        },
-        {
-          id: 3,
-          name: 'Durée des vidéos',
-        },
-        {
-          id: 4,
-          name: 'Meilleur moment de publication',
-        },
-        {
-          id: 5,
-          name: 'Like / dislike',
-        },
-      ],
       categories: [
         {
           id: 1,

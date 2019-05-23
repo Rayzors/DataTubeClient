@@ -5,7 +5,9 @@
         v-for="(section, index) in sections"
         :key="index"
         :index="index"
-        :name="section.name"
+        :section="section"
+        @click.native="selectedIndex = index"
+        :isSelected="index === selectedIndex"
       />
     </ul>
   </div>
@@ -21,32 +23,40 @@ export default {
   components: { HomeNavigationItem },
   data() {
     return {
-      index: 0,
+      selectedIndex: 0,
+      sections: [
+        {
+          name: 'Moyenne des catégories',
+          routeName: 'categoryAverage'
+        },
+        {
+          name: 'Youtubeurs',
+          routeName: 'youtubers'
+        },
+        {
+          name: 'Nombre de vues',
+          routeName: 'viewCounts'
+        },
+        {
+          name: 'Durée des vidéos',
+          routeName: 'videoDurations'
+        },
+        {
+          name: 'Meilleur moment de publication',
+          routeName: 'bestPublicationTime'
+        },
+        {
+          name: 'Like / dislike',
+          routeName: 'likeDislike'
+        },
+      ]
     };
   },
-  props: {
-    sections: {
-      type: Array,
-      default: () => [{ id: 0, name: 'Section name' }],
-    }
-  },
   watch: {
-    $route: {
-      handler(to) {
-        if (to.params && to.params.section) {
-          this.index = this.findSectionIndexByName(to.params.section);
-        } else {
-          this.index = 0;
-        }
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    findSectionIndexByName(_name) {
-      return this.sections.findIndex(({ name }) => _.kebabCase(name) === _.kebabCase(_name));
-    },
-  },
+    selectedIndex (a) {
+      console.log(a)
+    }
+  }
 };
 </script>
 
