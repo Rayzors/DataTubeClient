@@ -1,15 +1,20 @@
 <template>
   <div class="select">
-    <div class="select__picked" @click="toggleDropdown">{{ current.label }}</div>
+    <input
+      type="text"
+      class="select__picked"
+      v-model="searchFilter"
+      @focus="toggleDropdown"
+      @blur="close"
+      @keyup.enter="select()"
+    >
     <ul class="select__dropdown" v-show="isOpen">
-      <li v-for="(option, i) in options" :key="i">
-        <input
-          type="radio"
-          :value="option.value"
-          :id="`select-${i}${option.value}${name}`"
-          v-model="picked"
-        >
-        <label :for="`select-${i}${option.value}${name}`" @click="toggleDropdown">{{ option.label }}</label>
+      <li v-for="(option, i) in filteredOptions" :key="i">
+        <div
+          class="option"
+          :class="[(picked.value === option.value) ? 'option--selected' : '']"
+          @mousedown="select(option)"
+        >{{ option.label }}</div>
       </li>
     </ul>
   </div>
@@ -36,24 +41,57 @@ export default {
   data() {
     return {
       isOpen: false,
-      picked: this.options[0].value,
+      picked: this.options[0],
+      searchFilter: this.options[0].label,
     };
   },
   methods: {
-    toggleDropdown() { this.isOpen = !this.isOpen },
+    select(option) {
+      return (() => {
+        if (option) {
+          this.picked = option;
+        } else {
+          [this.picked] = this.filteredOptions;
+        }
+        this.isOpen = false;
+        this.searchFilter = this.picked.label;
+      })();
+    },
+    toggleDropdown() {
+      return (() => {
+        this.searchFilter = '';
+        this.isOpen = true;
+      })();
+    },
+    close() {
+      return (() => {
+        if (!this.picked.value) {
+          this.picked = {};
+          this.searchFilter = '';
+        } else {
+          this.searchFilter = this.picked.label;
+        }
+        this.isOpen = false;
+      })();
+    },
   },
   computed: {
-    current() {
-      return this.options.find(option => option.value === this.picked);
+    filteredOptions() {
+      return this.options.filter(option => option.label.match(new RegExp(this.searchFilter, 'gi')),);
     },
   },
   watch: {
     picked: {
-      handler(value) {
+      handler(picked) {
+        if (this.filteredOptions.length === 0) {
+          this.picked = {};
+        } else {
+          [this.picked] = this.filteredOptions;
+        }
         this.$store.dispatch('setSelect', {
           index: this.name,
           mutationName: this.mutation,
-          value,
+          value: picked.value,
         });
       },
       immediate: true,
@@ -71,11 +109,20 @@ export default {
   user-select: none;
   position: relative;
 
-  input {
-    display: none;
+  &::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #fff;
+    transform: translateY(-50%);
   }
 
-  label {
+  .option {
     cursor: pointer;
     width: 100%;
     padding: 8px 16px;
@@ -83,7 +130,8 @@ export default {
   }
 
   &__picked {
-    position: relative;
+    border: 0;
+    font-size: 17px;
     cursor: pointer;
     width: 100%;
     padding: 8px 40px 8px 16px;
@@ -92,17 +140,8 @@ export default {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 
-    &::after {
-      content: "";
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 8px solid #fff;
-      transform: translateY(-50%);
+    &:focus {
+      outline: none;
     }
   }
 
