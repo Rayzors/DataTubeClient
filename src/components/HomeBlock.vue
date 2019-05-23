@@ -44,15 +44,15 @@ export default {
 
   &__title {
     font-weight: normal;
-    font-size: 20px;
+    font-size: 15px;
     letter-spacing: 0.3px;
     color: #7a7089;
-    margin-bottom: 0;
+    margin-bottom: 8px;
   }
 
   &__value {
-    font-size: 32px;
-    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 22px;
     letter-spacing: 0.2px;
     color: #000000;
     margin: 0;
