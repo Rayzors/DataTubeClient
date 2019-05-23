@@ -1,8 +1,6 @@
 <template>
   <div class="grid">
-    <div
-      class="grid__left"
-      v-parallax="0.2">
+    <div class="grid__left" v-parallax="0.2">
       <home-block
         v-for="(average, i) in selectedCategory1.averages"
         :key="i"
@@ -21,12 +19,11 @@
       />
     </div>
 
-    <div
-      class="grid__right"
-      v-parallax="0.2"
-    >
-      <transition-group name="slide-fade" v-if="$store.state.compare">
+    <div class="grid__right" v-parallax="0.2">
+      <button @click="toggleCompare">Lol compare</button>
+      <transition-group name="slide-fade">
         <home-block
+          v-if="$store.state.compare"
           v-for="(average, i) in selectedCategory2.averages"
           :key="i"
           :title="average.title"
@@ -36,6 +33,7 @@
         />
       </transition-group>
     </div>
+    <home-navigation :sections="sections"/>
   </div>
 </template>
 
@@ -289,32 +287,29 @@ export default {
         tooltip: {
           enabled: false,
         },
-        xAxis: [{
-          type: 'category',
-          categories: [
-            'Nombre de vue',
-            'Like',
-            'Durée',
-            'Dislike',
-          ],
-          labels: {
-            style: {
-              color: '#151515',
-              cursor: 'default',
-              fontSize: '13px',
-              textOverflow: 'none',
-              whiteSpace: 'nowrap',
-              fontFamily: 'Josefin Sans',
-              letterSpacing: '0.1px',
+        xAxis: [
+          {
+            type: 'category',
+            categories: ['Nombre de vue', 'Like', 'Durée', 'Dislike'],
+            labels: {
+              style: {
+                color: '#151515',
+                cursor: 'default',
+                fontSize: '13px',
+                textOverflow: 'none',
+                whiteSpace: 'nowrap',
+                fontFamily: 'Josefin Sans',
+                letterSpacing: '0.1px',
+              },
             },
+            tickColor: '#FF0000',
+            tickPosition: 'inside',
+            tickmarkPlacement: 'on',
+            tickPixelInterval: 45,
+            gridLineColor: '#ddd',
+            lineColor: '#ddd',
           },
-          tickColor: '#FF0000',
-          tickPosition: 'inside',
-          tickmarkPlacement: 'on',
-          tickPixelInterval: 45,
-          gridLineColor: '#ddd',
-          lineColor: '#ddd',
-        }],
+        ],
         yAxis: {
           gridLineColor: '#ddd',
           gridLineWidth: 0,
@@ -322,8 +317,7 @@ export default {
             enabled: false,
           },
         },
-        series:
-        [
+        series: [
           {
             color: '#ee5355',
             fillOpacity: 0.65,
@@ -370,9 +364,14 @@ export default {
     ...mapGetters(['getSelectedCategories', 'getCompare']),
   },
   methods: {
+    toggleCompare() {
+      this.$store.dispatch('toggleCompare');
+    },
     toggleCompareData() {
       if (this.getCompare) {
-        this.$set(this.options.series[1], 'data', [...this.selectedCategory2.averageData]);
+        this.$set(this.options.series[1], 'data', [
+          ...this.selectedCategory2.averageData,
+        ]);
         this.$set(this.options.series[1], 'lineWidth', 3);
       } else {
         this.$set(this.options.series[1], 'data', [0, 0, 0, 0]);
@@ -398,13 +397,13 @@ export default {
         this.selectedCategoryID1 = newValue.category1;
         this.selectedCategoryID2 = newValue.category2;
       },
-      immediate: true
+      immediate: true,
     },
     getCompare(value) {
       this.toggleCompareData();
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -429,10 +428,12 @@ export default {
 }
 
 .slide-fade {
-  &-enter-active, &-leave-active {
-    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
   }
-  &-enter, &-leave-to {
+  &-enter,
+  &-leave-to {
     transform: translateX(25px);
     opacity: 0;
   }

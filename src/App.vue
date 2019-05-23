@@ -6,7 +6,7 @@
       :hoverEffect="false"
       :clickEffect="false"
       class="particle-background"
-      v-if="!hideParticles"
+      v-if="false"
     />
     <div class="topbar" v-if="$route.path !== '/'">
       <div class="container">
@@ -19,7 +19,6 @@
         :categories="categories"
         :subscribersRanges="subscribersRanges"
       />
-      <button @click="toggleCompare">Lol compare</button>
     </div>
     <router-view/>
   </div>
@@ -248,11 +247,7 @@ export default {
       hideParticles: true,
     };
   },
-  methods: {
-    toggleCompare() {
-      this.$store.dispatch('toggleCompare');
-    },
-  },
+  methods: {},
 };
 </script>
 
