@@ -26,36 +26,31 @@ export default {
       selectedIndex: 0,
       sections: [
         {
-          name: 'Moyenne des catégories',
-          routeName: 'categoryAverage'
+          name: 'Moyennes des catégories',
+          routeName: 'categoriesAverages'
         },
         {
           name: 'Youtubeurs',
           routeName: 'youtubers'
         },
         {
-          name: 'Nombre de vues',
-          routeName: 'viewCounts'
+          name: 'Nombres de vues',
+          routeName: 'viewsCounts'
         },
         {
-          name: 'Durée des vidéos',
-          routeName: 'videoDurations'
+          name: 'Durées des vidéos',
+          routeName: 'videosDurations'
         },
         {
-          name: 'Meilleur moment de publication',
-          routeName: 'bestPublicationTime'
+          name: 'Meilleurs moments de publication',
+          routeName: 'bestPublicationTimes'
         },
         {
-          name: 'Like / dislike',
-          routeName: 'likeDislike'
+          name: 'Likes / dislikes',
+          routeName: 'likesDislikes'
         },
       ]
     };
-  },
-  watch: {
-    selectedIndex (a) {
-      console.log(a)
-    }
   }
 };
 </script>
@@ -63,6 +58,7 @@ export default {
 <style lang="scss" scoped>
 $main-red: #ee5355;
 .home-nav {
+  z-index: 10;
   position: fixed;
   bottom: 0;
   left: 0;

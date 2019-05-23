@@ -1,9 +1,10 @@
 <template>
-  <div>CAT AV</div>
+  <div>Youtubers :D</div>
 </template>
 
 <script>
 export default {
+
 }
 </script>
 
