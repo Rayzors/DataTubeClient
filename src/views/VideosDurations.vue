@@ -3,7 +3,7 @@
     <div
       class="grid__left"
       v-parallax="0.2">
-      <video-duration-stats :videoDurationValues="videoDurationValues" />
+      <video-duration-stats :statsSide="1" />
     </div>
 
     <div v-parallax="0.5" class="grid__center">
@@ -30,7 +30,7 @@
       v-parallax="0.2"
     >
       <transition name="slide-fade" v-if="$store.state.compare">
-        <video-duration-stats :videoDurationValues="videoDurationValues" />
+        <video-duration-stats :statsSide="2" />
       </transition>
     </div>
   </div>

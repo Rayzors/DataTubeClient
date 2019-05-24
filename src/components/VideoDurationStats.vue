@@ -1,11 +1,16 @@
 <template>
   <div class="videoDurationStats">
-    <div
-      class="videoDurationStat"
-      v-for="(statData, index) in statDatas"
-      v-bind:key="index">
-      <h3 class="videoDurationStatTitle">{{ statData.title }}</h3>
-      <p class="videoDurationStatValue">{{ valueString(statData.value) }}</p>
+    <div class="videoDurationStat">
+      <h3 class="videoDurationStatTitle">Durée max des vidéos</h3>
+      <p class="videoDurationStatValue">{{ valueString(maxVideoDuration) }}</p>
+    </div>
+    <div class="videoDurationStat">
+      <h3 class="videoDurationStatTitle">Durée moyenne des vidéos</h3>
+      <p class="videoDurationStatValue">{{ valueString(averageVideoDuration) }}</p>
+    </div>
+    <div class="videoDurationStat">
+      <h3 class="videoDurationStatTitle">Durée min des vidéos</h3>
+      <p class="videoDurationStatValue">{{ valueString(minVideoDuration) }}</p>
     </div>
   </div>
 </template>
@@ -13,37 +18,18 @@
 <script>
 export default {
   props: {
-    videoDurationValues: {
-      type: Object,
-      default: () => ({
-        max: 0,
-        average: 0,
-        min: 0
-      })
-    }
-  },
-  data () {
-    return {
-      statDatas: [
-        {
-          title: 'Durée max des vidéos',
-          value: this.videoDurationValues.max
-        },
-        {
-          title: 'Durée moyenne des vidéos',
-          value: this.videoDurationValues.average
-        },
-        {
-          title: 'Durée min des vidéos',
-          value: this.videoDurationValues.min
-        }
-      ]
-    }
+    statsSide: Number
   },
   computed: {
     valueString () {
       return value => value + ' min'
-    }
+    },
+    maxVideoDuration () { return this.$store.getters['getMaxVideoDuration'](this.statsSide) },
+    minVideoDuration () { return this.$store.getters['getMinVideoDuration'](this.statsSide) },
+    averageVideoDuration () { return this.$store.getters['getAverageVideoDuration'](this.statsSide) }
+  },
+  async mounted () {
+    await this.$store.dispatch('loadVideosDurations')
   }
 }
 </script>
