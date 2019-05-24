@@ -45,11 +45,7 @@ export default {
     };
   },
   methods: {
-    toggleDropdown() {
-      return (() => {
-        this.isOpen = !this.isOpen;
-      })();
-    },
+    toggleDropdown() { this.isOpen = !this.isOpen },
   },
   computed: {
     current() {

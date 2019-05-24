@@ -17,6 +17,7 @@
 import _ from 'lodash';
 import Utils from '@/mixins/Utils.vue';
 import HomeNavigationItem from '@/components/HomeNavigationItem.vue';
+import camelCase from 'lodash/camelCase';
 
 export default {
   mixins: [Utils],
@@ -51,6 +52,11 @@ export default {
         },
       ]
     };
+  },
+  mounted () {
+    this.selectedIndex = this.sections
+      .map(section => camelCase(section.routeName))
+      .indexOf(this.$route.name)
   }
 };
 </script>

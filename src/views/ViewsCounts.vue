@@ -1,5 +1,5 @@
 <template>
-  <div>View Counts !</div>
+  <div>ViewsCounts</div>
 </template>
 
 <script>
