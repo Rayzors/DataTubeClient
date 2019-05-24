@@ -3,14 +3,7 @@
     <div
       class="grid__left"
       v-parallax="0.2">
-      block1
-      <!-- <home-block
-        v-for="(average, i) in selectedCategory1.averages"
-        :key="i"
-        :title="average.title"
-        :value="average.value"
-        :important="average.important"
-      /> -->
+      <video-duration-stats :videoDurationValues="videoDurationValues" />
     </div>
 
     <div v-parallax="0.5" class="grid__center">
@@ -36,38 +29,34 @@
       class="grid__right"
       v-parallax="0.2"
     >
-      <transition name="slide-fade" v-if="$store.state.compare"><div>block2</div>
-        <!-- <home-block
-          v-for="(average, i) in selectedCategory2.averages"
-          :key="i"
-          :title="average.title"
-          :value="average.value"
-          :important="average.important"
-          :alignRight="true"
-        /> -->
+      <transition name="slide-fade" v-if="$store.state.compare">
+        <video-duration-stats :videoDurationValues="videoDurationValues" />
       </transition>
     </div>
   </div>
 </template>
 
 <script>
+import videoDurationStats from '@/components/VideoDurationStats';
+
 export default {
+  components: { videoDurationStats },
   data () {
     return {
       statCategories: [
         {
           title: 'Durée de la vidéo la plus longue',
-          videosDurations: [370, 256],
+          videosDurations: [310, 256],
           videosNames: ['video 1', 'video 2']
         },
         {
           title: 'Durée moyenne des vidéos',
-          videosDurations: [165, 158],
+          videosDurations: [210, 158],
           videosNames: ['video 3', 'video 4']
         },
         {
           title: 'Durée de la vidéo la plus courte',
-          videosDurations: [65, 51],
+          videosDurations: [61, 51],
           videosNames: ['video 5', 'video 6']
         }
       ]
@@ -95,6 +84,13 @@ export default {
     },
     rulerTime () {
       return index => this.statSize / 8 * index
+    },
+    videoDurationValues () {
+      return {
+        max: 130,
+        average: 31,
+        min: 12
+      }
     }
   }
 }
@@ -103,7 +99,7 @@ export default {
 <style lang="scss">
 .grid {
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr;
   grid-gap: 0;
   align-items: center;
   height: 100vh;
