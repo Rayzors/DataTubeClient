@@ -4,91 +4,128 @@
 
 <script>
 import * as d3 from 'd3';
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
       chartDatas: [],
+      svg: null,
+      xScale0: null,
+      xScale1: null,
+      yScale: null,
+      datas: null,
+      chart: null,
     };
+  },
+  computed: {
+    ...mapGetters(['getCompare'])
+  },
+  methods: {
+    updateData() {
+      if(this.getCompare) {
+        const { numberOfPublicationByDay } = this.datas
+        numberOfPublicationByDay.forEach(i => {
+          i.value2 = i.value + 1 // temporaire en attente des comparaisons
+        });
+        this.chart.selectAll(".bar.value")
+                  .attr("transform", d => `translate(${this.xScale0(d.label)},0)`)
+        this.chart.selectAll(".bar.value2")
+          .attr("height", d => {
+            return this.height - this.margin.top - this.margin.bottom - this.yScale(d.value2)
+          })
+        .attr("transform", d => `translate(${this.xScale0(d.label)},0)`);
+
+      } else {
+        this.chart.selectAll(".bar.value")
+                  .attr("transform", d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 2)},0)`)
+        this.chart.selectAll(".bar.value2")
+          .attr("height", d => 0)
+      }
+    }
   },
   mounted () {
     const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
     const url = 'https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000';
     days.forEach(day => this.chartDatas.push({category: day, values: []}));
 
-    const container = d3.select(this.$refs.barChart),
-    width = 500,
-    height = 300,
-    margin = {top: 30, right: 20, bottom: 30, left: 50},
-    barPadding = .2,
-    axisTicks = {qty: 5, outerSize: 0, dateFormat: '%m-%d'};
+    const container = d3.select(this.$refs.barChart)
+    this.width = 500
+    this.height = 300
+    this.margin = {top: 30, right: 20, bottom: 30, left: 50}
+    const barPadding = .2
+    const axisTicks = {qty: 5, outerSize: 0, dateFormat: '%m-%d'};
 
-const svg = container
-   .append("svg")
-   .attr("width", width)
-   .attr("height", height)
-   .append("g")
-   .attr("transform", `translate(${margin.left},${margin.top})`);
+    const svg = container.append("svg")
+                          .attr("width", this.width)
+                          .attr("height", this.height)
+                          .append("g")
+                          .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-    d3.json('https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000')
-      .then((data) => {
-        const { numberOfPublicationByDay } = data
-        numberOfPublicationByDay.push(numberOfPublicationByDay.shift())
-        numberOfPublicationByDay.forEach(i => {
-            i.value2 = i.value + 1 // temporaire en attente des comparaisons
-          });
-        console.log(numberOfPublicationByDay)
-        const xScale0 = d3.scaleBand().range([0, width - margin.left - margin.right]).padding(barPadding);
-        const xScale1 = d3.scaleBand();
-        const yScale = d3.scaleLinear().range([height - margin.top - margin.bottom, 0]);
+    d3.json('https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/2/subscribers/10000-100000').then((data) => {
+      const { numberOfPublicationByDay } = data
+      this.datas = data
+      numberOfPublicationByDay.push(numberOfPublicationByDay.shift())
+      numberOfPublicationByDay.forEach(i => {
+        i.value2 = i.value + 1 // temporaire en attente des comparaisons
+      });
+      this.xScale0 = d3.scaleBand().range([0, this.width - this.margin.left - this.margin.right]).padding(barPadding);
+      this.xScale1 = d3.scaleBand();
+      this.yScale = d3.scaleLinear().range([this.height - this.margin.top - this.margin.bottom, 0]);
 
-        const xAxis = d3.axisBottom(xScale0).tickSizeOuter(axisTicks.outerSize);
-        const yAxis = d3.axisLeft(yScale).ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
+      const xAxis = d3.axisBottom(this.xScale0).tickSizeOuter(axisTicks.outerSize);
+      const yAxis = d3.axisLeft(this.yScale).ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
 
-        xScale0.domain(numberOfPublicationByDay.map(d => d.label));
-        xScale1.domain(['value', 'value2']).range([0, xScale0.bandwidth()]);
-        yScale.domain([0, d3.max(numberOfPublicationByDay, d => d.value > d.value2 ? d.value : d.value2)]);
+      this.xScale0.domain(numberOfPublicationByDay.map(d => d.label));
+      this.xScale1.domain(['value', 'value2']).range([0, this.xScale0.bandwidth()]);
+      this.yScale.domain([0, d3.max(numberOfPublicationByDay, d => d.value > d.value2 ? d.value : d.value2)]);
 
-        const chartName = svg.selectAll(".model_name")
-                              .data(numberOfPublicationByDay)
-                              .enter().append("g")
-                              .attr("class", "model_name")
-                              .attr("transform", d => `translate(${xScale0(d.label)},0)`);
+      this.chart = svg.selectAll(".model_name")
+                            .data(numberOfPublicationByDay)
+                            .enter().append("g")
+                            .attr("class", "model_name");
 
-        chartName.selectAll(".bar.value")
+      this.chart.selectAll(".bar.value")
+        .data(d => [d])
+        .enter()
+        .append("rect")
+        .attr("class", "bar value")
+        .style("fill","#3f78de")
+        .attr("x", d =>  this.xScale1('value'))
+        .attr("y", d => this.yScale(d.value))
+        .attr("width", this.xScale1.bandwidth())
+        .attr("transform", d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 2)},0)`)
+        .attr("height", d => {
+          return this.height - this.margin.top - this.margin.bottom - this.yScale(d.value)
+          return 0
+        });
+        
+      this.chart.selectAll(".bar.value2")
           .data(d => [d])
           .enter()
           .append("rect")
-          .attr("class", "bar value")
-          .style("fill","#3f78de")
-          .attr("x", d =>  xScale1('value'))
-          .attr("y", d => yScale(d.value))
-          .attr("width", xScale1.bandwidth())
+          .attr("class", "bar value2")
+        .style("fill","#de543f")
+          .attr("x", d => this.xScale1('value2'))
+          .attr("y", d => this.yScale(d.value2))
+          .attr("width", this.xScale1.bandwidth())
           .attr("height", d => {
-            return height - margin.top - margin.bottom - yScale(d.value)
             return 0
           });
-          chartName.selectAll(".bar.value2")
-            .data(d => [d])
-            .enter()
-            .append("rect")
-            .attr("class", "bar value2")
-          .style("fill","#de543f")
-            .attr("x", d => xScale1('value2'))
-            .attr("y", d => yScale(d.value2))
-            .attr("width", xScale1.bandwidth())
-            .attr("height", d => {
-              return height - margin.top - margin.bottom - yScale(d.value2)
-            });
-        
-        svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
-          .call(xAxis);
-        
-        svg.append("g")
-          .attr("class", "y axis")
-          .call(yAxis); 
-      })
+      svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", `translate(0,${this.height - this.margin.top - this.margin.bottom})`)
+        .call(xAxis);
+      
+      svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis); 
+    })
+  },
+  watch: {
+    getCompare() {
+      this.updateData()
+    },
   },
   
 };
