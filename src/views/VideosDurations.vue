@@ -29,7 +29,7 @@
       <div class="statRulers">
         <div class="statRuler" v-for="i in 8" v-bind:key="i">
           <div class="statRulerMark"></div>
-          <p class="statRulerText">{{ rulerTime(i) }} min</p>
+          <p class="statRulerText">{{ rulerTime(i) }} sec</p>
         </div>
       </div>
     </div>
