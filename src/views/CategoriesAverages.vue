@@ -33,19 +33,18 @@
         />
       </transition-group>
     </div>
-    <home-navigation :sections="sections"/>
   </div>
 </template>
 
 <script>
-import HomeBlock from '@/components/HomeBlock.vue';
-import HighCharts from '@/components/HighCharts.vue';
-import { mapGetters } from 'vuex';
+import HomeBlock from "@/components/HomeBlock.vue";
+import HighCharts from "@/components/HighCharts.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     HighCharts,
-    HomeBlock,
+    HomeBlock
   },
   data() {
     return {
@@ -57,301 +56,301 @@ export default {
           averageData: [38.6593, 28, 40, 45],
           averages: [
             {
-              title: 'Nombre de vues',
-              value: '1 667 093',
-              important: true,
+              title: "Nombre de vues",
+              value: "1 667 093",
+              important: true
             },
             {
-              title: 'Durée moyenne des vidéos',
-              value: '3 minutes',
-              important: false,
+              title: "Durée moyenne des vidéos",
+              value: "3 minutes",
+              important: false
             },
             {
-              title: 'Meilleur moment de publication',
-              value: 'Lundi',
-              important: false,
+              title: "Meilleur moment de publication",
+              value: "Lundi",
+              important: false
             },
             {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
+              title: "Meilleur moment de publication",
+              value: "Après-midi (15h30)",
+              important: false
             },
             {
-              title: 'Likes',
-              value: '61%',
-              important: false,
+              title: "Likes",
+              value: "61%",
+              important: false
             },
             {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
+              title: "Dislikes",
+              value: "39%",
+              important: false
+            }
+          ]
         },
         {
           id: 2,
           averageData: [18, 28, 40, 10],
           averages: [
             {
-              title: 'Nombre de vues',
-              value: '1 500 000',
-              important: true,
+              title: "Nombre de vues",
+              value: "1 500 000",
+              important: true
             },
             {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
+              title: "Durée",
+              value: "3 minutes",
+              important: false
             },
             {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
+              title: "Meilleur jour de publication",
+              value: "Lundi",
+              important: false
             },
             {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
+              title: "Meilleur moment de publication",
+              value: "Après-midi (15h30)",
+              important: false
             },
             {
-              title: 'Likes',
-              value: '61%',
-              important: false,
+              title: "Likes",
+              value: "61%",
+              important: false
             },
             {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
+              title: "Dislikes",
+              value: "39%",
+              important: false
+            }
+          ]
         },
         {
           id: 3,
           averageData: [50, 28, 20, 45],
           averages: [
             {
-              title: 'Nombre de vues',
-              value: '1 000 093',
-              important: true,
+              title: "Nombre de vues",
+              value: "1 000 093",
+              important: true
             },
             {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
+              title: "Durée",
+              value: "3 minutes",
+              important: false
             },
             {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
+              title: "Meilleur jour de publication",
+              value: "Lundi",
+              important: false
             },
             {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
+              title: "Meilleur moment de publication",
+              value: "Après-midi (15h30)",
+              important: false
             },
             {
-              title: 'Likes',
-              value: '61%',
-              important: false,
+              title: "Likes",
+              value: "61%",
+              important: false
             },
             {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
+              title: "Dislikes",
+              value: "39%",
+              important: false
+            }
+          ]
         },
         {
           id: 4,
           averageData: [50, 30, 10, 45],
           averages: [
             {
-              title: 'Nombre de vues',
-              value: '667 093',
-              important: true,
+              title: "Nombre de vues",
+              value: "667 093",
+              important: true
             },
             {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
+              title: "Durée",
+              value: "3 minutes",
+              important: false
             },
             {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
+              title: "Meilleur jour de publication",
+              value: "Lundi",
+              important: false
             },
             {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
+              title: "Meilleur moment de publication",
+              value: "Après-midi (15h30)",
+              important: false
             },
             {
-              title: 'Likes',
-              value: '61%',
-              important: false,
+              title: "Likes",
+              value: "61%",
+              important: false
             },
             {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
+              title: "Dislikes",
+              value: "39%",
+              important: false
+            }
+          ]
         },
         {
           id: 5,
           averageData: [10, 20, 30, 40],
           averages: [
             {
-              title: 'Nombre de vues',
-              value: '367 093',
-              important: true,
+              title: "Nombre de vues",
+              value: "367 093",
+              important: true
             },
             {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
+              title: "Durée",
+              value: "3 minutes",
+              important: false
             },
             {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
+              title: "Meilleur jour de publication",
+              value: "Lundi",
+              important: false
             },
             {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
+              title: "Meilleur moment de publication",
+              value: "Après-midi (15h30)",
+              important: false
             },
             {
-              title: 'Likes',
-              value: '61%',
-              important: false,
+              title: "Likes",
+              value: "61%",
+              important: false
             },
             {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
+              title: "Dislikes",
+              value: "39%",
+              important: false
+            }
+          ]
         },
         {
           id: 6,
           averageData: [50, 30, 10, 45],
           averages: [
             {
-              title: 'Like / dislike',
-              value: '667 093',
-              important: true,
+              title: "Like / dislike",
+              value: "667 093",
+              important: true
             },
             {
-              title: 'Durée',
-              value: '3 minutes',
-              important: false,
+              title: "Durée",
+              value: "3 minutes",
+              important: false
             },
             {
-              title: 'Meilleur jour de publication',
-              value: 'Lundi',
-              important: false,
+              title: "Meilleur jour de publication",
+              value: "Lundi",
+              important: false
             },
             {
-              title: 'Meilleur moment de publication',
-              value: 'Après-midi (15h30)',
-              important: false,
+              title: "Meilleur moment de publication",
+              value: "Après-midi (15h30)",
+              important: false
             },
             {
-              title: 'Likes',
-              value: '61%',
-              important: false,
+              title: "Likes",
+              value: "61%",
+              important: false
             },
             {
-              title: 'Dislikes',
-              value: '39%',
-              important: false,
-            },
-          ],
-        },
+              title: "Dislikes",
+              value: "39%",
+              important: false
+            }
+          ]
+        }
       ],
       options: {
         title: {
-          text: undefined,
+          text: undefined
         },
         chart: {
           opacity: 1,
           clip: false,
           margin: [0, 0, 0, 0],
           width: null,
-          height: '95%',
-          polar: true,
+          height: "95%",
+          polar: true
         },
         legend: {
-          enabled: false,
+          enabled: false
         },
         tooltip: {
-          enabled: false,
+          enabled: false
         },
         xAxis: [
           {
-            type: 'category',
-            categories: ['Nombre de vue', 'Like', 'Durée', 'Dislike'],
+            type: "category",
+            categories: ["Nombre de vue", "Like", "Durée", "Dislike"],
             labels: {
               style: {
-                color: '#151515',
-                cursor: 'default',
-                fontSize: '13px',
-                textOverflow: 'none',
-                whiteSpace: 'nowrap',
-                fontFamily: 'Josefin Sans',
-                letterSpacing: '0.1px',
-              },
+                color: "#151515",
+                cursor: "default",
+                fontSize: "13px",
+                textOverflow: "none",
+                whiteSpace: "nowrap",
+                fontFamily: "Josefin Sans",
+                letterSpacing: "0.1px"
+              }
             },
-            tickColor: '#FF0000',
-            tickPosition: 'inside',
-            tickmarkPlacement: 'on',
+            tickColor: "#FF0000",
+            tickPosition: "inside",
+            tickmarkPlacement: "on",
             tickPixelInterval: 45,
-            gridLineColor: '#ddd',
-            lineColor: '#ddd',
-          },
+            gridLineColor: "#ddd",
+            lineColor: "#ddd"
+          }
         ],
         yAxis: {
-          gridLineColor: '#ddd',
+          gridLineColor: "#ddd",
           gridLineWidth: 0,
           labels: {
-            enabled: false,
-          },
+            enabled: false
+          }
         },
         series: [
           {
-            color: '#ee5355',
+            color: "#ee5355",
             fillOpacity: 0.65,
-            name: 'Column',
+            name: "Column",
             data: [],
-            pointPlacement: 'on',
+            pointPlacement: "on",
             lineWidth: 3,
             events: {
-              mouseOver: false,
+              mouseOver: false
             },
             enableMouseTracking: false,
-            type: 'area',
-            marker: false,
+            type: "area",
+            marker: false
           },
           {
-            color: '#3f78de',
+            color: "#3f78de",
             fillOpacity: 0.65,
-            name: 'Column2',
-            pointPlacement: 'on',
+            name: "Column2",
+            pointPlacement: "on",
             lineWidth: 3,
             data: [],
             events: {
-              mouseOver: false,
+              mouseOver: false
             },
             enableMouseTracking: false,
-            type: 'area',
+            type: "area",
             marker: false,
             animation: {
-              duration: 1000,
-            },
-          },
-        ],
+              duration: 1000
+            }
+          }
+        ]
       },
-      updateOptions: 0,
+      updateOptions: 0
     };
   },
   computed: {
@@ -361,48 +360,48 @@ export default {
     selectedCategory2() {
       return this.categories[this.selectedCategoryID2];
     },
-    ...mapGetters(['getSelectedCategories', 'getCompare']),
+    ...mapGetters(["getSelectedCategories", "getCompare"])
   },
   methods: {
     toggleCompare() {
-      this.$store.dispatch('toggleCompare');
+      this.$store.dispatch("toggleCompare");
     },
     toggleCompareData() {
       if (this.getCompare) {
-        this.$set(this.options.series[1], 'data', [
-          ...this.selectedCategory2.averageData,
+        this.$set(this.options.series[1], "data", [
+          ...this.selectedCategory2.averageData
         ]);
-        this.$set(this.options.series[1], 'lineWidth', 3);
+        this.$set(this.options.series[1], "lineWidth", 3);
       } else {
-        this.$set(this.options.series[1], 'data', [0, 0, 0, 0]);
-        this.$set(this.options.series[1], 'lineWidth', 0);
+        this.$set(this.options.series[1], "data", [0, 0, 0, 0]);
+        this.$set(this.options.series[1], "lineWidth", 0);
       }
-    },
+    }
   },
   watch: {
     selectedCategory1: {
       handler(newValue) {
-        this.$set(this.options.series[0], 'data', [...newValue.averageData]);
+        this.$set(this.options.series[0], "data", [...newValue.averageData]);
       },
-      immediate: true,
+      immediate: true
     },
     selectedCategory2: {
       handler(newValue) {
         this.toggleCompareData();
       },
-      immediate: true,
+      immediate: true
     },
     getSelectedCategories: {
       handler(newValue) {
         this.selectedCategoryID1 = newValue.category1;
         this.selectedCategoryID2 = newValue.category2;
       },
-      immediate: true,
+      immediate: true
     },
     getCompare(value) {
       this.toggleCompareData();
-    },
-  },
+    }
+  }
 };
 </script>
 
