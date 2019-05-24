@@ -28,13 +28,6 @@ const svg = container
    .attr("height", height)
    .append("g")
    .attr("transform", `translate(${margin.left},${margin.top})`);
-    // const svg = d3.select(this.$refs.barChart).append('svg')
-    //               .attr('width', width + margin.left + margin.right)
-    //               .attr('height', height + margin.top + margin.bottom)
-    // const g = svg.append("g")
-    //               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    // const barPadding = .2;
-    // const axisTicks = {qty: 5, outerSize: 0, dateFormat: '%m-%d'};
 
     d3.json('https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000')
       .then((data) => {
@@ -44,12 +37,12 @@ const svg = container
             i.value2 = i.value + 1 // temporaire en attente des comparaisons
           });
         console.log(numberOfPublicationByDay)
-        var xScale0 = d3.scaleBand().range([0, width - margin.left - margin.right]).padding(barPadding);
-        var xScale1 = d3.scaleBand();
-        var yScale = d3.scaleLinear().range([height - margin.top - margin.bottom, 0]);
+        const xScale0 = d3.scaleBand().range([0, width - margin.left - margin.right]).padding(barPadding);
+        const xScale1 = d3.scaleBand();
+        const yScale = d3.scaleLinear().range([height - margin.top - margin.bottom, 0]);
 
-        var xAxis = d3.axisBottom(xScale0).tickSizeOuter(axisTicks.outerSize);
-        var yAxis = d3.axisLeft(yScale).ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
+        const xAxis = d3.axisBottom(xScale0).tickSizeOuter(axisTicks.outerSize);
+        const yAxis = d3.axisLeft(yScale).ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
 
         xScale0.domain(numberOfPublicationByDay.map(d => d.label));
         xScale1.domain(['value', 'value2']).range([0, xScale0.bandwidth()]);
@@ -72,6 +65,7 @@ const svg = container
           .attr("width", xScale1.bandwidth())
           .attr("height", d => {
             return height - margin.top - margin.bottom - yScale(d.value)
+            return 0
           });
           chartName.selectAll(".bar.value2")
             .data(d => [d])
