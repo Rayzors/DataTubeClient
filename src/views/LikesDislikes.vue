@@ -3,16 +3,16 @@
     <div
       class="grid__left"
       v-parallax="0.2">
-      a<!-- <video-duration-stats :statsSide="1" /> -->
+      <likes-stats :likes="{ min: minLikes(1), max: maxLikes(1) }" :dislikes="{ min: minDislikes(1), max: maxDislikes(1) }" />
     </div>
 
     <div v-parallax="0.5" class="grid__center">
       <h2>Likes</h2>
-      <gauge-comparator title="Vidéo avec le plus de likes" :percentages="percentages('maxLikes')" />
-      <gauge-comparator title="Vidéo avec le moins de likes" :percentages="percentages('minLikes')" />
+      <gauge-comparator :showBoth="$store.state.compare" title="Vidéo avec le plus de likes" :percentages="percentages('maxLikes')" />
+      <gauge-comparator :showBoth="$store.state.compare" title="Vidéo avec le moins de likes" :percentages="percentages('minLikes')" />
       <h2>Dislikes</h2>
-      <gauge-comparator title="Vidéo avec le plus de dislikes" :percentages="percentages('maxDislikes')" />
-      <gauge-comparator title="Vidéo avec le moins de dislikes" :percentages="percentages('minDislikes')" />
+      <gauge-comparator :showBoth="$store.state.compare" title="Vidéo avec le plus de dislikes" :percentages="percentages('maxDislikes')" />
+      <gauge-comparator :showBoth="$store.state.compare" title="Vidéo avec le moins de dislikes" :percentages="percentages('minDislikes')" />
     </div>
 
     <div
@@ -20,7 +20,7 @@
       v-parallax="0.2"
     >
       <transition name="slide-fade" v-if="$store.state.compare">
-        <div>b</div><!-- <video-duration-stats :statsSide="2" /> -->
+        <likes-stats :likes="{ min: minLikes(2), max: maxLikes(2) }" :dislikes="{ min: minDislikes(2), max: maxDislikes(2) }" />
       </transition>
     </div>
   </div>
@@ -28,10 +28,11 @@
 
 <script>
 import gaugeComparator from '@/components/GaugeComparator.vue'
+import likesStats from '@/components/LikesStats.vue'
 import { api } from '@/api'
 
 export default {
-  components: { gaugeComparator },
+  components: { gaugeComparator, likesStats },
   computed: {
     minLikes () { return statsSide => this.$store.getters['getMinLikes'](statsSide) },
     maxLikes () { return statsSide => this.$store.getters['getMaxLikes'](statsSide) },

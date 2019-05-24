@@ -5,7 +5,7 @@
       <div class="gaugeComparatorGauge">
         <div class="gaugeComparatorGaugeFill left" :style="{ width: percentages[0] + '%' }"></div>
       </div>
-      <div class="gaugeComparatorGauge">
+      <div v-if="showBoth" class="gaugeComparatorGauge">
         <div class="gaugeComparatorGaugeFill right" :style="{ width: percentages[1] + '%' }"></div>
       </div>
     </div>
@@ -16,6 +16,10 @@
 export default {
   props: {
     title: String,
+    showBoth: {
+      type: Boolean,
+      default: false
+    },
     percentages: {
       type: Array,
       default: () => [0, 0]
