@@ -3,7 +3,7 @@
     <div class="portail__caption" v-parallax="0.2"  v-if="index === 0">
       <LogoSVG :ratio="2"/>
       <div class="portail__description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Créez du contenu impactant grâce à notre outil d’accompagnement à la création de vidéo.
       </div>
     </div>
     <!-- <div class="portail__image" v-parallax="0.2">
@@ -16,11 +16,12 @@
         @click="nextStep"
         class="portail__btn-next"
       >Suivant</button>
-      <!-- <router-link
+      <router-link
+        v-if="index === 2"
         @click="nextStep"
         class="portail__btn-next"
         :to="`/home/${slugifyName}`"
-      >Retour</router-link> -->
+      >Suivant</router-link>
       <button
         v-if="index >= 1"
         @click="prevStep"
@@ -123,11 +124,12 @@ $main-red: #ee5355;
       transition: fill 3s;
       text-transform: uppercase;
       outline: none;
+      text-decoration: none;
  
     }
     &-prev {
       position: absolute;
-      left: 12%;
+      left: 60px;
       top: 35%;
 
       cursor: pointer;
@@ -139,7 +141,8 @@ $main-red: #ee5355;
 
       
       &::before{
-        content: url("../assets/arrow_right.png")
+        content: url("../assets/arrow_right.svg");
+        padding-right: 10px;
       }
     }
   }
