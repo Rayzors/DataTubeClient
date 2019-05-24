@@ -12,6 +12,10 @@ const config = {
 const api = {
   fetchVideosDurations (region, videoCategory) {
     return axios.get(`${API_URL}/videos?region=${region}&videoCategory=${videoCategory}&filters[]=duration&filters[]=title`, config)
+  },
+
+  fetchVideosLikes (region, videoCategory) {
+    return axios.get(`${API_URL}/videos?region=${region}&videoCategory=${videoCategory}&filters[]=likeCount&filters[]=dislikeCount`, config)
   }
 }
 

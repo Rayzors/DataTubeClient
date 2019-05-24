@@ -12,7 +12,11 @@ const models = {
   stats: {
     maxVideoDuration: 0,
     minVideoDuration: 0,
-    averageVideoDuration: 0
+    averageVideoDuration: 0,
+    minLikes: 0,
+    maxLikes: 0,
+    minDislikes: 0,
+    maxDislikes: 0
   }
 }
 
@@ -125,6 +129,18 @@ export default new Vuex.Store({
     },
     setAverageVideoDuration(state, { statsSide, value }) {
       state['stats' + statsSide].averageVideoDuration = value
+    },
+    setMinLikes(state, { statsSide, value }) {
+      state['stats' + statsSide].minLikes = value
+    },
+    setMaxLikes(state, { statsSide, value }) {
+      state['stats' + statsSide].maxLikes = value
+    },
+    setMinDislikes(state, { statsSide, value }) {
+      state['stats' + statsSide].minDislikes = value
+    },
+    setMaxDislikes(state, { statsSide, value }) {
+      state['stats' + statsSide].maxDislikes = value
     }
   },
   actions: {
@@ -194,6 +210,10 @@ export default new Vuex.Store({
     getCompare: state => state.compare,
     getMaxVideoDuration: state => statsSide => state['stats' + statsSide].maxVideoDuration,
     getMinVideoDuration: state => statsSide => state['stats' + statsSide].minVideoDuration,
-    getAverageVideoDuration: state => statsSide => state['stats' + statsSide].averageVideoDuration
+    getAverageVideoDuration: state => statsSide => state['stats' + statsSide].averageVideoDuration,
+    getMinLikes: state => statsSide => state['stats' + statsSide].minLikes,
+    getMaxLikes: state => statsSide => state['stats' + statsSide].maxLikes,
+    getMinDislikes: state => statsSide => state['stats' + statsSide].minDislikes,
+    getMaxDislikes: state => statsSide => state['stats' + statsSide].maxDislikes,
   },
 });

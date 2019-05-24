@@ -8,11 +8,11 @@
 
     <div v-parallax="0.5" class="grid__center">
       <h2>Likes</h2>
-      <gauge-comparator title="Vidéo avec le plus de likes" :percentages="[90, 40]" />
-      <gauge-comparator title="Vidéo avec le moins de likes" :percentages="[90, 40]" />
+      <gauge-comparator title="Vidéo avec le plus de likes" :percentages="percentages('maxLikes')" />
+      <gauge-comparator title="Vidéo avec le moins de likes" :percentages="percentages('minLikes')" />
       <h2>Dislikes</h2>
-      <gauge-comparator title="Vidéo avec le plus de dislikes" :percentages="[90, 40]" />
-      <gauge-comparator title="Vidéo avec le moins de dislikes" :percentages="[90, 40]" />
+      <gauge-comparator title="Vidéo avec le plus de dislikes" :percentages="percentages('maxDislikes')" />
+      <gauge-comparator title="Vidéo avec le moins de dislikes" :percentages="percentages('minDislikes')" />
     </div>
 
     <div
@@ -28,9 +28,51 @@
 
 <script>
 import gaugeComparator from '@/components/GaugeComparator.vue'
+import { api } from '@/api'
 
 export default {
-  components: { gaugeComparator }
+  components: { gaugeComparator },
+  computed: {
+    minLikes () { return statsSide => this.$store.getters['getMinLikes'](statsSide) },
+    maxLikes () { return statsSide => this.$store.getters['getMaxLikes'](statsSide) },
+    minDislikes () { return statsSide => this.$store.getters['getMinDislikes'](statsSide) },
+    maxDislikes () { return statsSide => this.$store.getters['getMaxDislikes'](statsSide) },
+    percentages () {
+      return type => {
+        let side1 = this[type](1)
+        let side2 = this[type](2)
+        let higherSide = Math.max(side1, side2)
+        let lowerSide = Math.min(side1, side2)
+        return [
+          side1 / (higherSide || 1) * 100,
+          side2 / (higherSide || 1) * 100
+        ]
+      }
+    }
+  },
+  async mounted () {
+    const datas = (await api.fetchVideosLikes('france', 'musique')).data
+    let maxLikes = 0
+    let minLikes = datas.length ? datas[0].likeCount : 0
+    let maxDislikes = 0
+    let minDislikes = datas.length ? datas[0].dislikeCount : 0
+    datas.forEach(data => {
+      let likeCount = data.likeCount
+      let dislikeCount = data.dislikeCount
+      if (likeCount > maxLikes) { maxLikes = likeCount }
+      if (likeCount < minLikes) { minLikes = likeCount }
+      if (dislikeCount > maxDislikes) { maxDislikes = dislikeCount }
+      if (dislikeCount < maxDislikes) { minDislikes = dislikeCount }
+    })
+    this.$store.commit('setMinLikes', { statsSide: 1, value: minLikes })
+    this.$store.commit('setMaxLikes', { statsSide: 1, value: maxLikes })
+    this.$store.commit('setMinDislikes', { statsSide: 1, value: minDislikes })
+    this.$store.commit('setMaxDislikes', { statsSide: 1, value: maxDislikes })
+    this.$store.commit('setMinLikes', { statsSide: 2, value: 1000 })
+    this.$store.commit('setMaxLikes', { statsSide: 2, value: 500000 })
+    this.$store.commit('setMinDislikes', { statsSide: 2, value: 100 })
+    this.$store.commit('setMaxDislikes', { statsSide: 2, value: 5000 })
+  }
 }
 </script>
 
