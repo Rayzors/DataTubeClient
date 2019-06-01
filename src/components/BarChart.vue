@@ -27,10 +27,12 @@ export default {
         const { numberOfPublicationByDay } = this.datas;
         numberOfPublicationByDay.forEach((i) => {
           // eslint-disable-next-line no-param-reassign
-          i.value2 = i.value + 1; // temporaire en attente des comparaisons
+          i.value2 = i.value; // temporaire en attente des comparaisons
         });
         this.chart.selectAll('.bar.value')
-          .attr('transform', d => `translate(${this.xScale0(d.label)},0)`);
+          .transition()
+          .duration(1000)
+          .attr('transform', d => `translate(${this.xScale0(d.label) - 2},0)`);
         this.chart.selectAll('.bar.value2')
           .attr('height', () => 0)
           .transition()
@@ -39,6 +41,9 @@ export default {
           .attr('height', d => this.height - this.margin.top - this.margin.bottom - this.yScale(d.value2));
       } else {
         this.chart.selectAll('.bar.value')
+          .transition()
+          .delay((d, i) => 100 * i)
+          .duration(1000)
           .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 2)},0)`);
         this.chart.selectAll('.bar.value2')
           .attr('height', () => 0);
@@ -56,7 +61,7 @@ export default {
     this.margin = {
       top: 30, right: 20, bottom: 30, left: 50,
     };
-    const barPadding = 0.2;
+    const barPadding = 0.5;
     const axisTicks = { qty: 5, outerSize: 0, dateFormat: '%m-%d' };
 
     const svg = container.append('svg')
@@ -65,8 +70,10 @@ export default {
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
+
     const defs = svg.append('defs');
 
+    // GRADIENTS
     const gradient1 = defs.append('linearGradient')
       .attr('id', 'svgGradient')
       .attr('x1', '0%')
@@ -110,7 +117,7 @@ export default {
       numberOfPublicationByDay.push(numberOfPublicationByDay.shift());
       numberOfPublicationByDay.forEach((i) => {
         // eslint-disable-next-line no-param-reassign
-        i.value2 = i.value + 1; // temporaire en attente des comparaisons
+        i.value2 = i.value; // temporaire en attente des comparaisons
       });
       console.log(numberOfPublicationByDay);
       this.xScale0 = d3.scaleBand()
@@ -119,10 +126,25 @@ export default {
       this.xScale1 = d3.scaleBand();
       this.yScale = d3.scaleLinear().range([this.height - this.margin.top - this.margin.bottom, 0]);
 
+      /**
+       * Grids
+       */
+      // svg.append('g')
+      //   .attr('class', 'd3-grid')
+      //   .call(d3.axisLeft(this.yScale)
+      //     .tickValues([
+      //       // d3.min(numberOfPublicationByDay, d => d.value),
+      //       // d3.max(numberOfPublicationByDay, d => d.value),
+      //     ])
+      //     .tickSize(-this.width)
+      //     .tickFormat('%'));
+
       const xAxis = d3.axisBottom(this.xScale0)
         .tickSizeOuter(axisTicks.outerSize);
       const yAxis = d3.axisLeft(this.yScale)
         .ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
+
+      const self = this;
 
       this.xScale0.domain(numberOfPublicationByDay.map(d => d.label));
       this.xScale1.domain(['value', 'value2']).range([0, this.xScale0.bandwidth()]);
@@ -140,10 +162,10 @@ export default {
         .enter()
         .append('rect')
         .attr('class', 'bar value')
-        .style('fill', 'url(#svgGradient)')
+        .style('fill', 'url(#svgGradient2)')
         .attr('x', () => this.xScale1('value'))
         .attr('y', () => this.height)
-        .attr('width', this.xScale1.bandwidth())
+        .attr('width', () => this.xScale1.bandwidth())
         .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 2)},0)`)
         .attr('height', () => 0)
         .transition()
@@ -156,7 +178,7 @@ export default {
         .enter()
         .append('rect')
         .attr('class', 'bar value2')
-        .style('fill', 'url(#svgGradient2)')
+        .style('fill', 'url(#svgGradient)')
         .attr('x', () => this.xScale1('value2'))
         .attr('y', d => this.yScale(d.value2))
         .attr('width', this.xScale1.bandwidth())
@@ -182,6 +204,23 @@ export default {
       svg.append('g')
         .attr('class', 'y axis')
         .call(yAxis);
+
+      this.chart.selectAll('.bar')
+        // eslint-disable-next-line no-unused-vars
+        .on('mouseenter', function mouseenter(actual, i) {
+          d3.select(this).attr('opacity', 0.5);
+
+          svg.append('line')
+            .attr('x1', 0)
+            .attr('y1', this.y)
+            .attr('x2', self.width)
+            .attr('y2', this.y)
+            .attr('stroke', 'red');
+        })
+        // eslint-disable-next-line no-unused-vars
+        .on('mouseleave', function mouseleave(actual, i) {
+          d3.select(this).attr('opacity', 1);
+        });
     });
   },
   watch: {
