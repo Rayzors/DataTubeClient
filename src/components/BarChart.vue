@@ -22,17 +22,43 @@ export default {
     ...mapGetters(['getCompare']),
   },
   methods: {
-    updateData() {
+    toggleChart() {
+      const { numberOfPublicationByDay } = this.datas;
+      numberOfPublicationByDay.forEach((el) => {
+        if (el.value === d3.max(numberOfPublicationByDay, datum => datum.value)) {
+          this.svg.select('.maxRed')
+            .style('opacity', 1)
+            .attr('y1', () => this.yScale(el.value))
+            .attr('y2', () => this.yScale(el.value));
+        }
+        if (el.value2 === d3.max(numberOfPublicationByDay, datum => datum.value2)) {
+          this.svg.select('.maxBlue')
+            .style('opacity', 1)
+            .attr('y1', () => this.yScale(el.value2))
+            .attr('y2', () => this.yScale(el.value2));
+        }
+        if (el.value === d3.min(numberOfPublicationByDay, datum => datum.value)) {
+          this.svg.select('.minRed')
+            .style('opacity', 1)
+            .attr('y1', () => this.yScale(el.value))
+            .attr('y2', () => this.yScale(el.value));
+        }
+        if (el.value2 === d3.min(numberOfPublicationByDay, datum => datum.value2)) {
+          this.svg.select('.minBlue')
+            .style('opacity', 1)
+            .attr('y1', () => this.yScale(el.value2))
+            .attr('y2', () => this.yScale(el.value2));
+        }
+      });
       if (this.getCompare) {
-        const { numberOfPublicationByDay } = this.datas;
-        numberOfPublicationByDay.forEach((i) => {
-          // eslint-disable-next-line no-param-reassign
-          i.value2 = i.value; // temporaire en attente des comparaisons
+        numberOfPublicationByDay.forEach((el) => {
+          // eslint-disable-next-line radix, no-param-reassign
+          el.value2 = el.value + 2;
         });
         this.chart.selectAll('.bar.value')
           .transition()
           .duration(1000)
-          .attr('transform', d => `translate(${this.xScale0(d.label) - 2},0)`);
+          .attr('transform', d => `translate(${this.xScale0(d.label) - 12},0)`);
         this.chart.selectAll('.bar.value2')
           .attr('height', () => 0)
           .transition()
@@ -42,12 +68,26 @@ export default {
       } else {
         this.chart.selectAll('.bar.value')
           .transition()
+          .delay(() => 300)
+          .duration(700)
+          .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 3)},0)`);
+        this.chart.selectAll('.bar.value2')
+          .transition()
           .delay((d, i) => 100 * i)
           .duration(1000)
-          .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 2)},0)`);
-        this.chart.selectAll('.bar.value2')
-          .attr('height', () => 0);
+          .attr('x', () => this.xScale1('value2'))
+          .attr('y', () => this.height - this.margin.bottom * 2)
+          .attr('width', this.xScale1.bandwidth() * 1.5)
+          .attr('height', () => 0)
+          .attr('transform', d => `translate(${this.xScale0(d.label) + 2},0)`);
       }
+    },
+    updateData() {
+      // this.yScale
+      //   .domain([0,
+      //     d3.max("numberOfPublicationByDay", d => (d.value > d.value2 ? d.value : d.value2)),
+      //   ]);
+      return false;
     },
   },
   mounted() {
@@ -56,22 +96,22 @@ export default {
     days.forEach(day => this.chartDatas.push({ category: day, values: [] }));
 
     const container = d3.select(this.$refs.barChart);
-    this.width = 500;
-    this.height = 300;
+    this.width = 700;
+    this.height = 500;
     this.margin = {
       top: 30, right: 20, bottom: 30, left: 50,
     };
     const barPadding = 0.5;
     const axisTicks = { qty: 5, outerSize: 0, dateFormat: '%m-%d' };
 
-    const svg = container.append('svg')
+    this.svg = container.append('svg')
       .attr('width', this.width)
       .attr('height', this.height)
       .append('g')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
 
-    const defs = svg.append('defs');
+    const defs = this.svg.append('defs');
 
     // GRADIENTS
     const gradient1 = defs.append('linearGradient')
@@ -111,52 +151,53 @@ export default {
       .attr('stop-color', '#ff9e8f')
       .attr('stop-opacity', 1);
 
+
+    // Get data
     d3.json('https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/2/subscribers/10000-100000').then((data) => {
       const { numberOfPublicationByDay } = data;
       this.datas = data;
       numberOfPublicationByDay.push(numberOfPublicationByDay.shift());
       numberOfPublicationByDay.forEach((i) => {
         // eslint-disable-next-line no-param-reassign
-        i.value2 = i.value; // temporaire en attente des comparaisons
+        i.value2 = i.value + 1; // temporaire en attente des comparaisons
       });
-      console.log(numberOfPublicationByDay);
       this.xScale0 = d3.scaleBand()
         .range([0, this.width - this.margin.left - this.margin.right])
         .padding(barPadding);
       this.xScale1 = d3.scaleBand();
+      // setting values scale (number => height)
       this.yScale = d3.scaleLinear().range([this.height - this.margin.top - this.margin.bottom, 0]);
 
-      /**
-       * Grids
-       */
-      // svg.append('g')
-      //   .attr('class', 'd3-grid')
-      //   .call(d3.axisLeft(this.yScale)
-      //     .tickValues([
-      //       // d3.min(numberOfPublicationByDay, d => d.value),
-      //       // d3.max(numberOfPublicationByDay, d => d.value),
-      //     ])
-      //     .tickSize(-this.width)
-      //     .tickFormat('%'));
 
       const xAxis = d3.axisBottom(this.xScale0)
         .tickSizeOuter(axisTicks.outerSize);
-      const yAxis = d3.axisLeft(this.yScale)
-        .ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
-
-      const self = this;
 
       this.xScale0.domain(numberOfPublicationByDay.map(d => d.label));
       this.xScale1.domain(['value', 'value2']).range([0, this.xScale0.bandwidth()]);
       this.yScale
         .domain([0,
-          d3.max(numberOfPublicationByDay, d => (d.value > d.value2 ? d.value : d.value2))]);
+          d3.max(numberOfPublicationByDay, d => (d.value > d.value2 ? d.value : d.value2)),
+        ]);
 
-      this.chart = svg.selectAll('.model_name')
+      this.svg.append('line')
+        .attr('class', 'maxRed');
+      this.svg.append('line')
+        .attr('class', 'minRed');
+      this.svg.append('line')
+        .attr('class', 'maxBlue')
+        .style('opacity', 0);
+      this.svg.append('line')
+        .attr('class', 'minBlue')
+        .style('opacity', 0);
+
+      // append bars foreach values
+      this.chart = this.svg.selectAll('.bars')
         .data(numberOfPublicationByDay)
         .enter().append('g')
-        .attr('class', 'model_name');
+        .attr('class', 'bars');
 
+
+      // set red bars values
       this.chart.selectAll('.bar.value')
         .data(d => [d])
         .enter()
@@ -164,15 +205,16 @@ export default {
         .attr('class', 'bar value')
         .style('fill', 'url(#svgGradient2)')
         .attr('x', () => this.xScale1('value'))
-        .attr('y', () => this.height)
-        .attr('width', () => this.xScale1.bandwidth())
-        .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 2)},0)`)
+        .attr('y', () => this.height - this.margin.bottom * 2)
+        .attr('width', () => this.xScale1.bandwidth() * 1.5)
+        .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 3)},0)`)
         .attr('height', () => 0)
         .transition()
         .duration(1500)
         .attr('y', d => this.yScale(d.value))
         .attr('height', d => this.height - this.margin.top - this.margin.bottom - this.yScale(d.value));
 
+      // set blue bars values
       this.chart.selectAll('.bar.value2')
         .data(d => [d])
         .enter()
@@ -180,10 +222,55 @@ export default {
         .attr('class', 'bar value2')
         .style('fill', 'url(#svgGradient)')
         .attr('x', () => this.xScale1('value2'))
-        .attr('y', d => this.yScale(d.value2))
-        .attr('width', this.xScale1.bandwidth())
+        .attr('y', () => this.height - this.margin.bottom * 2)
+        .attr('width', this.xScale1.bandwidth() * 1.5)
         .attr('height', () => 0)
-        .attr('transform', d => `translate(${this.xScale0(d.label)},0)`);
+        .attr('transform', d => `translate(${this.xScale0(d.label) + 2},0)`);
+
+      // append min max bars
+      numberOfPublicationByDay.forEach((d) => {
+        if (d.value === d3.max(numberOfPublicationByDay, datum => datum.value)) {
+          this.svg.select('.maxRed')
+            .attr('x1', 0)
+            .attr('y1', () => this.yScale(d.value))
+            .attr('x2', () => this.width)
+            .attr('y2', () => this.yScale(d.value))
+            .attr('stroke', '#de543f');
+        }
+        if (d.value === d3.min(numberOfPublicationByDay, datum => datum.value)) {
+          this.svg.select('.minRed')
+            .attr('x1', 0)
+            .attr('y1', () => this.yScale(d.value))
+            .attr('x2', () => this.width)
+            .attr('y2', () => this.yScale(d.value))
+            .attr('stroke', '#de543f');
+        }
+        if (d.value2 === d3.max(numberOfPublicationByDay, datum => datum.value2)) {
+          this.svg.select('.maxBlue')
+            .attr('x1', 0)
+            .attr('y1', () => this.yScale(d.value2))
+            .attr('x2', () => this.width)
+            .attr('y2', () => this.yScale(d.value2))
+            .attr('stroke', '#3f78de');
+        }
+        if (d.value2 === d3.min(numberOfPublicationByDay, datum => datum.value2)) {
+          this.svg.select('.minBlue')
+            .attr('x1', 0)
+            .attr('y1', () => this.yScale(d.value2))
+            .attr('x2', () => this.width)
+            .attr('y2', () => this.yScale(d.value2))
+            .attr('stroke', '#3f78de');
+          this.chart.selectAll('.minBlue')
+            .style('opacity', 0);
+          this.chart.select('.maxBlue')
+            .style('opacity', 0);
+        }
+      });
+      // append text values
+      this.chart.selectAll('.bar.value2')
+        .data(d => [d])
+        .enter()
+        .append('text');
 
       this.chart.selectAll('.bar')
         .data(d => [d])
@@ -196,39 +283,18 @@ export default {
         .attr('y', d => this.height - this.yScale(d))
         .text(d => d);
 
-      svg.append('g')
+      // append days ticks axis
+      this.svg.append('g')
         .attr('class', 'x axis')
         .attr('transform', `translate(0,${this.height - this.margin.top - this.margin.bottom})`)
         .call(xAxis);
-
-      svg.append('g')
-        .attr('class', 'y axis')
-        .call(yAxis);
-
-      this.chart.selectAll('.bar')
-        // eslint-disable-next-line no-unused-vars
-        .on('mouseenter', function mouseenter(actual, i) {
-          d3.select(this).attr('opacity', 0.5);
-
-          svg.append('line')
-            .attr('x1', 0)
-            .attr('y1', this.y)
-            .attr('x2', self.width)
-            .attr('y2', this.y)
-            .attr('stroke', 'red');
-        })
-        // eslint-disable-next-line no-unused-vars
-        .on('mouseleave', function mouseleave(actual, i) {
-          d3.select(this).attr('opacity', 1);
-        });
     });
   },
   watch: {
     getCompare() {
-      this.updateData();
+      this.toggleChart();
     },
   },
-
 };
 </script>
 
