@@ -8,7 +8,7 @@
       @blur="close"
       @keyup.enter="select()"
     >
-    <ul class="select__dropdown" v-show="isOpen">
+    <ul class="select__dropdown" v-show="isOpen" v-if="options.length">
       <li v-for="(option, i) in filteredOptions" :key="i">
         <div
           class="option"
@@ -32,10 +32,10 @@ export default {
       type: String,
       required: true,
     },
-    mutation: {
+    column: {
       type: String,
       required: true,
-      default: '',
+      default: '1',
     },
   },
   data() {
@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     filteredOptions() {
-      return this.options.filter(option => option.label.match(new RegExp(this.searchFilter, 'gi')),);
+      return this.options.filter(option => option.label.match(new RegExp(this.searchFilter, 'i')),);
     },
   },
   watch: {
@@ -89,12 +89,21 @@ export default {
           [this.picked] = this.filteredOptions;
         }
         this.$store.dispatch('setSelect', {
+          column: this.column,
           index: this.name,
-          mutationName: this.mutation,
           value: picked.value,
         });
       },
       immediate: true,
+    },
+    options(newVal) {
+      const isSelected = newVal.some(
+        option => option.value === this.picked.value,
+      );
+      if (!isSelected) {
+        [this.picked] = newVal;
+        this.searchFilter = this.picked.label;
+      }
     },
   },
 };

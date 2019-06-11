@@ -1,428 +1,314 @@
 <template>
   <div class="grid">
+    <section-title
+      v-parallax="0.1"
+      class="section_title"
+      title="Moyenne des catégories"
+      edito="Vous pourrez comprendre ce qui marche autour de vous."
+    />
     <div class="grid__left" v-parallax="0.2">
-      <home-block
-        v-for="(average, i) in selectedCategory1.averages"
-        :key="i"
-        :title="average.title"
-        :value="average.value"
-        :important="average.important"
-      />
+      <div class="information__container">
+        <home-block
+          v-for="(block, i) in column1"
+          :key="i"
+          :title="block.title"
+          :value="block.value"
+          :important="block.important"
+          :type="block.type"
+        />
+      </div>
     </div>
 
     <div class="grid__center">
       <high-charts
         v-parallax="0.5"
-        :values="selectedCategory1.averageData"
+        :values="averageData1"
         :options="options"
         :updateOptions="updateOptions"
       />
     </div>
 
     <div class="grid__right" v-parallax="0.2">
-      <button @click="toggleCompare">Lol compare</button>
-      <transition-group name="slide-fade">
-        <home-block
-          v-if="$store.state.compare"
-          v-for="(average, i) in selectedCategory2.averages"
-          :key="i"
-          :title="average.title"
-          :value="average.value"
-          :important="average.important"
-          :alignRight="true"
-        />
-      </transition-group>
+      <div class="information__container">
+        <transition-group name="slide-fade">
+          <home-block
+            v-if="getCompare"
+            v-for="(block, i) in column2"
+            :key="i"
+            :title="block.title"
+            :value="block.value"
+            :important="block.important"
+            :type="block.type"
+            :alignRight="true"
+          />
+        </transition-group>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import HomeBlock from "@/components/HomeBlock.vue";
-import HighCharts from "@/components/HighCharts.vue";
-import { mapGetters } from "vuex";
+import HomeBlock from '@/components/HomeBlock.vue';
+import HighCharts from '@/components/HighCharts.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     HighCharts,
-    HomeBlock
+    HomeBlock,
+    SectionTitle,
   },
   data() {
     return {
-      selectedCategoryID1: 1, // le premier id dans categories
-      selectedCategoryID2: 1,
-      categories: [
+      models: [
         {
-          id: 1,
-          averageData: [38.6593, 28, 40, 45],
-          averages: [
-            {
-              title: "Nombre de vues",
-              value: "1 667 093",
-              important: true
-            },
-            {
-              title: "Durée moyenne des vidéos",
-              value: "3 minutes",
-              important: false
-            },
-            {
-              title: "Meilleur moment de publication",
-              value: "Lundi",
-              important: false
-            },
-            {
-              title: "Meilleur moment de publication",
-              value: "Après-midi (15h30)",
-              important: false
-            },
-            {
-              title: "Likes",
-              value: "61%",
-              important: false
-            },
-            {
-              title: "Dislikes",
-              value: "39%",
-              important: false
-            }
-          ]
+          title: 'Nombre de vues',
+          value: 'averageViewCount',
+          type: 'string',
+          important: true,
         },
         {
-          id: 2,
-          averageData: [18, 28, 40, 10],
-          averages: [
-            {
-              title: "Nombre de vues",
-              value: "1 500 000",
-              important: true
-            },
-            {
-              title: "Durée",
-              value: "3 minutes",
-              important: false
-            },
-            {
-              title: "Meilleur jour de publication",
-              value: "Lundi",
-              important: false
-            },
-            {
-              title: "Meilleur moment de publication",
-              value: "Après-midi (15h30)",
-              important: false
-            },
-            {
-              title: "Likes",
-              value: "61%",
-              important: false
-            },
-            {
-              title: "Dislikes",
-              value: "39%",
-              important: false
-            }
-          ]
+          title: 'Durée moyenne des vidéos',
+          value: 'averageTime',
+          type: 'string',
+          important: false,
         },
         {
-          id: 3,
-          averageData: [50, 28, 20, 45],
-          averages: [
-            {
-              title: "Nombre de vues",
-              value: "1 000 093",
-              important: true
-            },
-            {
-              title: "Durée",
-              value: "3 minutes",
-              important: false
-            },
-            {
-              title: "Meilleur jour de publication",
-              value: "Lundi",
-              important: false
-            },
-            {
-              title: "Meilleur moment de publication",
-              value: "Après-midi (15h30)",
-              important: false
-            },
-            {
-              title: "Likes",
-              value: "61%",
-              important: false
-            },
-            {
-              title: "Dislikes",
-              value: "39%",
-              important: false
-            }
-          ]
+          title: 'Meilleur moment de publication',
+          value: 'bestNumberOfPublication',
+          type: 'object',
+          important: false,
         },
         {
-          id: 4,
-          averageData: [50, 30, 10, 45],
-          averages: [
-            {
-              title: "Nombre de vues",
-              value: "667 093",
-              important: true
-            },
-            {
-              title: "Durée",
-              value: "3 minutes",
-              important: false
-            },
-            {
-              title: "Meilleur jour de publication",
-              value: "Lundi",
-              important: false
-            },
-            {
-              title: "Meilleur moment de publication",
-              value: "Après-midi (15h30)",
-              important: false
-            },
-            {
-              title: "Likes",
-              value: "61%",
-              important: false
-            },
-            {
-              title: "Dislikes",
-              value: "39%",
-              important: false
-            }
-          ]
+          title: 'Meilleur moment de publication',
+          value: 'bestTimeOfPublication',
+          type: 'object',
+          important: false,
         },
         {
-          id: 5,
-          averageData: [10, 20, 30, 40],
-          averages: [
-            {
-              title: "Nombre de vues",
-              value: "367 093",
-              important: true
-            },
-            {
-              title: "Durée",
-              value: "3 minutes",
-              important: false
-            },
-            {
-              title: "Meilleur jour de publication",
-              value: "Lundi",
-              important: false
-            },
-            {
-              title: "Meilleur moment de publication",
-              value: "Après-midi (15h30)",
-              important: false
-            },
-            {
-              title: "Likes",
-              value: "61%",
-              important: false
-            },
-            {
-              title: "Dislikes",
-              value: "39%",
-              important: false
-            }
-          ]
+          title: 'Likes / Dislike',
+          value: 'likePourcentage',
+          type: 'string',
+          important: false,
         },
         {
-          id: 6,
-          averageData: [50, 30, 10, 45],
-          averages: [
-            {
-              title: "Like / dislike",
-              value: "667 093",
-              important: true
-            },
-            {
-              title: "Durée",
-              value: "3 minutes",
-              important: false
-            },
-            {
-              title: "Meilleur jour de publication",
-              value: "Lundi",
-              important: false
-            },
-            {
-              title: "Meilleur moment de publication",
-              value: "Après-midi (15h30)",
-              important: false
-            },
-            {
-              title: "Likes",
-              value: "61%",
-              important: false
-            },
-            {
-              title: "Dislikes",
-              value: "39%",
-              important: false
-            }
-          ]
-        }
+          title: 'Tags les plus utilisés',
+          value: 'bestTags',
+          type: 'array',
+          important: false,
+        },
       ],
       options: {
         title: {
-          text: undefined
+          text: undefined,
         },
         chart: {
           opacity: 1,
           clip: false,
           margin: [0, 0, 0, 0],
           width: null,
-          height: "95%",
-          polar: true
+          height: '95%',
+          polar: true,
         },
         legend: {
-          enabled: false
+          enabled: false,
         },
         tooltip: {
-          enabled: false
+          enabled: false,
         },
         xAxis: [
           {
-            type: "category",
-            categories: ["Nombre de vue", "Like", "Durée", "Dislike"],
+            type: 'category',
+            categories: ['Nombre de vue', 'Like', 'Durée', 'Dislike'],
             labels: {
               style: {
-                color: "#151515",
-                cursor: "default",
-                fontSize: "13px",
-                textOverflow: "none",
-                whiteSpace: "nowrap",
-                fontFamily: "Josefin Sans",
-                letterSpacing: "0.1px"
-              }
+                color: '#151515',
+                cursor: 'default',
+                fontSize: '13px',
+                textOverflow: 'none',
+                whiteSpace: 'nowrap',
+                fontFamily: 'Josefin Sans',
+                letterSpacing: '0.1px',
+              },
             },
-            tickColor: "#FF0000",
-            tickPosition: "inside",
-            tickmarkPlacement: "on",
+            tickColor: '#FF0000',
+            tickPosition: 'inside',
+            tickmarkPlacement: 'on',
             tickPixelInterval: 45,
-            gridLineColor: "#ddd",
-            lineColor: "#ddd"
-          }
+            gridLineColor: '#ddd',
+            lineColor: '#ddd',
+          },
         ],
         yAxis: {
-          gridLineColor: "#ddd",
+          gridLineColor: '#ddd',
           gridLineWidth: 0,
           labels: {
-            enabled: false
-          }
+            enabled: false,
+          },
+          max: 100,
         },
         series: [
           {
-            color: "#ee5355",
+            color: '#ee5355',
             fillOpacity: 0.65,
-            name: "Column",
+            name: 'Column',
             data: [],
-            pointPlacement: "on",
+            pointPlacement: 'on',
             lineWidth: 3,
             events: {
-              mouseOver: false
+              mouseOver: false,
             },
             enableMouseTracking: false,
-            type: "area",
-            marker: false
+            type: 'area',
+            marker: false,
           },
           {
-            color: "#3f78de",
+            color: '#3f78de',
             fillOpacity: 0.65,
-            name: "Column2",
-            pointPlacement: "on",
+            name: 'Column2',
+            pointPlacement: 'on',
             lineWidth: 3,
             data: [],
             events: {
-              mouseOver: false
+              mouseOver: false,
             },
             enableMouseTracking: false,
-            type: "area",
+            type: 'area',
             marker: false,
             animation: {
-              duration: 1000
-            }
-          }
-        ]
+              duration: 1000,
+            },
+          },
+        ],
       },
-      updateOptions: 0
+      updateOptions: 0,
     };
   },
   computed: {
-    selectedCategory1() {
-      return this.categories[this.selectedCategoryID1];
+    column1() {
+      return this.models.map(model => ({
+        ...model,
+        value: this.getColumn1Datas[model.value],
+      }));
     },
-    selectedCategory2() {
-      return this.categories[this.selectedCategoryID2];
+    column2() {
+      return this.models.map(model => ({
+        ...model,
+        value: this.getColumn2Datas[model.value],
+      }));
     },
-    ...mapGetters(["getSelectedCategories", "getCompare"])
+    averageData1() {
+      return [
+        Math.round(
+          (this.getColumn1Datas.averageViewCount * 100)
+            / (this.getColumn2Datas.averageViewCount
+              + this.getColumn1Datas.averageViewCount),
+        ),
+        this.getColumn1Datas.likePourcentage,
+        Math.round(
+          (this.getColumn1Datas.averageTime * 100)
+            / (this.getColumn1Datas.averageTime
+              + this.getColumn2Datas.averageTime),
+        ),
+        this.getColumn1Datas.dislikePourcentage,
+      ];
+    },
+    averageData2() {
+      return [
+        Math.round(
+          (this.getColumn2Datas.averageViewCount * 100)
+            / (this.getColumn2Datas.averageViewCount
+              + this.getColumn1Datas.averageViewCount),
+        ),
+        this.getColumn2Datas.likePourcentage,
+        Math.round(
+          (this.getColumn2Datas.averageTime * 100)
+            / (this.getColumn1Datas.averageTime
+              + this.getColumn2Datas.averageTime),
+        ),
+        this.getColumn2Datas.dislikePourcentage,
+      ];
+    },
+    ...mapGetters([
+      'getColumn1Selection',
+      'getColumn2Selection',
+      'getColumn1Datas',
+      'getColumn2Datas',
+      'getCompare',
+    ]),
   },
   methods: {
     toggleCompare() {
-      this.$store.dispatch("toggleCompare");
+      this.$store.dispatch('toggleCompare');
     },
     toggleCompareData() {
       if (this.getCompare) {
-        this.$set(this.options.series[1], "data", [
-          ...this.selectedCategory2.averageData
-        ]);
-        this.$set(this.options.series[1], "lineWidth", 3);
+        this.$set(this.options.series[1], 'data', [...this.averageData2]);
+        this.$set(this.options.series[1], 'lineWidth', 3);
       } else {
-        this.$set(this.options.series[1], "data", [0, 0, 0, 0]);
-        this.$set(this.options.series[1], "lineWidth", 0);
+        this.$set(this.options.series[1], 'data', [0, 0, 0, 0]);
+        this.$set(this.options.series[1], 'lineWidth', 0);
       }
-    }
+    },
   },
   watch: {
-    selectedCategory1: {
-      handler(newValue) {
-        this.$set(this.options.series[0], "data", [...newValue.averageData]);
+    getColumn1Datas: {
+      handler() {
+        this.$set(this.options.series[0], 'data', [...this.averageData1]);
       },
-      immediate: true
+      immediate: true,
     },
-    selectedCategory2: {
-      handler(newValue) {
+    getColumn2Datas: {
+      handler() {
         this.toggleCompareData();
       },
-      immediate: true
+      immediate: true,
     },
-    getSelectedCategories: {
-      handler(newValue) {
-        this.selectedCategoryID1 = newValue.category1;
-        this.selectedCategoryID2 = newValue.category2;
-      },
-      immediate: true
-    },
-    getCompare(value) {
+    getCompare() {
       this.toggleCompareData();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 .grid {
   display: grid;
+  grid-template-areas:
+    "a a a"
+    "b c d";
   grid-template-columns: 1fr auto 1fr;
-  grid-gap: 0;
+  grid-template-rows: max-content auto;
+  grid-gap: 1em;
   align-items: center;
-  height: 100vh;
+  padding-top: 12vh;
   z-index: 3;
   position: relative;
 
+  .section_title {
+    grid-area: a;
+  }
+
   &__center {
+    grid-area: c;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
   }
 
   &__right {
-    display: block;
+    grid-area: d;
+  }
+
+  &__left {
+    grid-area: b;
+  }
+
+  &__right,
+  &__left {
+    display: flex;
+    flex-flow: column wrap;
   }
 }
 

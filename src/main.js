@@ -9,6 +9,16 @@ Vue.use(VueParticles);
 
 Vue.config.productionTip = false;
 
+Vue.filter('numberWithSpace', (value) => {
+  const newValue = value.toString();
+  return newValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+});
+
+Vue.filter('secondToMinute', (value) => {
+  const newValue = value.toString();
+  return newValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+});
+
 new Vue({
   router,
   store,

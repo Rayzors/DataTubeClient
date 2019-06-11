@@ -1,6 +1,5 @@
 <template>
-<div id="container">
-</div>
+  <div id="container"></div>
 </template>
 
 <script>
@@ -25,23 +24,34 @@ export default {
     };
   },
   mounted() {
-    this.chart = Highcharts.chart('container', this.options);
-    this.chart.update(this.options);
+    if (!this.$store.state.isLoading) {
+      this.chart = Highcharts.chart('container', this.options);
+      this.chart.update(this.options);
+    }
   },
   watch: {
-    options: {
+    options: {
       handler(newValue) {
         if (this.chart) {
-          const [newData1, newData2] = [newValue.series[0].data, newValue.series[1].data];
-          const [newLineWidth1, newLineWidth2] = [newValue.series[0].lineWidth, newValue.series[1].lineWidth];
+          const [newData1, newData2] = [
+            newValue.series[0].data,
+            newValue.series[1].data,
+          ];
+          const [newLineWidth1, newLineWidth2] = [
+            newValue.series[0].lineWidth,
+            newValue.series[1].lineWidth,
+          ];
           this.chart.update({
-            series: [{
-              data: newData1,
-              lineWidth: newLineWidth1,
-            }, {
-              data: newData2,
-              lineWidth: newLineWidth2,
-            }],
+            series: [
+              {
+                data: newData1,
+                lineWidth: newLineWidth1,
+              },
+              {
+                data: newData2,
+                lineWidth: newLineWidth2,
+              },
+            ],
           });
         }
       },
@@ -52,7 +62,9 @@ export default {
 </script>
 
 <style lang="scss">
-.highcharts-credits { display: none; }
+.highcharts-credits {
+  display: none;
+}
 #container {
   width: 100%;
 }

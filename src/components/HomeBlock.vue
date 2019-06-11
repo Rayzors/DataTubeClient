@@ -1,7 +1,13 @@
 <template>
   <div class="block" :class="{'block--right': alignRight}">
     <h3 class="block__title">{{ title }}</h3>
-    <p class="block__value" :class="{important}">{{ value }}</p>
+    <p class="block__value" :class="{important}" v-if="type === 'string'">{{ value | numberWithSpace }}</p>
+    <p class="block__value" :class="{important}" v-if="type === 'object'">{{ value.label }}</p>
+    <p class="block__value" :class="{important}" v-if="type === 'array'">
+      <template v-for="(val, i) in value">
+        <span :key="i">{{ val.value }}</span></br>
+      </template>
+    </p>
   </div>
 </template>
 
@@ -17,6 +23,9 @@ export default {
       required: true,
     },
     value: {
+      required: true,
+    },
+    type: {
       type: String,
       required: true,
     },

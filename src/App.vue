@@ -15,10 +15,10 @@
         </div>
       </div>
       <select-box-container
-        :countries="countries"
-        :categories="categories"
-        :subscribersRanges="subscribersRanges"
-        v-if="countries.length && categories.length"
+        :countries="getCountries"
+        :categories="getCategories"
+        :subscribersRanges="getSubscribersRanges"
+        v-if="getCountries.length && getCategories.length"
       />
     </div>
     <router-view/>
@@ -28,49 +28,21 @@
 <script>
 import LogoSVG from '@/components/LogoSVG.vue';
 import SelectBoxContainer from '@/components/SelectBoxContainer.vue';
-import RegionService from '@/services/regions.service.vue';
-import CategoryService from '@/services/categories.service.vue';
+import { mapGetters } from 'vuex';
 
 export default {
-  mixins: [RegionService, CategoryService],
   components: { SelectBoxContainer, LogoSVG },
   data() {
     return {
       hideParticles: false,
-      categories: [],
-      countries: [],
-      subscribersRanges: [
-        {
-          label: '0 - 10 000',
-          nbChannelInRange: '1',
-          value: '0-10000',
-        },
-        {
-          label: '1 000 000 - 10 000 000',
-          nbChannelInRange: '11',
-          value: '1000000-10000000',
-        },
-        {
-          label: '10 000 - 100 000',
-          nbChannelInRange: '11',
-          value: '10000-100000',
-        },
-        {
-          label: '100 000 - 500 000',
-          nbChannelInRange: '22',
-          value: '100000-500000',
-        },
-        {
-          label: '500 000 - 1 000 000',
-          nbChannelInRange: '12',
-          value: '500000-1000000',
-        },
-      ],
     };
   },
   async created() {
-    this.countries = await this.getAllRegions();
-    this.categories = await this.getAllCategories();
+    await this.$store.dispatch('setList', 'countries');
+    await this.$store.dispatch('setList', 'categories');
+  },
+  computed: {
+    ...mapGetters(['getCountries', 'getSubscribersRanges', 'getCategories']),
   },
 };
 </script>

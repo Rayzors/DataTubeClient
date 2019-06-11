@@ -1,14 +1,14 @@
 <template>
   <div class="select-box container">
     <div class="select-box-left">
-      <select-box :options="countries" name="country1" mutation="setCountry"/>
-      <select-box :options="categories" name="category1" mutation="setCategory"/>
-      <select-box :options="subscribersRanges" name="range1" mutation="setRange"/>
+      <select-box :options="countries" column="1" name="country"/>
+      <select-box :options="categories" column="1" name="category"/>
+      <select-box :options="subscribersRanges[0]" column="1" name="range"/>
     </div>
     <div class="select-box-right" v-show="$store.state.compare">
-      <select-box :options="countries" name="country2" mutation="setCountry"/>
-      <select-box :options="categories" name="category2" mutation="setCategory"/>
-      <select-box :options="subscribersRanges" name="range2" mutation="setRange"/>
+      <select-box :options="countries" column="2" name="country"/>
+      <select-box :options="categories" column="2" name="category"/>
+      <select-box :options="subscribersRanges[1]" column="2" name="range"/>
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ export default {
     }
 
     .select .option.option--selected {
-      background: #de543f;
+      background: #3f78de;
       color: #fff;
     }
   }

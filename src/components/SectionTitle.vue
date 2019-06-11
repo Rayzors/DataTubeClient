@@ -1,0 +1,46 @@
+<template>
+  <div class="section_title">
+    <h1>
+      {{ title }}
+      <span class="red">.</span>
+    </h1>
+    <p>{{ edito }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      default: 'title',
+      required: true,
+    },
+    edito: {
+      type: String,
+      default: 'edito',
+      required: true,
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.section_title {
+  margin: 1em 0;
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 22px;
+    color: #9a9a9a;
+  }
+}
+
+.red {
+  color: #de543f;
+}
+</style>
