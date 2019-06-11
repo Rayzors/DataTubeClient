@@ -22,7 +22,7 @@ export default new Vuex.Store({
     selectedRanges: {},
     selectedCategories: {},
     stats1: cloneDeep(models.stats),
-    stats2: cloneDeep(models.stats)
+    stats2: cloneDeep(models.stats),
     isLoading: true,
     categories: [],
     countries: [],
@@ -171,7 +171,7 @@ export default new Vuex.Store({
       commit('setMaxVideoDuration', { statsSide: 1, value: max })
       commit('setMinVideoDuration', { statsSide: 1, value: min })
       commit('setAverageVideoDuration', { statsSide: 1, value: average })
-    }
+    },
     async setList({ commit }, payload) {
       if (payload === 'categories') {
         commit('setCategoryList', await CategoryService.getAllCategories());
