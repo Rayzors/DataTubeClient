@@ -20,28 +20,21 @@
     </div>
 
     <div class="grid__center">
-      <high-charts
-        v-parallax="0.5"
-        :values="averageData1"
-        :options="options"
-        :updateOptions="updateOptions"
-      />
+      <high-charts v-parallax="0.5" :options="chartOptions"/>
     </div>
 
     <div class="grid__right" v-parallax="0.2">
       <div class="information__container">
-        <transition-group name="slide-fade">
-          <home-block
-            v-if="getCompare"
-            v-for="(block, i) in column2"
-            :key="i"
-            :title="block.title"
-            :value="block.value"
-            :important="block.important"
-            :type="block.type"
-            :alignRight="true"
-          />
-        </transition-group>
+        <home-block
+          v-if="getCompare"
+          v-for="(block, i) in column2"
+          :key="i"
+          :title="block.title"
+          :value="block.value"
+          :important="block.important"
+          :type="block.type"
+          :alignRight="true"
+        />
       </div>
     </div>
   </div>
@@ -182,7 +175,6 @@ export default {
           },
         ],
       },
-      updateOptions: 0,
     };
   },
   computed: {
@@ -230,6 +222,18 @@ export default {
         this.getColumn2Datas.dislikePourcentage,
       ];
     },
+    chartOptions() {
+      const newOptions = { ...this.options };
+      newOptions.series[0].data = [...this.averageData1];
+      if (this.getCompare) {
+        newOptions.series[1].data = [...this.averageData2];
+        newOptions.series[1].lineWidth = 3;
+      } else {
+        newOptions.series[1].data = [0, 0, 0, 0];
+        newOptions.series[1].lineWidth = 0;
+      }
+      return { ...newOptions };
+    },
     ...mapGetters([
       'getColumn1Selection',
       'getColumn2Selection',
@@ -242,33 +246,8 @@ export default {
     toggleCompare() {
       this.$store.dispatch('toggleCompare');
     },
-    toggleCompareData() {
-      if (this.getCompare) {
-        this.$set(this.options.series[1], 'data', [...this.averageData2]);
-        this.$set(this.options.series[1], 'lineWidth', 3);
-      } else {
-        this.$set(this.options.series[1], 'data', [0, 0, 0, 0]);
-        this.$set(this.options.series[1], 'lineWidth', 0);
-      }
-    },
   },
-  watch: {
-    getColumn1Datas: {
-      handler() {
-        this.$set(this.options.series[0], 'data', [...this.averageData1]);
-      },
-      immediate: true,
-    },
-    getColumn2Datas: {
-      handler() {
-        this.toggleCompareData();
-      },
-      immediate: true,
-    },
-    getCompare() {
-      this.toggleCompareData();
-    },
-  },
+  watch: {},
 };
 </script>
 

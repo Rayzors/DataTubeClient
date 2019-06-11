@@ -13,10 +13,6 @@ export default {
       type: Object,
       default: () => {},
     },
-    updateOptions: {
-      type: Number,
-      default: 0,
-    },
   },
   data() {
     return {
@@ -24,35 +20,28 @@ export default {
     };
   },
   mounted() {
-    if (!this.$store.state.isLoading) {
-      this.chart = Highcharts.chart('container', this.options);
+    if (this.chart) {
       this.chart.update(this.options);
+    } else {
+      this.chart = Highcharts.chart('container', this.options);
     }
   },
   watch: {
     options: {
       handler(newValue) {
         if (this.chart) {
-          const [newData1, newData2] = [
-            newValue.series[0].data,
-            newValue.series[1].data,
-          ];
-          const [newLineWidth1, newLineWidth2] = [
-            newValue.series[0].lineWidth,
-            newValue.series[1].lineWidth,
-          ];
           this.chart.update({
             series: [
               {
-                data: newData1,
-                lineWidth: newLineWidth1,
+                data: newValue.series[0].data,
               },
               {
-                data: newData2,
-                lineWidth: newLineWidth2,
+                data: newValue.series[1].data,
               },
             ],
           });
+        } else {
+          this.chart = Highcharts.chart('container', newValue);
         }
       },
       deep: true,
