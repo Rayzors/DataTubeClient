@@ -10,7 +10,7 @@
       </transition>
     </div>
     <div class="grid__right"></div>
-    <button @click="toggleBarchart">toggle</button>
+    <button @click="toggleBarchart"></button>
   </div>
 </template>
 
@@ -25,12 +25,6 @@ export default {
       hcOptions: {
         chart: {
           type: 'line',
-        },
-        title: {
-          text: 'Monthly Average Temperature',
-        },
-        subtitle: {
-          text: 'Source: WorldClimate.com',
         },
         xAxis: {
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

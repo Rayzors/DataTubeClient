@@ -1,10 +1,12 @@
 <template>
+<div>
   <div ref="barChart"></div>
+  <button @click="updateData()">fetch</button>
+</div>
 </template>
 
 <script>
 import * as d3 from 'd3';
-import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -18,82 +20,18 @@ export default {
       chart: null,
     };
   },
-  computed: {
-    ...mapGetters(['getCompare']),
-  },
   methods: {
-    toggleChart() {
-      const { numberOfPublicationByDay } = this.datas;
-      numberOfPublicationByDay.forEach((el) => {
-        if (el.value === d3.max(numberOfPublicationByDay, datum => datum.value)) {
-          this.svg.select('.maxRed')
-            .style('opacity', 1)
-            .attr('y1', () => this.yScale(el.value))
-            .attr('y2', () => this.yScale(el.value));
-        }
-        if (el.value2 === d3.max(numberOfPublicationByDay, datum => datum.value2)) {
-          this.svg.select('.maxBlue')
-            .style('opacity', 1)
-            .attr('y1', () => this.yScale(el.value2))
-            .attr('y2', () => this.yScale(el.value2));
-        }
-        if (el.value === d3.min(numberOfPublicationByDay, datum => datum.value)) {
-          this.svg.select('.minRed')
-            .style('opacity', 1)
-            .attr('y1', () => this.yScale(el.value))
-            .attr('y2', () => this.yScale(el.value));
-        }
-        if (el.value2 === d3.min(numberOfPublicationByDay, datum => datum.value2)) {
-          this.svg.select('.minBlue')
-            .style('opacity', 1)
-            .attr('y1', () => this.yScale(el.value2))
-            .attr('y2', () => this.yScale(el.value2));
-        }
-      });
-      if (this.getCompare) {
-        numberOfPublicationByDay.forEach((el) => {
-          // eslint-disable-next-line radix, no-param-reassign
-          el.value2 = el.value + 2;
-        });
-        this.chart.selectAll('.bar.value')
-          .transition()
-          .duration(1000)
-          .attr('transform', d => `translate(${this.xScale0(d.label) - 12},0)`);
-        this.chart.selectAll('.bar.value2')
-          .attr('height', () => 0)
-          .transition()
-          .duration(1500)
-          .attr('y', d => this.yScale(d.value2))
-          .attr('height', d => this.height - this.margin.top - this.margin.bottom - this.yScale(d.value2));
-      } else {
-        this.chart.selectAll('.bar.value')
-          .transition()
-          .delay(() => 300)
-          .duration(700)
-          .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 3)},0)`);
-        this.chart.selectAll('.bar.value2')
-          .transition()
-          .delay((d, i) => 100 * i)
-          .duration(1000)
-          .attr('x', () => this.xScale1('value2'))
-          .attr('y', () => this.height - this.margin.bottom * 2)
-          .attr('width', this.xScale1.bandwidth() * 1.5)
-          .attr('height', () => 0)
-          .attr('transform', d => `translate(${this.xScale0(d.label) + 2},0)`);
-      }
-    },
-    updateData() {
-      // this.yScale
-      //   .domain([0,
-      //     d3.max("numberOfPublicationByDay", d => (d.value > d.value2 ? d.value : d.value2)),
-      //   ]);
+    async updateData() {
+      const req = await fetch('https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000');
+      const res = await req.json();
+      console.log(res);
       return false;
     },
   },
   mounted() {
     const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-    // const url = 'https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000';
     days.forEach(day => this.chartDatas.push({ category: day, values: [] }));
+    // const url = 'https://datatubeapi.kevinmanssat.fr/ressources/country/FR/category/10/subscribers/10000-100000';
 
     const container = d3.select(this.$refs.barChart);
     this.width = 700;
@@ -184,11 +122,9 @@ export default {
       this.svg.append('line')
         .attr('class', 'minRed');
       this.svg.append('line')
-        .attr('class', 'maxBlue')
-        .style('opacity', 0);
+        .attr('class', 'maxBlue');
       this.svg.append('line')
-        .attr('class', 'minBlue')
-        .style('opacity', 0);
+        .attr('class', 'minBlue');
 
       // append bars foreach values
       this.chart = this.svg.selectAll('.bars')
@@ -207,11 +143,12 @@ export default {
         .attr('x', () => this.xScale1('value'))
         .attr('y', () => this.height - this.margin.bottom * 2)
         .attr('width', () => this.xScale1.bandwidth() * 1.5)
-        .attr('transform', d => `translate(${this.xScale0(d.label) + (this.xScale1.bandwidth() / 3)},0)`)
+        .attr('transform', d => `translate(${this.xScale0(d.label) - 12},0)`)
         .attr('height', () => 0)
         .transition()
         .duration(1500)
         .attr('y', d => this.yScale(d.value))
+
         .attr('height', d => this.height - this.margin.top - this.margin.bottom - this.yScale(d.value));
 
       // set blue bars values
@@ -226,6 +163,13 @@ export default {
         .attr('width', this.xScale1.bandwidth() * 1.5)
         .attr('height', () => 0)
         .attr('transform', d => `translate(${this.xScale0(d.label) + 2},0)`);
+
+      this.chart.selectAll('.bar.value2')
+        .attr('height', () => 0)
+        .transition()
+        .duration(1500)
+        .attr('y', d => this.yScale(d.value2))
+        .attr('height', d => this.height - this.margin.top - this.margin.bottom - this.yScale(d.value2));
 
       // append min max bars
       numberOfPublicationByDay.forEach((d) => {
@@ -261,9 +205,9 @@ export default {
             .attr('y2', () => this.yScale(d.value2))
             .attr('stroke', '#3f78de');
           this.chart.selectAll('.minBlue')
-            .style('opacity', 0);
+            .style('opacity', 1);
           this.chart.select('.maxBlue')
-            .style('opacity', 0);
+            .style('opacity', 1);
         }
       });
       // append text values
@@ -291,9 +235,6 @@ export default {
     });
   },
   watch: {
-    getCompare() {
-      this.toggleChart();
-    },
   },
 };
 </script>
