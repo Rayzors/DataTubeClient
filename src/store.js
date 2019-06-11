@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { api } from '@/api'
-import cloneDeep from 'lodash/cloneDeep'
+import { api } from '@/api';
+import cloneDeep from 'lodash/cloneDeep';
 import RegionService from '@/services/region.service';
 import CategoryService from '@/services/category.service';
 import RessourceService from '@/services/ressouce.service';
@@ -16,9 +16,9 @@ const models = {
     minLikes: 0,
     maxLikes: 0,
     minDislikes: 0,
-    maxDislikes: 0
-  }
-}
+    maxDislikes: 0,
+  },
+};
 
 export default new Vuex.Store({
   state: {
@@ -122,26 +122,26 @@ export default new Vuex.Store({
       state.categories = [...categories];
     },
     setMaxVideoDuration(state, { statsSide, value }) {
-      state['stats' + statsSide].maxVideoDuration = value
+      state[`stats${  statsSide}`].maxVideoDuration = value;
     },
     setMinVideoDuration(state, { statsSide, value }) {
-      state['stats' + statsSide].minVideoDuration = value
+      state[`stats${  statsSide}`].minVideoDuration = value;
     },
     setAverageVideoDuration(state, { statsSide, value }) {
-      state['stats' + statsSide].averageVideoDuration = value
+      state[`stats${  statsSide}`].averageVideoDuration = value;
     },
     setMinLikes(state, { statsSide, value }) {
-      state['stats' + statsSide].minLikes = value
+      state[`stats${  statsSide}`].minLikes = value;
     },
     setMaxLikes(state, { statsSide, value }) {
-      state['stats' + statsSide].maxLikes = value
+      state[`stats${  statsSide}`].maxLikes = value;
     },
     setMinDislikes(state, { statsSide, value }) {
-      state['stats' + statsSide].minDislikes = value
+      state[`stats${  statsSide}`].minDislikes = value;
     },
     setMaxDislikes(state, { statsSide, value }) {
-      state['stats' + statsSide].maxDislikes = value
-    }
+      state[`stats${  statsSide}`].maxDislikes = value;
+    },
   },
   actions: {
     async setSelect({ commit, state }, payload) {
@@ -173,20 +173,20 @@ export default new Vuex.Store({
       commit('updateSelectedCategory', payload);
     },
     async loadVideosDurations({ commit }) {
-      const videosDurations = (await api.fetchVideosDurations('france', 'musique')).data
-      let max = 0
-      let min = videosDurations[0] ? videosDurations[0].duration : 0
-      let total = 0
-      videosDurations.forEach(videoDuration => {
-        const duration = videoDuration.duration
-        if (duration > max) { max = duration }
-        if (duration < min) { min = duration }
-        total += duration
-      })
-      const average = total / videosDurations.length
-      commit('setMaxVideoDuration', { statsSide: 1, value: max })
-      commit('setMinVideoDuration', { statsSide: 1, value: min })
-      commit('setAverageVideoDuration', { statsSide: 1, value: average })
+      const videosDurations = (await api.fetchVideosDurations('france', 'musique')).data;
+      let max = 0;
+      let min = videosDurations[0] ? videosDurations[0].duration : 0;
+      let total = 0;
+      videosDurations.forEach((videoDuration) => {
+        const {duration} = videoDuration;
+        if (duration > max) { max = duration; }
+        if (duration < min) { min = duration; }
+        total += duration;
+      });
+      const average = total / videosDurations.length;
+      commit('setMaxVideoDuration', { statsSide: 1, value: max });
+      commit('setMinVideoDuration', { statsSide: 1, value: min });
+      commit('setAverageVideoDuration', { statsSide: 1, value: average });
     },
     async setList({ commit }, payload) {
       if (payload === 'categories') {
@@ -208,12 +208,12 @@ export default new Vuex.Store({
     getCountries: state => state.countries,
     getCategories: state => state.categories,
     getCompare: state => state.compare,
-    getMaxVideoDuration: state => statsSide => state['stats' + statsSide].maxVideoDuration,
-    getMinVideoDuration: state => statsSide => state['stats' + statsSide].minVideoDuration,
-    getAverageVideoDuration: state => statsSide => state['stats' + statsSide].averageVideoDuration,
-    getMinLikes: state => statsSide => state['stats' + statsSide].minLikes,
-    getMaxLikes: state => statsSide => state['stats' + statsSide].maxLikes,
-    getMinDislikes: state => statsSide => state['stats' + statsSide].minDislikes,
-    getMaxDislikes: state => statsSide => state['stats' + statsSide].maxDislikes,
+    getMaxVideoDuration: state => statsSide => state[`stats${  statsSide}`].maxVideoDuration,
+    getMinVideoDuration: state => statsSide => state[`stats${  statsSide}`].minVideoDuration,
+    getAverageVideoDuration: state => statsSide => state[`stats${  statsSide}`].averageVideoDuration,
+    getMinLikes: state => statsSide => state[`stats${  statsSide}`].minLikes,
+    getMaxLikes: state => statsSide => state[`stats${  statsSide}`].maxLikes,
+    getMinDislikes: state => statsSide => state[`stats${  statsSide}`].minDislikes,
+    getMaxDislikes: state => statsSide => state[`stats${  statsSide}`].maxDislikes,
   },
 });
