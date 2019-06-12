@@ -40,6 +40,7 @@ export default {
   async created() {
     await this.$store.dispatch('setList', 'countries');
     await this.$store.dispatch('setList', 'categories');
+    window.aaa = this.$store
   },
   computed: {
     ...mapGetters(['getCountries', 'getSubscribersRanges', 'getCategories']),

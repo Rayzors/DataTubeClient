@@ -2,10 +2,10 @@
   <div>
     <h2 class="statTitle">{{ title }}</h2>
     <div class="statBlocks">
-      <div class="statBlock1" :style="{ width: percentageSize(durations[0]) + '%' }">
+      <div class="statBlock1" :style="statBlockStyle(0)">
         <p class="statText">{{ videoTitles[0] }}</p>
       </div>
-      <div class="statBlock2" :style="{ width: percentageSize(durations[1]) + '%' }">
+      <div class="statBlock2" :style="statBlockStyle(1)">
         <p class="statText">{{ videoTitles[1] }}</p>
       </div>
     </div>
@@ -31,9 +31,9 @@ export default {
     percentageSize() {
       return value => parseInt((100 / (this.statSize || 1)) * (value || 0)) || 0.2;
     },
-  },
-  mounted () {
-    setTimeout(() => console.log(this.statSize), 1000)
+    statBlockStyle () {
+      return index => ({ width: this.percentageSize(this.durations[index]) + '%' })
+    }
   }
 }
 </script>

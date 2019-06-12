@@ -65,13 +65,6 @@ export default {
       const ceiledHighestValue = Math.ceil(this.highestValue / 8);
       const statSize = (ceiledHighestValue % 2 ? ceiledHighestValue + 1 : ceiledHighestValue) * 8;
       return statSize;
-    },
-    videoDurationValues() {
-      return {
-        max: 130,
-        average: 31,
-        min: 12,
-      };
     }
   },
   methods: {
@@ -102,6 +95,10 @@ export default {
       this.$store.commit('setLongestVideo', { statsSide, value: longestVideo })
       this.$store.commit('setShortestVideo', { statsSide, value: shortestVideo })
     }
+  },
+  mounted () {
+    this.updateDurationData(this.$store.state.column1.selected, 1)
+    this.updateDurationData(this.$store.state.column2.selected, 2)
   },
   watch: {
     column1Selection: {

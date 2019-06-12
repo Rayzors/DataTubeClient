@@ -111,6 +111,10 @@ export default {
       this.$store.commit('setMaxDislikes', { statsSide, value: maxDislikes });
     }
   },
+  mounted () {
+    this.updateLikeData(this.$store.state.column1.selected, 1)
+    this.updateLikeData(this.$store.state.column2.selected, 2)
+  },
   watch: {
     column1Selection: {
       async handler (value) { await this.updateLikeData(value, 1) },

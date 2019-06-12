@@ -27,9 +27,6 @@ export default {
     maxVideoDuration () { return this.$store.getters['getMaxVideoDuration'](this.statsSide) },
     minVideoDuration () { return this.$store.getters['getMinVideoDuration'](this.statsSide) },
     averageVideoDuration () { return this.$store.getters['getAverageVideoDuration'](this.statsSide) }
-  },
-  async mounted () {
-    await this.$store.dispatch('loadVideosDurations')
   }
 }
 </script>
