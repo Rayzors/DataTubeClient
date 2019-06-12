@@ -1,6 +1,12 @@
 <template>
-  <div class="grid">
-    <div class="grid__left">
+  <div class="grid" v-if="!$store.state.isLoading">
+    <section-title
+      v-parallax="0.1"
+      class="section_title"
+      title="Meilleurs moment de publication"
+      edito="(par tranche horaire)"
+    />
+    <div class="grid__left" v-parallax="0.2">
        <div class="information__container">
         <home-block
           v-for="(block, i) in column1"
@@ -12,15 +18,13 @@
         />
       </div>
     </div>
-    <div class="grid__center">
+    <div class="grid__center" v-parallax="0.2">
       <transition name="fade">
-        <bar-chart v-if="barChart && !$store.state.isLoading"/>
+        <bar-chart v-if="barChart && getColumn1Datas.numberOfPublicationByDay !== undefined"/>
       </transition>
-      <transition name="fade">
       <high-charts :options="hcOptions" v-if="!barChart"/>
-      </transition>
     </div>
-    <div class="grid__right">
+    <div class="grid__right" v-parallax="0.2">
       <div class="information__container">
         <home-block
           v-for="(block, i) in column2"
@@ -39,6 +43,7 @@
 <script>
 import BarChart from '@/components/BarChart.vue';
 import HighCharts from '@/components/HighCharts.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
 import { mapGetters } from 'vuex';
 import HomeBlock from '@/components/HomeBlock.vue';
 
@@ -55,7 +60,7 @@ export default {
         },
         yAxis: {
           title: {
-            text: 'Temperature (°C)',
+            text: 'Nombre de publications',
           },
         },
         plotOptions: {
@@ -92,57 +97,110 @@ export default {
     BarChart,
     HighCharts,
     HomeBlock,
+    SectionTitle,
   },
   methods: {
     toggleBarchart() {
       this.barChart = !this.barChart;
     },
-    capitalizeFirstletter(value) {
-      return value.charAt(0).toUpperCase() + value.slice(1);
+    capitalizeFirstletter(value = '(string)') {
+      const newValue = value.toString();
+      return newValue.charAt(0).toUpperCase() + newValue.slice(1);
     },
-    min(array) {
-      // eslint-disable-next-line prefer-spread
-      console.log(array);
+    getColumnPublicationMin(i) {
+      if (this[`getColumn${i}Datas`].numberOfPublicationByDay !== undefined) {
+        return Math.min(...this[`getColumn${i}Datas`].numberOfPublicationByDay.map(el => el.value));
+      }
+      return 0;
     },
   },
   computed: {
     ...mapGetters(['getColumn1Datas', 'getColumn2Datas']),
     column1() {
+      if (this.barChart && this.getColumn1Datas.numberOfPublicationByDay !== undefined) {
+        const label = this.getColumn1Datas.bestNumberOfPublication.label || '';
+        let { value } = this.getColumn1Datas.bestNumberOfPublication;
+        value += value > 1 ? ' publications' : ' publication';
+        return [{
+          name: 'Jour où le nombre de publication est le plus élevée',
+          value: `
+          ${this.capitalizeFirstletter(label)} (${value})`,
+          type: 'string',
+          important: false,
+        }, {
+          name: 'Jour où le nombre de publication est le moins élevée',
+          value: `${this.capitalizeFirstletter(this.worstDaysOfPublication[0].label)}`,
+          type: 'string',
+          important: false,
+        }];
+      }
+      if (this.getColumn1Datas.numberOfPublicationByDay !== undefined) {
+        const label = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.label : '';
+        let value = this.getColumn2Datas.bestNumberOfPublication.value ? this.getColumn2Datas.bestNumberOfPublication.value : '';
+        value += value > 1 ? ' publications' : ' publication';
+        return [{
+          name: 'Horaire où le nombre de publication est le plus élevée',
+          value: `
+          ${this.capitalizeFirstletter(label)} (${value})
+          `,
+          type: 'string',
+          important: false,
+        }];
+      }
       return [{
-        name: 'Jour où le nombre de publication est le plus élevée',
-        value: `
-        ${this.capitalizeFirstletter(this.getColumn1Datas.bestNumberOfPublication.label)} (${this.getColumn1Datas.bestNumberOfPublication.value}
-        ${this.getColumn1Datas.bestNumberOfPublication.value > 1 ? 'publications' : 'publication'})`,
-        type: 'string',
-        important: false,
-      }, {
-        name: 'Jour où le nombre de publication est le moins élevée',
-        value: this.capitalizeFirstletter(this.getColumn1Datas.bestNumberOfPublication.label),
-        type: 'string',
-        important: false,
+        name: '', value: '', type: 'string', important: false,
       }];
     },
     column2() {
+      if (this.barChart && this.getColumn1Datas.numberOfPublicationByDay !== undefined) {
+        const label = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.label : '';
+        let value = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.value : '';
+        value += value > 1 ? ' publications' : ' publication';
+        return [{
+          name: 'Jour où le nombre de publication est le plus élevée',
+          value: `
+          ${this.capitalizeFirstletter(label)} (${value})
+          `,
+          type: 'string',
+          important: false,
+        }, {
+          name: 'Jour où le nombre de publication est le moins élevée',
+          value: this.capitalizeFirstletter(label),
+          type: 'string',
+          important: false,
+        }];
+      }
+      if (this.getColumn2Datas.numberOfPublicationByDay !== undefined) {
+        const label = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.label : '';
+        let value = this.getColumn2Datas.bestNumberOfPublication.value ? this.getColumn2Datas.bestNumberOfPublication.value : '';
+        value += value > 1 ? ' publications' : ' publication';
+        return [{
+          name: 'Horaire où le nombre de publication est le plus élevée',
+          value: `
+          ${this.capitalizeFirstletter(label)} (${value})
+          `,
+          type: 'string',
+          important: false,
+        }];
+      }
       return [{
-        name: 'Jour où le nombre de publication est le plus élevée',
-        value: `
-        ${this.capitalizeFirstletter(this.getColumn2Datas.bestNumberOfPublication.label)} (${this.getColumn2Datas.bestNumberOfPublication.value}
-        ${this.getColumn2Datas.bestNumberOfPublication.value > 1 ? 'publications' : 'publication'})`,
-        type: 'string',
-        important: false,
-      }, {
-        name: 'Jour où le nombre de publication est le moins élevée',
-        value: this.capitalizeFirstletter(this.getColumn2Datas.bestNumberOfPublication.label),
-        type: 'string',
-        important: false,
+        name: '', value: '', type: 'string', important: false,
       }];
     },
-
+    worstDaysOfPublication() {
+      const min1 = this.getColumnPublicationMin(1);
+      const min2 = this.getColumnPublicationMin(2);
+      return [min1, min2];
+    },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.grid__center {
+  min-width: 700px;
+  min-height: 300px;
+}
 .fade {
   transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   &-enter-active, &-leave-active {

@@ -92,14 +92,20 @@ export default {
       .attr('stop-opacity', 1);
 
 
-    const numberOfPublicationByDay = cloneDeep(
-      this.$store.state.column1.datas.numberOfPublicationByDay,
-    );
+    let numberOfPublicationByDay;
+    if (this.$store.state.column1.datas.numberOfPublicationByDay) {
+      numberOfPublicationByDay = cloneDeep(
+        this.$store.state.column1.datas.numberOfPublicationByDay,
+      );
+    } else {
+      numberOfPublicationByDay = [{ label: 'lundi', value: 0, value2: 3 }];
+    }
+    console.log(numberOfPublicationByDay);
     // Get data
     numberOfPublicationByDay.forEach((el, index) => {
       // eslint-disable-next-line no-param-reassign
-      if (this.$store.state.column2.datas.numberOfPublicationByDay[index]) {
-        el.value2 = this.$store.state.column2.datas.numberOfPublicationByDay[index].value;
+      if (numberOfPublicationByDay[index]) {
+        el.value2 = numberOfPublicationByDay[index].value;
       }
     });
     numberOfPublicationByDay.push(numberOfPublicationByDay.shift());
@@ -255,8 +261,10 @@ export default {
   }
 }
 
-.barchart svg {
-  display: block;
-  margin: 0 auto;
-}
+.barchart {
+  min-width: 700px;
+  svg {
+    display: block;
+    margin: 0 auto;
+}}
 </style>
