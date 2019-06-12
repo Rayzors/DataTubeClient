@@ -10,12 +10,12 @@ const config = {
 }
 
 const api = {
-  fetchVideosDurations (regionId, videoCategoryId) {
-    return axios.get(`${API_URL}/videos?regionId=${regionId}&videoCategoryId=${videoCategoryId}&filters[]=duration&filters[]=title`, config)
+  fetchVideosDurations (regionId, videoCategoryId, range) {
+    return axios.get(`${API_URL}/videos?regionId=${regionId}&videoCategoryId=${videoCategoryId}&range=${range}&filters[]=duration&filters[]=title`, config)
   },
 
-  fetchVideosLikes (regionId, videoCategoryId) {
-    return axios.get(`${API_URL}/videos?regionId=${regionId}&videoCategoryId=${videoCategoryId}&filters[]=likeCount&filters[]=dislikeCount`, config)
+  fetchVideosLikes (regionId, videoCategoryId, range) {
+    return axios.get(`${API_URL}/videos?regionId=${regionId}&videoCategoryId=${videoCategoryId}&range=${range}&filters[]=likeCount&filters[]=dislikeCount`, config)
   }
 }
 

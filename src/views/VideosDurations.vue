@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     async updateDurationData (value, statsSide) {
-      const datas = (await api.fetchVideosDurations(value.country, value.category)).data;
+      const datas = (await api.fetchVideosDurations(value.country, value.category, this.$store.state['column' + statsSide].selected.range)).data;
       let maxDuration = 0
       let longestVideo = ''
       let averageDuration = 0
