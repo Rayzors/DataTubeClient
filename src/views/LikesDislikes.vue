@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     async updateLikeData (value, statsSide) {
-      const datas = (await api.fetchVideosLikes(value.country, value.category)).data;
+      const datas = (await api.fetchVideosLikes(value.country, value.category, this.$store.state['column' + statsSide].selected.range)).data;
       let maxLikes = 0;
       let minLikes = datas.length ? datas[0].likeCount : 0;
       let maxDislikes = 0;
