@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      picked: this.options[0],
+      picked: null,
       searchFilter: this.options[0].label,
     };
   },
@@ -83,16 +83,28 @@ export default {
   watch: {
     picked: {
       handler(picked) {
-        if (this.filteredOptions.length === 0) {
+        if (
+          !this.picked
+          && this.$store.state[`column${this.column}`].selected[this.name] !== ''
+        ) {
+          this.picked = this.options.find(
+            option => option.value
+              === this.$store.state[`column${this.column}`].selected[this.name],
+          );
+          this.searchFilter = this.picked.label;
+        } else if (this.filteredOptions.length === 0) {
           this.picked = {};
         } else {
           [this.picked] = this.filteredOptions;
         }
-        this.$store.dispatch('setSelect', {
-          column: this.column,
-          index: this.name,
-          value: picked.value,
-        });
+
+        if (picked) {
+          this.$store.dispatch('setSelect', {
+            column: this.column,
+            index: this.name,
+            value: picked.value,
+          });
+        }
       },
       immediate: true,
     },

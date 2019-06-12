@@ -151,20 +151,20 @@ export default new Vuex.Store({
         selected: { country, category, range },
       } = state[`column${payload.column}`];
 
-      if (country && category && range) {
+      if (country !== '' && category !== '' && range !== '') {
         state.isLoading = true;
         datas = await RessourceService.getRessouces(country, category, range);
+        const { subscriberRanges } = datas;
+        commit('setSubscribersRanges', {
+          column: payload.column,
+          datas: subscriberRanges,
+        });
+        commit('setData', {
+          column: payload.column,
+          datas,
+        });
+        state.isLoading = false;
       }
-      const { subscriberRanges } = datas;
-      commit('setSubscribersRanges', {
-        column: payload.column,
-        datas: subscriberRanges,
-      });
-      commit('setData', {
-        column: payload.column,
-        datas,
-      });
-      state.isLoading = false;
     },
     toggleCompare({ commit }) {
       commit('toggleCompare');

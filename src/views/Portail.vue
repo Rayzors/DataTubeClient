@@ -1,32 +1,25 @@
 <template>
   <div class="portail">
-    <div class="portail__caption" v-parallax="0.2"  v-if="index === 0">
+    <div class="portail__caption" v-parallax="0.2" v-if="index === 0">
       <LogoSVG :ratio="2"/>
-      <div class="portail__description">
-        Créez du contenu impactant grâce à notre outil d’accompagnement à la création de vidéo.
-      </div>
+      <div
+        class="portail__description"
+      >Créez du contenu impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
     </div>
     <!-- <div class="portail__image" v-parallax="0.2">
       <img :src="image" alt="image avec des gens qui font de la dataviz">
-    </div> -->
+    </div>-->
     <step1 v-if="index === 1"/>
     <step2 v-if="index === 2"/>
     <div>
-      <button
-        @click="nextStep"
-        class="portail__btn-next"
-      >Suivant</button>
+      <button @click="nextStep" class="portail__btn-next">Suivant</button>
       <router-link
         v-if="index === 2"
         @click="nextStep"
         class="portail__btn-next"
-        :to="`/home/${slugifyName}`"
+        to="/categories-averages"
       >Suivant</router-link>
-      <button
-        v-if="index >= 1"
-        @click="prevStep"
-        class="portail__btn-prev"
-      >Retour</button>
+      <button v-if="index >= 1" @click="prevStep" class="portail__btn-prev">Retour</button>
     </div>
   </div>
 </template>
@@ -51,12 +44,12 @@ export default {
   },
   methods: {
     nextStep() {
-      this.index++
-    }, 
+      this.index++;
+    },
     prevStep() {
-      this.index--
-    }
-  }
+      this.index--;
+    },
+  },
 };
 </script>
 
@@ -104,9 +97,9 @@ $main-red: #ee5355;
   }
 
   &__btn {
-     text {
-        font-family: "Josefin Sans", sans-serif;
-      }
+    text {
+      font-family: "Josefin Sans", sans-serif;
+    }
     &-next {
       position: absolute;
       bottom: 0;
@@ -119,13 +112,12 @@ $main-red: #ee5355;
 
       padding: 10px;
       font-size: 26px;
-      background-color: $main-red; 
+      background-color: $main-red;
       color: #fff;
       transition: fill 3s;
       text-transform: uppercase;
       outline: none;
       text-decoration: none;
- 
     }
     &-prev {
       position: absolute;
@@ -139,8 +131,7 @@ $main-red: #ee5355;
       text-transform: uppercase;
       outline: none;
 
-      
-      &::before{
+      &::before {
         content: url("../assets/arrow_right.svg");
         padding-right: 10px;
       }
