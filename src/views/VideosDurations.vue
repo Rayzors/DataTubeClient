@@ -5,27 +5,9 @@
     </div>
 
     <div v-parallax="0.5" class="grid__center">
-      <div
-        class="statCategoryContainer"
-        v-for="(statCategory, index) in statCategories"
-        v-bind:key="index"
-      >
-        <h2 class="statTitle">{{ statCategory.title }}</h2>
-        <div class="statBlocks">
-          <div
-            class="statBlock1"
-            :style="{ width: percentageSize(statCategory.videosDurations[0]) + '%' }"
-          >
-            <p class="statText">{{ statCategory.videosNames[0] }}</p>
-          </div>
-          <div
-            class="statBlock2"
-            :style="{ width: percentageSize(statCategory.videosDurations[1]) + '%' }"
-          >
-            <p class="statText">{{ statCategory.videosNames[1] }}</p>
-          </div>
-        </div>
-      </div>
+      <video-duration-charts :title="maxDurationTitle" :durations="maxVideoDurations" :videoTitles="longestVideos" :statSize="statSize" />
+      <video-duration-charts :title="averageDurationTitle" :durations="averageVideoDurations" :statSize="statSize" />
+      <video-duration-charts :title="minDurationTitle" :durations="minVideoDurations" :videoTitles="shortestVideos" :statSize="statSize" />
       <div class="statRulers">
         <div class="statRuler" v-for="i in 8" v-bind:key="i">
           <div class="statRulerMark"></div>
@@ -44,53 +26,45 @@
 
 <script>
 import videoDurationStats from '@/components/VideoDurationStats';
+import videoDurationCharts from '@/components/VideoDurationCharts';
+import { api } from '@/api';
+import { mapGetters } from 'vuex';
 
 export default {
-  components: { videoDurationStats },
+  components: { videoDurationStats, videoDurationCharts },
   data() {
     return {
-      statCategories: [
-        {
-          title: 'Durée de la vidéo la plus longue',
-          videosDurations: [310, 256],
-          videosNames: ['video 1', 'video 2'],
-        },
-        {
-          title: 'Durée moyenne des vidéos',
-          videosDurations: [210, 158],
-          videosNames: ['video 3', 'video 4'],
-        },
-        {
-          title: 'Durée de la vidéo la plus courte',
-          videosDurations: [61, 51],
-          videosNames: ['video 5', 'video 6'],
-        },
-      ],
+      maxDurationTitle: 'Durée de la vidéo la plus longue',
+      averageDurationTitle: 'Durée moyenne des vidéos',
+      minDurationTitle: 'Durée de la vidéo la plus courte',
     };
   },
   computed: {
+    ...mapGetters({
+      maxVideoDurations: 'getMaxVideoDurations',
+      minVideoDurations: 'getMinVideoDurations',
+      averageVideoDurations: 'getAverageVideoDurations',
+      longestVideos: 'getLongestVideos',
+      shortestVideos: 'getShortestVideos'
+    }),
+    column1Selection() {
+      return this.$store.getters.getColumn1Selection
+    },
+    column2Selection() {
+      return this.$store.getters.getColumn2Selection
+    },
     highestValue() {
-      let highestValue = 0;
-      this.statCategories.forEach((statCategory) => {
-        statCategory.videosDurations.forEach((videoDuration) => {
-          if (videoDuration > highestValue) {
-            highestValue = videoDuration;
-          }
-        });
-      });
-      return highestValue;
-    },
-    statSize() {
-      const ceiledHighestValue = Math.ceil(this.highestValue / 8);
-      const statSize =        (ceiledHighestValue % 2 ? ceiledHighestValue + 1 : ceiledHighestValue)
-        * 8;
-      return statSize;
-    },
-    percentageSize() {
-      return value => parseInt((100 / this.statSize) * value);
+      const maxDuration1 = this.maxVideoDurations[0]
+      const maxDuration2 = this.maxVideoDurations[1]
+      return maxDuration1 > maxDuration2 ? maxDuration1 : maxDuration2;
     },
     rulerTime() {
       return index => (this.statSize / 8) * index;
+    },
+    statSize() {
+      const ceiledHighestValue = Math.ceil(this.highestValue / 8);
+      const statSize = (ceiledHighestValue % 2 ? ceiledHighestValue + 1 : ceiledHighestValue) * 8;
+      return statSize;
     },
     videoDurationValues() {
       return {
@@ -98,8 +72,47 @@ export default {
         average: 31,
         min: 12,
       };
-    },
+    }
   },
+  methods: {
+    async updateDurationData (value, statsSide) {
+      const datas = (await api.fetchVideosDurations(value.country, value.category)).data;
+      let maxDuration = 0
+      let longestVideo = ''
+      let averageDuration = 0
+      let minDuration = datas.length ? datas[0].duration : 0
+      let shortestVideo = datas.length ? datas[0].title : ''
+      let totalDuration = 0
+      datas.forEach((data) => {
+        const {duration, title} = data
+        if (duration > maxDuration) {
+          maxDuration = duration
+          longestVideo = title
+        }
+        if (duration < minDuration) {
+          minDuration = duration
+          shortestVideo = title
+        }
+        totalDuration += duration
+      })
+      averageDuration = Math.round(totalDuration / datas.length)
+      this.$store.commit('setMaxVideoDuration', { statsSide, value: maxDuration })
+      this.$store.commit('setAverageVideoDuration', { statsSide, value: averageDuration })
+      this.$store.commit('setMinVideoDuration', { statsSide, value: minDuration })
+      this.$store.commit('setLongestVideo', { statsSide, value: longestVideo })
+      this.$store.commit('setShortestVideo', { statsSide, value: shortestVideo })
+    }
+  },
+  watch: {
+    column1Selection: {
+      async handler (value) { await this.updateDurationData(value, 1) },
+      deep: true
+    },
+    column2Selection: {
+      async handler (value) { await this.updateDurationData(value, 2) },
+      deep: true
+    }
+  }
 };
 </script>
 
@@ -120,98 +133,6 @@ export default {
     display: flex;
     flex-direction: column;
     position: relative;
-
-    .statTitle {
-      margin: 50px 0 10px 10px;
-    }
-
-    .statBlocks {
-      .statBlock1,
-      .statBlock2 {
-        height: 32px;
-        text-align: right;
-
-        .statText {
-          padding: 8px 17px 0 0;
-          white-space: nowrap;
-          margin: 0;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          color: white;
-        }
-      }
-
-      .statBlock1 {
-        background: rgba(255, 158, 143, 1);
-        background: -moz-linear-gradient(
-          left,
-          rgba(255, 158, 143, 1) 0%,
-          rgba(222, 84, 63, 1) 100%
-        );
-        background: -webkit-gradient(
-          left top,
-          right top,
-          color-stop(0%, rgba(255, 158, 143, 1)),
-          color-stop(100%, rgba(222, 84, 63, 1))
-        );
-        background: -webkit-linear-gradient(
-          left,
-          rgba(255, 158, 143, 1) 0%,
-          rgba(222, 84, 63, 1) 100%
-        );
-        background: -o-linear-gradient(
-          left,
-          rgba(255, 158, 143, 1) 0%,
-          rgba(222, 84, 63, 1) 100%
-        );
-        background: -ms-linear-gradient(
-          left,
-          rgba(255, 158, 143, 1) 0%,
-          rgba(222, 84, 63, 1) 100%
-        );
-        background: linear-gradient(
-          to right,
-          rgba(255, 158, 143, 1) 0%,
-          rgba(222, 84, 63, 1) 100%
-        );
-        margin-bottom: 4px;
-      }
-
-      .statBlock2 {
-        background: rgba(157, 195, 255, 1);
-        background: -moz-linear-gradient(
-          left,
-          rgba(157, 195, 255, 1) 0%,
-          rgba(63, 121, 222, 1) 100%
-        );
-        background: -webkit-gradient(
-          left top,
-          right top,
-          color-stop(0%, rgba(157, 195, 255, 1)),
-          color-stop(100%, rgba(63, 121, 222, 1))
-        );
-        background: -webkit-linear-gradient(
-          left,
-          rgba(157, 195, 255, 1) 0%,
-          rgba(63, 121, 222, 1) 100%
-        );
-        background: -o-linear-gradient(
-          left,
-          rgba(157, 195, 255, 1) 0%,
-          rgba(63, 121, 222, 1) 100%
-        );
-        background: -ms-linear-gradient(
-          left,
-          rgba(157, 195, 255, 1) 0%,
-          rgba(63, 121, 222, 1) 100%
-        );
-        background: linear-gradient(
-          to right,
-          rgba(157, 195, 255, 1) 0%,
-          rgba(63, 121, 222, 1) 100%
-        );
-      }
-    }
 
     .statRulers {
       position: absolute;

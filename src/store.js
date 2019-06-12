@@ -13,6 +13,8 @@ const models = {
     maxVideoDuration: 0,
     minVideoDuration: 0,
     averageVideoDuration: 0,
+    longestVideo: '',
+    shortestVideo: '',
     minLikes: 0,
     maxLikes: 0,
     minDislikes: 0,
@@ -130,6 +132,12 @@ export default new Vuex.Store({
     setAverageVideoDuration(state, { statsSide, value }) {
       state[`stats${  statsSide}`].averageVideoDuration = value;
     },
+    setLongestVideo(state, { statsSide, value }) {
+      state['stats' + statsSide].longestVideo = value
+    },
+    setShortestVideo(state, { statsSide, value }) {
+      state['stats' + statsSide].shortestVideo = value
+    },
     setMinLikes(state, { statsSide, value }) {
       state[`stats${  statsSide}`].minLikes = value;
     },
@@ -208,12 +216,22 @@ export default new Vuex.Store({
     getCountries: state => state.countries,
     getCategories: state => state.categories,
     getCompare: state => state.compare,
-    getMaxVideoDuration: state => statsSide => state[`stats${  statsSide}`].maxVideoDuration,
-    getMinVideoDuration: state => statsSide => state[`stats${  statsSide}`].minVideoDuration,
-    getAverageVideoDuration: state => statsSide => state[`stats${  statsSide}`].averageVideoDuration,
-    getMinLikes: state => statsSide => state[`stats${  statsSide}`].minLikes,
-    getMaxLikes: state => statsSide => state[`stats${  statsSide}`].maxLikes,
-    getMinDislikes: state => statsSide => state[`stats${  statsSide}`].minDislikes,
-    getMaxDislikes: state => statsSide => state[`stats${  statsSide}`].maxDislikes,
+    getStats: state => statsSide => state['stats' + statsSide],
+    getMaxVideoDuration: state => statsSide => state['stats' + statsSide].maxVideoDuration,
+    getMinVideoDuration: state => statsSide => state['stats' + statsSide].minVideoDuration,
+    getAverageVideoDuration: state => statsSide => state['stats' + statsSide].averageVideoDuration,
+    getLongestVideo: state => statsSide => state['stats' + statsSide].longestVideo,
+    getShortestVideo: state => statsSide => state['stats' + statsSide].shortestVideo,
+
+    getMaxVideoDurations: state => [state.stats1.maxVideoDuration, state.stats2.maxVideoDuration],
+    getMinVideoDurations: state => [state.stats1.minVideoDuration, state.stats2.minVideoDuration],
+    getAverageVideoDurations: state => [state.stats1.averageVideoDuration, state.stats2.averageVideoDuration],
+    getLongestVideos: state => [state.stats1.longestVideo, state.stats2.longestVideo],
+    getShortestVideos: state => [state.stats1.shortestVideo, state.stats2.shortestVideo],
+    
+    getMinLikes: state => statsSide => state['stats' + statsSide].minLikes,
+    getMaxLikes: state => statsSide => state['stats' + statsSide].maxLikes,
+    getMinDislikes: state => statsSide => state['stats' + statsSide].minDislikes,
+    getMaxDislikes: state => statsSide => state['stats' + statsSide].maxDislikes,
   },
 });

@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     valueString () {
-      return value => value + ' sec'
+      return value => value || 0 + ' sec'
     },
     maxVideoDuration () { return this.$store.getters['getMaxVideoDuration'](this.statsSide) },
     minVideoDuration () { return this.$store.getters['getMinVideoDuration'](this.statsSide) },
