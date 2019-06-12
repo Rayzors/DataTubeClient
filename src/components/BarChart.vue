@@ -1,6 +1,8 @@
 <template>
 <div>
-  <div ref="barChart"></div>
+  <div ref="barChart" class="barchart">
+    <svg></svg>
+  </div>
 </div>
 </template>
 
@@ -42,7 +44,7 @@ export default {
     const barPadding = 0.5;
     const axisTicks = { qty: 5, outerSize: 0, dateFormat: '%m-%d' };
 
-    this.svg = container.append('svg')
+    this.svg = container.select('svg')
       .attr('width', this.width)
       .attr('height', this.height)
       .append('g')
@@ -251,5 +253,10 @@ export default {
     stroke: #000;
     shape-rendering: crispEdges;
   }
+}
+
+.barchart svg {
+  display: block;
+  margin: 0 auto;
 }
 </style>
