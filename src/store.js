@@ -173,20 +173,20 @@ export default new Vuex.Store({
       commit('updateSelectedCategory', payload);
     },
     async loadVideosDurations({ commit }) {
-      const videosDurations = (await api.fetchVideosDurations('france', 'musique')).data;
-      let max = 0;
-      let min = videosDurations[0] ? videosDurations[0].duration : 0;
-      let total = 0;
-      videosDurations.forEach((videoDuration) => {
-        const {duration} = videoDuration;
-        if (duration > max) { max = duration; }
-        if (duration < min) { min = duration; }
-        total += duration;
-      });
-      const average = total / videosDurations.length;
-      commit('setMaxVideoDuration', { statsSide: 1, value: max });
-      commit('setMinVideoDuration', { statsSide: 1, value: min });
-      commit('setAverageVideoDuration', { statsSide: 1, value: average });
+      const videosDurations = (await api.fetchVideosDurations('FR', '1')).data
+      let max = 0
+      let min = videosDurations[0] ? videosDurations[0].duration : 0
+      let total = 0
+      videosDurations.forEach(videoDuration => {
+        const duration = videoDuration.duration
+        if (duration > max) { max = duration }
+        if (duration < min) { min = duration }
+        total += duration
+      })
+      const average = total / videosDurations.length
+      commit('setMaxVideoDuration', { statsSide: 1, value: max })
+      commit('setMinVideoDuration', { statsSide: 1, value: min })
+      commit('setAverageVideoDuration', { statsSide: 1, value: average })
     },
     async setList({ commit }, payload) {
       if (payload === 'categories') {

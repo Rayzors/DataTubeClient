@@ -51,6 +51,12 @@ import { api } from '@/api';
 export default {
   components: { gaugeComparator, likesStats },
   computed: {
+    column1Selection() {
+      return this.$store.getters.getColumn1Selection
+    },
+    column2Selection() {
+      return this.$store.getters.getColumn2Selection
+    },
     minLikes() {
       return statsSide => this.$store.getters.getMinLikes(statsSide);
     },
@@ -76,37 +82,45 @@ export default {
       };
     },
   },
-  async mounted() {
-    const datas = (await api.fetchVideosLikes('france', 'musique')).data;
-    let maxLikes = 0;
-    let minLikes = datas.length ? datas[0].likeCount : 0;
-    let maxDislikes = 0;
-    let minDislikes = datas.length ? datas[0].dislikeCount : 0;
-    datas.forEach((data) => {
-      const {likeCount} = data;
-      const {dislikeCount} = data;
-      if (likeCount > maxLikes) {
-        maxLikes = likeCount;
-      }
-      if (likeCount < minLikes) {
-        minLikes = likeCount;
-      }
-      if (dislikeCount > maxDislikes) {
-        maxDislikes = dislikeCount;
-      }
-      if (dislikeCount < maxDislikes) {
-        minDislikes = dislikeCount;
-      }
-    });
-    this.$store.commit('setMinLikes', { statsSide: 1, value: minLikes });
-    this.$store.commit('setMaxLikes', { statsSide: 1, value: maxLikes });
-    this.$store.commit('setMinDislikes', { statsSide: 1, value: minDislikes });
-    this.$store.commit('setMaxDislikes', { statsSide: 1, value: maxDislikes });
-    this.$store.commit('setMinLikes', { statsSide: 2, value: 1000 });
-    this.$store.commit('setMaxLikes', { statsSide: 2, value: 500000 });
-    this.$store.commit('setMinDislikes', { statsSide: 2, value: 100 });
-    this.$store.commit('setMaxDislikes', { statsSide: 2, value: 5000 });
+  methods: {
+    async updateLikeData (value, statsSide) {
+      const datas = (await api.fetchVideosLikes(value.country, value.category)).data;
+      let maxLikes = 0;
+      let minLikes = datas.length ? datas[0].likeCount : 0;
+      let maxDislikes = 0;
+      let minDislikes = datas.length ? datas[0].dislikeCount : 0;
+      datas.forEach((data) => {
+        const {likeCount} = data;
+        const {dislikeCount} = data;
+        if (likeCount > maxLikes) {
+          maxLikes = likeCount;
+        }
+        if (likeCount < minLikes) {
+          minLikes = likeCount;
+        }
+        if (dislikeCount > maxDislikes) {
+          maxDislikes = dislikeCount;
+        }
+        if (dislikeCount < minDislikes) {
+          minDislikes = dislikeCount;
+        }
+      });
+      this.$store.commit('setMinLikes', { statsSide, value: minLikes });
+      this.$store.commit('setMaxLikes', { statsSide, value: maxLikes });
+      this.$store.commit('setMinDislikes', { statsSide, value: minDislikes });
+      this.$store.commit('setMaxDislikes', { statsSide, value: maxDislikes });
+    }
   },
+  watch: {
+    column1Selection: {
+      async handler (value) { await this.updateLikeData(value, 1) },
+      deep: true
+    },
+    column2Selection: {
+      async handler (value) { await this.updateLikeData(value, 2) },
+      deep: true
+    }
+  }
 };
 </script>
 
