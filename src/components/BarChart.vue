@@ -93,7 +93,8 @@ export default {
 
 
     let numberOfPublicationByDay;
-    if (this.$store.state.column1.datas.numberOfPublicationByDay) {
+    if (this.$store.state.column1.datas.numberOfPublicationByDay
+    && this.$store.state.column2.datas.numberOfPublicationByDay) {
       numberOfPublicationByDay = cloneDeep(
         this.$store.state.column1.datas.numberOfPublicationByDay,
       );
@@ -105,7 +106,7 @@ export default {
     numberOfPublicationByDay.forEach((el, index) => {
       // eslint-disable-next-line no-param-reassign
       if (numberOfPublicationByDay[index]) {
-        el.value2 = numberOfPublicationByDay[index].value;
+        el.value2 = this.$store.state.column2.datas.numberOfPublicationByDay[index].value;
       }
     });
     numberOfPublicationByDay.push(numberOfPublicationByDay.shift());

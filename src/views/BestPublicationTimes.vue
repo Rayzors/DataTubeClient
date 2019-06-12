@@ -20,7 +20,12 @@
     </div>
     <div class="grid__center" v-parallax="0.2">
       <transition name="fade">
-        <bar-chart v-if="barChart && getColumn1Datas.numberOfPublicationByDay !== undefined"/>
+        <bar-chart
+          v-if="
+            barChart &&
+            getColumn1Datas.numberOfPublicationByDay !== undefined &&
+            $store.state.column2.datas.numberOfPublicationByDay"
+        />
       </transition>
       <high-charts :options="hcOptions" v-if="!barChart"/>
     </div>
