@@ -52,10 +52,10 @@ export default {
   components: { gaugeComparator, likesStats },
   computed: {
     column1Selection() {
-      return this.$store.getters.getColumn1Selection
+      return this.$store.getters.getColumn1Selection;
     },
     column2Selection() {
-      return this.$store.getters.getColumn2Selection
+      return this.$store.getters.getColumn2Selection;
     },
     minLikes() {
       return statsSide => this.$store.getters.getMinLikes(statsSide);
@@ -83,15 +83,19 @@ export default {
     },
   },
   methods: {
-    async updateLikeData (value, statsSide) {
-      const datas = (await api.fetchVideosLikes(value.country, value.category, this.$store.state['column' + statsSide].selected.range)).data;
+    async updateLikeData(value, statsSide) {
+      const datas = (await api.fetchVideosLikes(
+        value.country,
+        value.category,
+        this.$store.state['column' + statsSide].selected.range,
+      )).data;
       let maxLikes = 0;
       let minLikes = datas.length ? datas[0].likeCount : 0;
       let maxDislikes = 0;
       let minDislikes = datas.length ? datas[0].dislikeCount : 0;
       datas.forEach((data) => {
-        const {likeCount} = data;
-        const {dislikeCount} = data;
+        const { likeCount } = data;
+        const { dislikeCount } = data;
         if (likeCount > maxLikes) {
           maxLikes = likeCount;
         }
@@ -109,22 +113,26 @@ export default {
       this.$store.commit('setMaxLikes', { statsSide, value: maxLikes });
       this.$store.commit('setMinDislikes', { statsSide, value: minDislikes });
       this.$store.commit('setMaxDislikes', { statsSide, value: maxDislikes });
-    }
+    },
   },
-  mounted () {
-    this.updateLikeData(this.$store.state.column1.selected, 1)
-    this.updateLikeData(this.$store.state.column2.selected, 2)
+  mounted() {
+    this.updateLikeData(this.$store.state.column1.selected, 1);
+    this.updateLikeData(this.$store.state.column2.selected, 2);
   },
   watch: {
     column1Selection: {
-      async handler (value) { await this.updateLikeData(value, 1) },
-      deep: true
+      async handler(value) {
+        await this.updateLikeData(value, 1);
+      },
+      deep: true,
     },
     column2Selection: {
-      async handler (value) { await this.updateLikeData(value, 2) },
-      deep: true
-    }
-  }
+      async handler(value) {
+        await this.updateLikeData(value, 2);
+      },
+      deep: true,
+    },
+  },
 };
 </script>
 
