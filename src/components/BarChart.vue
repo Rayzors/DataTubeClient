@@ -101,7 +101,6 @@ export default {
     } else {
       numberOfPublicationByDay = [{ label: 'lundi', value: 0, value2: 3 }];
     }
-    console.log(numberOfPublicationByDay);
     // Get data
     numberOfPublicationByDay.forEach((el, index) => {
       // eslint-disable-next-line no-param-reassign

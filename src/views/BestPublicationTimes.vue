@@ -1,5 +1,5 @@
 <template>
-  <div class="grid" v-if="!$store.state.isLoading">
+  <div class="grid" >
     <section-title
       v-parallax="0.1"
       class="section_title"
@@ -24,7 +24,8 @@
           v-if="
             barChart &&
             getColumn1Datas.numberOfPublicationByDay !== undefined &&
-            $store.state.column2.datas.numberOfPublicationByDay"
+            $store.state.column2.datas.numberOfPublicationByDay &&
+            !$store.state.isLoading"
         />
       </transition>
       <high-charts :options="hcOptions" v-if="!barChart"/>
@@ -108,15 +109,13 @@ export default {
     toggleBarchart() {
       this.barChart = !this.barChart;
     },
-    capitalizeFirstletter(value = '(string)') {
+    capitalizeFirstletter(value = 'string') {
       const newValue = value.toString();
       return newValue.charAt(0).toUpperCase() + newValue.slice(1);
     },
-    getColumnPublicationMin(i) {
-      if (this[`getColumn${i}Datas`].numberOfPublicationByDay !== undefined) {
-        return Math.min(...this[`getColumn${i}Datas`].numberOfPublicationByDay.map(el => el.value));
-      }
-      return 0;
+    getColumnPublicationMin(i, key) {
+      const array = this[`getColumn${i}Datas`][key] || [];
+      return array.find(element => element.value === Math.min(...this[`getColumn${i}Datas`][key].map(el => el.value)));
     },
   },
   computed: {
@@ -124,8 +123,11 @@ export default {
     column1() {
       if (this.barChart && this.getColumn1Datas.numberOfPublicationByDay !== undefined) {
         const label = this.getColumn1Datas.bestNumberOfPublication.label || '';
+        const label2 = this.worstDaysOfPublication[0];
         let { value } = this.getColumn1Datas.bestNumberOfPublication;
         value += value > 1 ? ' publications' : ' publication';
+        let value2 = label2.value;
+        value2 += value2 > 1 ? ' publications' : ' publication';
         return [{
           name: 'Jour où le nombre de publication est le plus élevée',
           value: `
@@ -134,19 +136,32 @@ export default {
           important: false,
         }, {
           name: 'Jour où le nombre de publication est le moins élevée',
-          value: `${this.capitalizeFirstletter(this.worstDaysOfPublication[0].label || 'mardi')}`,
+          value: `${this.capitalizeFirstletter(label2.label)} (${value2})`,
           type: 'string',
           important: false,
         }];
       }
-      if (this.getColumn1Datas.numberOfPublicationByDay !== undefined) {
-        const label = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.label : '';
-        let value = this.getColumn2Datas.bestNumberOfPublication.value ? this.getColumn2Datas.bestNumberOfPublication.value : '';
+      if (this.getColumn1Datas.bestTimeOfPublication !== undefined) {
+        const label = this.getColumn1Datas.bestTimeOfPublication ? this.getColumn2Datas.bestTimeOfPublication.label : '';
+        let value = this.getColumn1Datas.bestTimeOfPublication.value ? this.getColumn2Datas.bestTimeOfPublication.value : '';
         value += value > 1 ? ' publications' : ' publication';
+
+        const worstTime = this.worstTimeOfPublication[0];
+        let value2 = worstTime.value;
+        value2 += value2 > 1 ? ' publications' : ' publication';
+        const label2 = worstTime.label;
+        console.log(worstTime);
         return [{
           name: 'Horaire où le nombre de publication est le plus élevée',
           value: `
           ${this.capitalizeFirstletter(label)} (${value})
+          `,
+          type: 'string',
+          important: false,
+        }, {
+          name: 'Horaire où le nombre de publication est le moins élevée',
+          value: `
+          ${this.capitalizeFirstletter(label2)} (${value2})
           `,
           type: 'string',
           important: false,
@@ -158,9 +173,12 @@ export default {
     },
     column2() {
       if (this.barChart && this.getColumn1Datas.numberOfPublicationByDay !== undefined) {
-        const label = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.label : '';
-        let value = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.value : '';
+        const label = this.getColumn2Datas.bestNumberOfPublication.label || '';
+        const label2 = this.worstDaysOfPublication[1];
+        let { value } = this.getColumn2Datas.bestNumberOfPublication;
         value += value > 1 ? ' publications' : ' publication';
+        let value2 = label2.value;
+        value2 += value2 > 1 ? ' publications' : ' publication';
         return [{
           name: 'Jour où le nombre de publication est le plus élevée',
           value: `
@@ -170,7 +188,7 @@ export default {
           important: false,
         }, {
           name: 'Jour où le nombre de publication est le moins élevée',
-          value: this.capitalizeFirstletter(this.worstDaysOfPublication[1].label || 'mardi'),
+          value: `${this.capitalizeFirstletter(label2.label)} (${value2})`,
           type: 'string',
           important: false,
         }];
@@ -193,8 +211,13 @@ export default {
       }];
     },
     worstDaysOfPublication() {
-      const min1 = this.getColumnPublicationMin(1);
-      const min2 = this.getColumnPublicationMin(2);
+      const min1 = this.getColumnPublicationMin(1, 'numberOfPublicationByDay');
+      const min2 = this.getColumnPublicationMin(2, 'numberOfPublicationByDay');
+      return [min1, min2];
+    },
+    worstTimeOfPublication() {
+      const min1 = this.getColumnPublicationMin(1, 'timeOfPublication');
+      const min2 = this.getColumnPublicationMin(2, 'timeOfPublication');
       return [min1, min2];
     },
   },
