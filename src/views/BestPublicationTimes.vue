@@ -32,7 +32,7 @@
         </transition>
         <high-charts :options="chartOptions" v-if="!barChart"/>
       </div>
-      <div class="toggleBtn" @click="toggleBarchart">
+      <div class="btn-outline" @click="toggleBarchart" style="margin-top: 40px;">
         {{ barChart ? 'Par tranche horaire' : 'Par jour'}}
         <img :src="toggleIcon" class="toggleIcon"/>
       </div>
@@ -61,8 +61,10 @@ import SectionTitle from '@/components/SectionTitle.vue';
 import { mapGetters } from 'vuex';
 import HomeBlock from '@/components/HomeBlock.vue';
 import toggleIcon from '@/assets/group-7@2x.png';
+import Utils from '@/mixins/Utils.vue';
 
 export default {
+  mixins: [Utils],
   data() {
     return {
       barChart: true,
@@ -102,9 +104,11 @@ export default {
         series: [{
           data: [],
           color: '#ee5355',
+          name: '',
         }, {
           data: [],
           color: '#3f78de',
+          name: '',
         }],
       },
       toggleIcon,
@@ -131,18 +135,6 @@ export default {
     getColumnPublicationMax(i, key) {
       const array = this[`getColumn${i}Datas`][key] || [];
       return array.find(element => element.value === Math.max(...this[`getColumn${i}Datas`][key].map(el => el.value)));
-    },
-    chunkArray(array, size) {
-      const chunkedArray = [];
-      for (let i = 0; i < array.length; i += 1) {
-        const last = chunkedArray[chunkedArray.length - 1];
-        if (!last || last.length === size) {
-          chunkedArray.push([array[i]]);
-        } else {
-          last.push(array[i]);
-        }
-      }
-      return chunkedArray;
     },
   },
   computed: {
@@ -198,7 +190,7 @@ export default {
       }];
     },
     column2() {
-      if (this.barChart && this.getColumn1Datas.numberOfPublicationByDay !== undefined) {
+      if (this.barChart && this.getColumn2Datas.bestNumberOfPublication !== undefined) {
         const label = this.getColumn2Datas.bestNumberOfPublication.label || '';
         const label2 = this.worstDaysOfPublication[1];
         let { value } = this.getColumn2Datas.bestNumberOfPublication;
@@ -253,56 +245,6 @@ export default {
       const min2 = this.getColumnPublicationMin(2, 'numberOfPublicationByDay');
       return [min1, min2];
     },
-    worstTimeOfPublication() {
-      const modelLabel = [
-        'Minuit - 4h',
-        '4h - 8h',
-        '8h - 12h',
-        '12h - 16h',
-        '16h - 20h',
-        '20h - Minuit',
-      ];
-      const model = (modelLabel.map(element => ({
-        label: element,
-        value: null,
-      })));
-      let min1 = model.map((el, index) => ({
-        label: modelLabel[index],
-        value: this.chunkArray(this.getColumn1Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
-      }));
-      min1 = min1.find(el => el.value === Math.min(...min1.map(e => e.value)));
-      let min2 = model.map((el, index) => ({
-        label: modelLabel[index],
-        value: this.chunkArray(this.getColumn2Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
-      }));
-      min2 = min2.find(el => el.value === Math.min(...min2.map(e => e.value)));
-      return [min1, min2];
-    },
-    bestTimeOfPublication() {
-      const modelLabel = [
-        'Minuit - 4h',
-        '4h - 8h',
-        '8h - 12h',
-        '12h - 16h',
-        '16h - 20h',
-        '20h - Minuit',
-      ];
-      const model = (modelLabel.map(element => ({
-        label: element,
-        value: null,
-      })));
-      let max1 = model.map((el, index) => ({
-        label: modelLabel[index],
-        value: this.chunkArray(this.getColumn1Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
-      }));
-      max1 = max1.find(el => el.value === Math.max(...max1.map(e => e.value)));
-      let max2 = model.map((el, index) => ({
-        label: modelLabel[index],
-        value: this.chunkArray(this.getColumn2Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
-      }));
-      max2 = max2.find(el => el.value === Math.max(...max2.map(e => e.value)));
-      return [max1, max2];
-    },
     schedules() {
       const tab1 = this.chunkArray(this.getColumn1Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0));
       const tab2 = this.chunkArray(this.getColumn2Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0));
@@ -319,6 +261,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn-outline{
+  img {
+    transform: rotate(0deg);
+    transition: transform 0.5s ease;
+  }
+  &:active img {
+    transform: rotate(-90deg);
+  }
+}
 .grid__center {
   &-chart-container {
     display: flex;
@@ -329,29 +280,11 @@ export default {
   }
   display: block;
 }
-.toggleBtn {
-  margin: 0px auto;
-  max-width: 225px;
-  padding: 16px 14px;
-  display: block;
-  border-radius: 4px;
-  border: solid 2px #ffbdb3;
-  background-color: #ffffff;
 
-  text-align: center;
-  font-family: 'Geomanist';
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1;
-  outline: none;
-  cursor: pointer;
-
-  color: #de543f;
-
-}
 .toggleIcon {
   width: 16px;
   height: 16px;
+  margin-left: 8px;
   display: inline-block;
   vertical-align: middle;
 }
