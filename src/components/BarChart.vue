@@ -227,29 +227,50 @@ export default {
       .enter()
       .append('text');
 
-    this.chart.selectAll('.bar')
-      .data(d => [d])
-      .enter()
-      .append('text')
-      .attr('class', 'bartext')
-      .attr('text-anchor', 'middle')
-      .attr('fill', 'white')
-      .attr('x', (d, i) => this.xScale1(i) + this.xScale1.rangeBand() / 2)
-      .attr('y', d => this.height - this.yScale(d))
-      .text(d => d);
+    // this.chart.selectAll('.bar')
+    //   .data(d => [d])
+    //   .enter()
+    //   .append('text')
+    //   .attr('class', 'bartext')
+    //   .attr('text-anchor', 'middle')
+    //   .attr('fill', 'white')
+    //   .attr('x', (d, i) => this.xScale1(i) + this.xScale1.bandwidth() / 2)
+    //   .attr('y', d => this.height - this.yScale(d))
+    //   .text(d => d);
 
     // append days ticks axis
     this.svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', `translate(0,${this.height - this.margin.top - this.margin.bottom})`)
       .call(xAxis);
+
+    // append text
+    this.chart.selectAll('.bars')
+      .data(d => [d])
+      .enter()
+      .append('text')
+      .attr('class', 'bar-text')
+      .text(d => (d.value > 0 ? d.value : ''))
+      .attr('x', d => this.xScale0(d.label) - 1)
+      .attr('y', d => this.yScale(d.value) + 24)
+      .attr('fill', '#fff');
+    this.chart.selectAll('.bars')
+      .data(d => [d])
+      .enter()
+      .append('text')
+      .attr('class', 'bar-text')
+      .text(d => (d.value2 > 0 ? d.value2 : ''))
+      .attr('x', d => this.xScale0(d.label) + 36)
+      .attr('y', d => this.yScale(d.value2) + 24)
+      .attr('fill', '#fff');
   },
+
   watch: {
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .axis {
   font: 10px sans-serif;
 
@@ -266,5 +287,9 @@ export default {
   svg {
     display: block;
     margin: 0 auto;
-}}
+  }
+}
+.bar-text {
+  font-weight: 500;
+}
 </style>

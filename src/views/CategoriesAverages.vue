@@ -44,8 +44,10 @@ import HomeBlock from '@/components/HomeBlock.vue';
 import HighCharts from '@/components/HighCharts.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import { mapGetters } from 'vuex';
+import Utils from '@/mixins/Utils.vue';
 
 export default {
+  mixins: [Utils],
   components: {
     HighCharts,
     HomeBlock,

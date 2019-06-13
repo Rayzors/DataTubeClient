@@ -110,4 +110,24 @@ body {
   right: -10%;
   bottom: -10%;
 }
+.btn-outline {
+  margin: 0px auto;
+  max-width: 225px;
+  padding: 18px 14px 12px 14px;
+  display: block;
+  border-radius: 4px;
+  border: solid 2px #ffbdb3;
+  background-color: #ffffff;
+
+  text-align: center;
+  font-family: 'Geomanist';
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+  outline: none;
+  cursor: pointer;
+
+  color: #de543f;
+
+}
 </style>
