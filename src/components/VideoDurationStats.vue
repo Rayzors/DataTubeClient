@@ -22,7 +22,12 @@ export default {
   },
   computed: {
     valueString () {
-      return value => value || 0 + ' sec'
+      return value => {
+        const h = Math.floor(value / 60 / 60)
+        const m = Math.floor(value / 60 % 60)
+        const s = value % 60
+        return (h ? `${h}h` : '') + (m || h ? `${m}m` : '') + (s || m || h ? `${s}s` : '')
+      }
     },
     maxVideoDuration () { return this.$store.getters['getMaxVideoDuration'](this.statsSide) },
     minVideoDuration () { return this.$store.getters['getMinVideoDuration'](this.statsSide) },

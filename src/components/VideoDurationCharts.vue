@@ -53,8 +53,9 @@ export default {
       padding: 8px 15px 0 15px;
       white-space: nowrap;
       margin: 0;
+      overflow: hidden;
       text-overflow: ellipsis;
-      color: black;
+      color: white;
     }
   }
 

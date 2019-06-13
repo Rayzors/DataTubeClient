@@ -2,19 +2,19 @@
   <div class="likesStats">
     <div class="likesStatsItem">
       <h2 class="likesStatsItemTitle">Vidéo avec le plus de likes</h2>
-      <p class="likesStatsItemValue">{{ likes.max }} likes</p>
+      <p class="likesStatsItemValue">{{ likes.max | numberWithSpace }} likes</p>
     </div>
     <div class="likesStatsItem">
       <h2 class="likesStatsItemTitle">Vidéo avec le moins de likes</h2>
-      <p class="likesStatsItemValue">{{ likes.min }} likes</p>
+      <p class="likesStatsItemValue">{{ likes.min | numberWithSpace }} likes</p>
     </div>
     <div class="likesStatsItem">
       <h2 class="likesStatsItemTitle">Vidéos avec le plus de dislikes</h2>
-      <p class="likesStatsItemValue">{{ dislikes.max }} dislikes</p>
+      <p class="likesStatsItemValue">{{ dislikes.max | numberWithSpace }} dislikes</p>
     </div>
     <div class="likesStatsItem">
       <h2 class="likesStatsItemTitle">Vidéos avec le moins de dislikes</h2>
-      <p class="likesStatsItemValue">{{ dislikes.min }} dislikes</p>
+      <p class="likesStatsItemValue">{{ dislikes.min | numberWithSpace }} dislikes</p>
     </div>
   </div>
 </template>
