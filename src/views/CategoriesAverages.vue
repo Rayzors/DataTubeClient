@@ -178,10 +178,12 @@ export default {
   },
   computed: {
     column1() {
-      return this.models.map(model => ({
-        ...model,
-        value: this.getColumn1Datas[model.value],
-      }));
+      return this.models.map(model => {
+        return {
+          ...model,
+          value: model.title === 'Durée moyenne des vidéos' ? this.getFormattedTime(this.getColumn1Datas[model.value]) : this.getColumn1Datas[model.value],
+        }
+      });
     },
     column2() {
       return this.models.map(model => ({
@@ -262,6 +264,16 @@ export default {
     toggleCompare() {
       this.$store.dispatch('toggleCompare');
     },
+    getFormattedTime(time) {
+      const h = Math.floor(time / 60 / 60);
+      const m = Math.floor((time / 60) % 60);
+      const s = time % 60;
+      return (
+        (h ? `${h}h` : '')
+        + (m || h ? `${m}m` : '')
+        + (s || m || h ? `${s}s` : '')
+      );
+    }
   },
   watch: {},
 };
