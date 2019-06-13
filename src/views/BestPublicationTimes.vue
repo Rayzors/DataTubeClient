@@ -319,6 +319,9 @@ export default {
   min-height: 300px;
 }
 .toggleBtn {
+  margin: 18px auto;
+  padding: 16px 14px;
+  display: block;
   border-radius: 4px;
   border: solid 2px #ffbdb3;
   background-color: #ffffff;
@@ -327,6 +330,7 @@ export default {
   font-family: 'Geomanist';
   font-size: 18px;
   font-weight: bold;
+  line-height: 1;
 
   color: #de543f;
 
