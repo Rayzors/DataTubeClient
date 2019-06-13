@@ -134,7 +134,7 @@ export default {
           important: false,
         }, {
           name: 'Jour où le nombre de publication est le moins élevée',
-          value: `${this.capitalizeFirstletter(this.worstDaysOfPublication[0].label)}`,
+          value: `${this.capitalizeFirstletter(this.worstDaysOfPublication[0].label || 'mardi')}`,
           type: 'string',
           important: false,
         }];
@@ -170,7 +170,7 @@ export default {
           important: false,
         }, {
           name: 'Jour où le nombre de publication est le moins élevée',
-          value: this.capitalizeFirstletter(label),
+          value: this.capitalizeFirstletter(this.worstDaysOfPublication[1].label || 'mardi'),
           type: 'string',
           important: false,
         }];
