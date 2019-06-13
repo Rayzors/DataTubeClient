@@ -31,8 +31,8 @@ export default {
 
   h1 {
     margin-bottom: 0;
-    font-size: 24px;
-    font-style: normal;
+    font-family: 'integralcf', sans-serif;
+    font-size: 26px;
   }
 
   p {

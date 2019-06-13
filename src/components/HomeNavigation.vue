@@ -28,36 +28,36 @@ export default {
       sections: [
         {
           name: 'Moyennes des catégories',
-          routeName: 'categoriesAverages'
+          routeName: 'categoriesAverages',
         },
         {
           name: 'Youtubeurs',
-          routeName: 'youtubers'
+          routeName: 'youtubers',
         },
         {
           name: 'Nombres de vues',
-          routeName: 'viewsCounts'
+          routeName: 'viewsCounts',
         },
         {
           name: 'Durées des vidéos',
-          routeName: 'videosDurations'
+          routeName: 'videosDurations',
         },
         {
-          name: 'Meilleurs moments de publication',
-          routeName: 'bestPublicationTimes'
+          name: 'Nombres de publications',
+          routeName: 'bestPublicationTimes',
         },
         {
           name: 'Likes / dislikes',
-          routeName: 'likesDislikes'
+          routeName: 'likesDislikes',
         },
-      ]
+      ],
     };
   },
-  mounted () {
+  mounted() {
     this.selectedIndex = this.sections
       .map(section => camelCase(section.routeName))
-      .indexOf(this.$route.name)
-  }
+      .indexOf(this.$route.name);
+  },
 };
 </script>
 
@@ -88,11 +88,12 @@ $main-red: #ee5355;
     align-items: center;
 
     font-size: 13px;
+    font-family: 'integralcf', sans-serif;
     list-style-type: none;
 
     cursor: pointer;
-    &--selected .home-nav__dot {
-      background-color: #fff;
+    &--selected {
+      font-weight: bold;
     }
   }
 }

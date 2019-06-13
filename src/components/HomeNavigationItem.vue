@@ -5,7 +5,7 @@
     :to="{ name: section.routeName }"
     tag="li"
   >
-    <span>{{ `${twoNumber(index + 1)}. ${section.name}` }}</span>
+    <span>{{ `${section.name}` }}</span>
   </router-link>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   props: {
     index: Number,
     section: Object,
-    isSelected: Boolean
+    isSelected: Boolean,
   },
 };
 </script>

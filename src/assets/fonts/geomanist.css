@@ -11,3 +11,13 @@
     font-style: normal;
 
 }
+@font-face {
+    font-family: 'integralcf';
+    src: url('IntegralCF-Bold.woff2') format('woff2');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'integralcf';
+    src: url('IntegralCF-Regular.woff2') format('woff2');
+    font-weight: normal;
+}

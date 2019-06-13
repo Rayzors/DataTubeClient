@@ -1,12 +1,13 @@
 <template>
+<div>
   <div class="grid" >
     <section-title
       v-parallax="0.1"
       class="section_title"
-      title="Meilleurs moment de publication"
+      title="Nombres de publications"
       edito="(par tranche horaire)"
     />
-    <div class="grid__left" v-parallax="0.2">
+    <div class="grid__left" v-parallax="0.1">
        <div class="information__container">
         <home-block
           v-for="(block, i) in column1"
@@ -28,9 +29,9 @@
             !$store.state.isLoading"
         />
       </transition>
-      <high-charts :options="hcOptions" v-if="!barChart"/>
+      <high-charts :options="chartOptions" v-if="!barChart"/>
     </div>
-    <div class="grid__right" v-parallax="0.2">
+    <div class="grid__right" v-parallax="0.1">
       <div class="information__container">
         <home-block
           v-for="(block, i) in column2"
@@ -39,11 +40,15 @@
           :value="block.value"
           :important="block.important"
           :type="block.type"
+          :alignRight="true"
         />
       </div>
     </div>
-    <button @click="toggleBarchart"></button>
   </div>
+    <button class="toggleBtn" @click="toggleBarchart">
+      {{ barChart ? 'Par tranche horaire' : 'Par jour'}}
+    </button>
+</div>
 </template>
 
 <script>
@@ -58,11 +63,21 @@ export default {
     return {
       barChart: true,
       hcOptions: {
+        title: {
+          text: undefined,
+        },
         chart: {
           type: 'line',
         },
         xAxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          categories: [
+            'Minuit - 4h',
+            '4h - 8h',
+            '8h - 12h',
+            '12h - 16h',
+            '16h - 20h',
+            '20h - Minuit',
+          ],
         },
         yAxis: {
           title: {
@@ -77,26 +92,17 @@ export default {
             enableMouseTracking: false,
           },
         },
+        legend: {
+          text: undefined,
+        },
         series: [{
-          data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+          data: [],
+          color: '#ee5355',
         }, {
-          data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8],
+          data: [],
+          color: '#3f78de',
         }],
       },
-      models: [
-        {
-          title: 'Jour où le nombre de publication est le plus élevée',
-          value: 'bestNumberOfPublication',
-          type: 'string',
-          important: false,
-        },
-        {
-          title: 'Durée moyenne des vidéos',
-          value: 'averageTime',
-          type: 'string',
-          important: false,
-        },
-      ],
     };
   },
   components: {
@@ -116,6 +122,22 @@ export default {
     getColumnPublicationMin(i, key) {
       const array = this[`getColumn${i}Datas`][key] || [];
       return array.find(element => element.value === Math.min(...this[`getColumn${i}Datas`][key].map(el => el.value)));
+    },
+    getColumnPublicationMax(i, key) {
+      const array = this[`getColumn${i}Datas`][key] || [];
+      return array.find(element => element.value === Math.max(...this[`getColumn${i}Datas`][key].map(el => el.value)));
+    },
+    chunkArray(array, size) {
+      const chunkedArray = [];
+      for (let i = 0; i < array.length; i += 1) {
+        const last = chunkedArray[chunkedArray.length - 1];
+        if (!last || last.length === size) {
+          chunkedArray.push([array[i]]);
+        } else {
+          last.push(array[i]);
+        }
+      }
+      return chunkedArray;
     },
   },
   computed: {
@@ -142,15 +164,14 @@ export default {
         }];
       }
       if (this.getColumn1Datas.bestTimeOfPublication !== undefined) {
-        const label = this.getColumn1Datas.bestTimeOfPublication ? this.getColumn2Datas.bestTimeOfPublication.label : '';
-        let value = this.getColumn1Datas.bestTimeOfPublication.value ? this.getColumn2Datas.bestTimeOfPublication.value : '';
+        const bestTime = this.bestTimeOfPublication[0];
+        let { value } = bestTime;
+        const { label } = bestTime;
         value += value > 1 ? ' publications' : ' publication';
-
         const worstTime = this.worstTimeOfPublication[0];
         let value2 = worstTime.value;
         value2 += value2 > 1 ? ' publications' : ' publication';
         const label2 = worstTime.label;
-        console.log(worstTime);
         return [{
           name: 'Horaire où le nombre de publication est le plus élevée',
           value: `
@@ -194,13 +215,25 @@ export default {
         }];
       }
       if (this.getColumn2Datas.numberOfPublicationByDay !== undefined) {
-        const label = this.getColumn2Datas.bestNumberOfPublication ? this.getColumn2Datas.bestNumberOfPublication.label : '';
-        let value = this.getColumn2Datas.bestNumberOfPublication.value ? this.getColumn2Datas.bestNumberOfPublication.value : '';
+        const bestTime = this.bestTimeOfPublication[1];
+        let { value } = bestTime;
+        const { label } = bestTime;
         value += value > 1 ? ' publications' : ' publication';
+        const worstTime = this.worstTimeOfPublication[1];
+        let value2 = worstTime.value;
+        value2 += value2 > 1 ? ' publications' : ' publication';
+        const label2 = worstTime.label;
         return [{
           name: 'Horaire où le nombre de publication est le plus élevée',
           value: `
           ${this.capitalizeFirstletter(label)} (${value})
+          `,
+          type: 'string',
+          important: false,
+        }, {
+          name: 'Horaire où le nombre de publication est le moins élevée',
+          value: `
+          ${this.capitalizeFirstletter(label2)} (${value2})
           `,
           type: 'string',
           important: false,
@@ -216,9 +249,65 @@ export default {
       return [min1, min2];
     },
     worstTimeOfPublication() {
-      const min1 = this.getColumnPublicationMin(1, 'timeOfPublication');
-      const min2 = this.getColumnPublicationMin(2, 'timeOfPublication');
+      const modelLabel = [
+        'Minuit - 4h',
+        '4h - 8h',
+        '8h - 12h',
+        '12h - 16h',
+        '16h - 20h',
+        '20h - Minuit',
+      ];
+      const model = (modelLabel.map(element => ({
+        label: element,
+        value: null,
+      })));
+      let min1 = model.map((el, index) => ({
+        label: modelLabel[index],
+        value: this.chunkArray(this.getColumn1Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
+      }));
+      min1 = min1.find(el => el.value === Math.min(...min1.map(e => e.value)));
+      let min2 = model.map((el, index) => ({
+        label: modelLabel[index],
+        value: this.chunkArray(this.getColumn2Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
+      }));
+      min2 = min2.find(el => el.value === Math.min(...min2.map(e => e.value)));
       return [min1, min2];
+    },
+    bestTimeOfPublication() {
+      const modelLabel = [
+        'Minuit - 4h',
+        '4h - 8h',
+        '8h - 12h',
+        '12h - 16h',
+        '16h - 20h',
+        '20h - Minuit',
+      ];
+      const model = (modelLabel.map(element => ({
+        label: element,
+        value: null,
+      })));
+      let max1 = model.map((el, index) => ({
+        label: modelLabel[index],
+        value: this.chunkArray(this.getColumn1Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
+      }));
+      max1 = max1.find(el => el.value === Math.max(...max1.map(e => e.value)));
+      let max2 = model.map((el, index) => ({
+        label: modelLabel[index],
+        value: this.chunkArray(this.getColumn2Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0))[index],
+      }));
+      max2 = max2.find(el => el.value === Math.max(...max2.map(e => e.value)));
+      return [max1, max2];
+    },
+    schedules() {
+      const tab1 = this.chunkArray(this.getColumn1Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0));
+      const tab2 = this.chunkArray(this.getColumn2Datas.timeOfPublication, 8).map(tab => tab.reduce((prev, next) => prev + next.value, 0));
+      return [tab1, tab2] || [];
+    },
+    chartOptions() {
+      const newOptions = { ...this.hcOptions };
+      newOptions.series[0].data = [...this.schedules[0]];
+      newOptions.series[1].data = [...this.schedules[1]];
+      return { ...newOptions };
     },
   },
 };
@@ -228,6 +317,19 @@ export default {
 .grid__center {
   min-width: 700px;
   min-height: 300px;
+}
+.toggleBtn {
+  border-radius: 4px;
+  border: solid 2px #ffbdb3;
+  background-color: #ffffff;
+
+  text-align: center;
+  font-family: 'Geomanist';
+  font-size: 18px;
+  font-weight: bold;
+
+  color: #de543f;
+
 }
 .fade {
   transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
