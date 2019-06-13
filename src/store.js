@@ -19,6 +19,21 @@ const models = {
     maxLikes: 0,
     minDislikes: 0,
     maxDislikes: 0,
+    youtuber1: {
+      title: '',
+      subscriberCount: 0,
+      likePercentage: 0
+    },
+    youtuber2: {
+      title: '',
+      subscriberCount: 0,
+      likePercentage: 0
+    },
+    youtuber3: {
+      title: '',
+      subscriberCount: 0,
+      likePercentage: 0
+    }
   },
 };
 
@@ -123,6 +138,9 @@ export default new Vuex.Store({
     setCategoryList(state, categories) {
       state.categories = [...categories];
     },
+    setYoutuber(state, { statsSide, value, index }) {
+      state[`stats${  statsSide}`][`youtuber` + (index + 1)] = value
+    },
     setMaxVideoDuration(state, { statsSide, value }) {
       state[`stats${  statsSide}`].maxVideoDuration = value;
     },
@@ -206,6 +224,11 @@ export default new Vuex.Store({
     getAverageVideoDuration: state => statsSide => state['stats' + statsSide].averageVideoDuration,
     getLongestVideo: state => statsSide => state['stats' + statsSide].longestVideo,
     getShortestVideo: state => statsSide => state['stats' + statsSide].shortestVideo,
+    getYoutubers: state => statsSide => [
+      state['stats' + statsSide].youtuber1,
+      state['stats' + statsSide].youtuber2,
+      state['stats' + statsSide].youtuber3
+    ],
 
     getMaxVideoDurations: state => [state.stats1.maxVideoDuration, state.stats2.maxVideoDuration],
     getMinVideoDurations: state => [state.stats1.minVideoDuration, state.stats2.minVideoDuration],

@@ -1,30 +1,24 @@
 <template>
   <div class="channel">
     <div class="channel__row">
-        <span class="channel__row-number">01.</span>
+      <span class="channel__row-number">0{{ index }}.</span>
     </div>
     <div class="channel__image">
-        <img src="../assets/youtuber.jpg" alt="">
+      <h2>{{ $store.getters.getYoutubers(statsSide)[index].title }}</h2>
     </div>
-    <div class="channel__infos">
-        <div class="channel__infos__bar">
-            <div class="channel__infos__bar-progress" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-            70%
-            </div>
-        </div>
-        <div class="channel__infos__bar">
-            <div class="channel__infos__bar-progress" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:30%">
-            3M de vues
-            </div>
-        </div>
-        <div class="channel__infos__bar">
-            <div class="channel__infos__bar-progress" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:67%">
-            67% Like
-            </div>
+    <div class="channel__infos" v-parallax="0.1">      
+      <div class="channel__infos__bar">
+        <div class="channel__infos__bar-progress" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:30%">
+          {{ $store.getters.getYoutubers(statsSide)[index].subscriberCount | numberWithSpace }} abonnés
         </div>
       </div>
-
-
+      
+      <div class="channel__infos__bar">
+        <div class="channel__infos__bar-progress" role="progressbar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="width:67%">
+          {{ $store.getters.getYoutubers(statsSide)[index].likePercentage }}% de likes
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,9 +26,13 @@
 import Youtubers from "@/views/Youtubers.vue";
 
 export default {
-    components: {
-        Youtubers,
-    }
+  components: {
+    Youtubers,
+  },
+  props: {
+    index: Number,
+    statsSide: Number
+  }
 }
 </script>
 
@@ -55,7 +53,7 @@ $darkred:#de543f;
             color:$darkred;
         }
         &__image {
-            width: 100px;
+            width: 150px;
             height: 100px;
             margin: auto;
             img {
@@ -76,6 +74,7 @@ $darkred:#de543f;
                     background-color: $darkred;
                     color: white;
                     padding: 5px;
+                    white-space: nowrap;
                 }
             }
         }
@@ -83,6 +82,7 @@ $darkred:#de543f;
 .youtubers__container-right {
     &.channel {
         flex-direction: row-reverse;
+  text-align: right;
 
     }
     .channel {
@@ -98,6 +98,9 @@ $darkred:#de543f;
                     background-color: $darkblue;
                 }
             }
+        }
+        &__image {
+          text-align: right;
         }
     }
 }

@@ -32,7 +32,7 @@
       <div class="statRulers">
         <div class="statRuler" v-for="i in 8" v-bind:key="i">
           <div class="statRulerMark"></div>
-          <p class="statRulerText">{{ rulerTime(i) }} sec</p>
+          <p class="statRulerText">{{ rulerTime(i) }}</p>
         </div>
       </div>
     </div>
@@ -81,7 +81,17 @@ export default {
       return maxDuration1 > maxDuration2 ? maxDuration1 : maxDuration2;
     },
     rulerTime() {
-      return index => (this.statSize / 8) * index;
+      return (index) => {
+        const value = (this.statSize / 8) * index
+        const h = Math.floor(value / 60 / 60);
+        const m = Math.floor((value / 60) % 60);
+        const s = value % 60;
+        return (
+          (h ? `${h}h` : '')
+          + (m || h ? `${m}m` : '')
+          + (s || m || h ? `${s}s` : '')
+        );
+      }
     },
     statSize() {
       const ceiledHighestValue = Math.ceil(this.highestValue / 8);

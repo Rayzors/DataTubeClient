@@ -23,6 +23,13 @@ const api = {
       config,
     );
   },
+
+  fetchYoutubers(regionId, videoCategoryId, range) {
+    return axios.get(
+      `http://localhost:3000/channels`,
+      config,
+    );
+  },
 };
 
 export { api };
