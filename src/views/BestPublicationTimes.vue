@@ -20,16 +20,22 @@
       </div>
     </div>
     <div class="grid__center" v-parallax="0.2">
-      <transition name="fade">
-        <bar-chart
-          v-if="
-            barChart &&
-            getColumn1Datas.numberOfPublicationByDay !== undefined &&
-            $store.state.column2.datas.numberOfPublicationByDay &&
-            !$store.state.isLoading"
-        />
-      </transition>
-      <high-charts :options="chartOptions" v-if="!barChart"/>
+      <div class="grid__center-chart-container">
+        <transition name="fade">
+          <bar-chart
+            v-if="
+              barChart &&
+              getColumn1Datas.numberOfPublicationByDay !== undefined &&
+              $store.state.column2.datas.numberOfPublicationByDay &&
+              !$store.state.isLoading"
+          />
+        </transition>
+        <high-charts :options="chartOptions" v-if="!barChart"/>
+      </div>
+      <div class="toggleBtn" @click="toggleBarchart">
+        {{ barChart ? 'Par tranche horaire' : 'Par jour'}}
+        <img :src="toggleIcon" class="toggleIcon"/>
+      </div>
     </div>
     <div class="grid__right" v-parallax="0.1">
       <div class="information__container">
@@ -45,9 +51,6 @@
       </div>
     </div>
   </div>
-    <button class="toggleBtn" @click="toggleBarchart">
-      {{ barChart ? 'Par tranche horaire' : 'Par jour'}}
-    </button>
 </div>
 </template>
 
@@ -57,6 +60,7 @@ import HighCharts from '@/components/HighCharts.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import { mapGetters } from 'vuex';
 import HomeBlock from '@/components/HomeBlock.vue';
+import toggleIcon from '@/assets/group-7@2x.png';
 
 export default {
   data() {
@@ -103,6 +107,7 @@ export default {
           color: '#3f78de',
         }],
       },
+      toggleIcon,
     };
   },
   components: {
@@ -315,11 +320,18 @@ export default {
 
 <style lang="scss" scoped>
 .grid__center {
-  min-width: 700px;
-  min-height: 300px;
+  &-chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 700px;
+    min-height: 500px;
+  }
+  display: block;
 }
 .toggleBtn {
-  margin: 18px auto;
+  margin: 0px auto;
+  max-width: 225px;
   padding: 16px 14px;
   display: block;
   border-radius: 4px;
@@ -331,9 +343,17 @@ export default {
   font-size: 18px;
   font-weight: bold;
   line-height: 1;
+  outline: none;
+  cursor: pointer;
 
   color: #de543f;
 
+}
+.toggleIcon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .fade {
   transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
