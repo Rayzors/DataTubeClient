@@ -20,13 +20,12 @@
     </div>
 
     <div class="grid__center">
-      <high-charts v-parallax="0.5" :options="chartOptions"/>
+      <high-charts v-parallax="0.3" :options="chartOptions"/>
     </div>
 
     <div class="grid__right" v-parallax="0.2">
       <div class="information__container">
         <home-block
-          v-if="getCompare"
           v-for="(block, i) in column2"
           :key="i"
           :title="block.title"
@@ -59,7 +58,7 @@ export default {
           title: 'Nombre de vues',
           value: 'averageViewCount',
           type: 'string',
-          important: true,
+          important: false,
         },
         {
           title: 'Durée moyenne des vidéos',
@@ -191,35 +190,52 @@ export default {
       }));
     },
     averageData1() {
-      return [
-        Math.round(
-          (this.getColumn1Datas.averageViewCount * 100)
-            / (this.getColumn2Datas.averageViewCount
-              + this.getColumn1Datas.averageViewCount),
-        ),
+      const maxView = Math.max(
+        this.getColumn2Datas.averageViewCount,
+        this.getColumn1Datas.averageViewCount,
+      );
+      const maxAverageTime = Math.max(
+        this.getColumn2Datas.averageTime,
+        this.getColumn1Datas.averageTime,
+      );
+      const maxLike = Math.max(
+        this.getColumn2Datas.likePourcentage,
         this.getColumn1Datas.likePourcentage,
-        Math.round(
-          (this.getColumn1Datas.averageTime * 100)
-            / (this.getColumn1Datas.averageTime
-              + this.getColumn2Datas.averageTime),
-        ),
+      );
+      const maxDislike = Math.max(
+        this.getColumn2Datas.dislikePourcentage,
         this.getColumn1Datas.dislikePourcentage,
+      );
+
+      return [
+        Math.round((this.getColumn1Datas.averageViewCount * 100) / maxView),
+        Math.round((this.getColumn1Datas.likePourcentage * 100) / maxLike),
+        Math.round((this.getColumn1Datas.averageTime * 100) / maxAverageTime),
+        Math.round((this.getColumn1Datas.dislikePourcentage * 100) / maxDislike),
       ];
     },
     averageData2() {
-      return [
-        Math.round(
-          (this.getColumn2Datas.averageViewCount * 100)
-            / (this.getColumn2Datas.averageViewCount
-              + this.getColumn1Datas.averageViewCount),
-        ),
+      const maxView = Math.max(
+        this.getColumn2Datas.averageViewCount,
+        this.getColumn1Datas.averageViewCount,
+      );
+      const maxAverageTime = Math.max(
+        this.getColumn2Datas.averageTime,
+        this.getColumn1Datas.averageTime,
+      );
+      const maxLike = Math.max(
         this.getColumn2Datas.likePourcentage,
-        Math.round(
-          (this.getColumn2Datas.averageTime * 100)
-            / (this.getColumn1Datas.averageTime
-              + this.getColumn2Datas.averageTime),
-        ),
+        this.getColumn1Datas.likePourcentage,
+      );
+      const maxDislike = Math.max(
         this.getColumn2Datas.dislikePourcentage,
+        this.getColumn1Datas.dislikePourcentage,
+      );
+      return [
+        Math.round((this.getColumn2Datas.averageViewCount * 100) / maxView),
+        Math.round((this.getColumn2Datas.likePourcentage * 100) / maxLike),
+        Math.round((this.getColumn2Datas.averageTime * 100) / maxAverageTime),
+        Math.round((this.getColumn2Datas.dislikePourcentage * 100) / maxDislike),
       ];
     },
     chartOptions() {
@@ -257,11 +273,10 @@ export default {
   grid-template-areas:
     "a a a"
     "b c d";
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr minmax(500px, auto) 1fr;
   grid-template-rows: max-content auto;
-  grid-gap: 1em;
   align-items: center;
-  padding-top: 12vh;
+  height: calc(100vh - 65px - 12vh);
   z-index: 3;
   position: relative;
 

@@ -40,7 +40,7 @@ export default {
   async created() {
     await this.$store.dispatch('setList', 'countries');
     await this.$store.dispatch('setList', 'categories');
-    window.aaa = this.$store
+    window.aaa = this.$store;
   },
   computed: {
     ...mapGetters(['getCountries', 'getSubscribersRanges', 'getCategories']),
@@ -87,12 +87,9 @@ body {
 }
 
 .topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 999;
-  padding: 2em 0;
+  padding: 2em 0 0;
 
   .container {
     display: flex;

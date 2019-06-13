@@ -1,5 +1,11 @@
 <template>
   <div class="grid">
+    <section-title
+      v-parallax="0.1"
+      class="section_title"
+      title="Like/Dislike"
+      edito="Vous pourrez comprendre ce qui marche autour de vous."
+    />
     <div class="grid__left" v-parallax="0.2">
       <likes-stats
         :likes="{ min: minLikes(1), max: maxLikes(1) }"
@@ -7,7 +13,7 @@
       />
     </div>
 
-    <div v-parallax="0.5" class="grid__center">
+    <div v-parallax="0.3" class="grid__center">
       <h2>Likes</h2>
       <gauge-comparator
         :showBoth="$store.state.compare"
@@ -46,10 +52,11 @@
 <script>
 import gaugeComparator from '@/components/GaugeComparator.vue';
 import likesStats from '@/components/LikesStats.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
 import { api } from '@/api';
 
 export default {
-  components: { gaugeComparator, likesStats },
+  components: { gaugeComparator, likesStats, SectionTitle },
   computed: {
     column1Selection() {
       return this.$store.getters.getColumn1Selection;
@@ -139,20 +146,40 @@ export default {
 <style lang="scss" scoped>
 .grid {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  grid-gap: 0;
-  align-items: center;
-  height: 100vh;
+  grid-template-areas:
+    "a a a"
+    "b c d";
+  grid-template-columns: 1fr minmax(700px, auto) 1fr;
+  grid-template-rows: max-content auto;
+  height: calc(100vh - 65px - 12vh);
   z-index: 3;
   position: relative;
 
+  .section_title {
+    grid-area: a;
+  }
+
   &__center {
+    grid-area: c;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
-    display: flex;
     flex-direction: column;
     position: relative;
+  }
+
+  &__right {
+    grid-area: d;
+    text-align: right;
+  }
+
+  &__left {
+    grid-area: b;
+  }
+
+  &__right,
+  &__left {
+    display: flex;
+    flex-flow: column wrap;
   }
 }
 </style>

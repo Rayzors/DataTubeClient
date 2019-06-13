@@ -71,7 +71,7 @@ export default new Vuex.Store({
       selected: {
         country: '',
         range: '',
-        category: '',
+        category: 2,
       },
       subscribersRanges: [
         {

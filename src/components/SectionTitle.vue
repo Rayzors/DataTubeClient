@@ -31,12 +31,15 @@ export default {
 
   h1 {
     margin-bottom: 0;
+    font-size: 24px;
+    font-style: normal;
   }
 
   p {
     font-size: 17px;
     line-height: 22px;
     color: #9a9a9a;
+    margin: 0;
   }
 }
 
