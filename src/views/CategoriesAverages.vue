@@ -218,10 +218,10 @@ export default {
       );
 
       return [
-        Math.round((this.getColumn1Datas.averageViewCount * 100) / maxView),
-        Math.round((this.getColumn1Datas.likePourcentage * 100) / maxLike),
-        Math.round((this.getColumn1Datas.averageTime * 100) / maxAverageTime),
-        Math.round((this.getColumn1Datas.dislikePourcentage * 100) / maxDislike),
+        Math.round((this.getColumn1Datas.averageViewCount * 100) / (this.getColumn1Datas.averageViewCount + this.getColumn2Datas.averageViewCount)),
+        Math.round((this.getColumn1Datas.likePourcentage * 100) / (this.getColumn1Datas.likePourcentage + this.getColumn2Datas.likePourcentage)),
+        Math.round((this.getColumn1Datas.averageTime * 100) / (this.getColumn1Datas.averageTime + this.getColumn2Datas.averageTime)),
+        Math.round((this.getColumn1Datas.dislikePourcentage * 100) / (this.getColumn1Datas.dislikePourcentage + this.getColumn2Datas.dislikePourcentage)),
       ];
     },
     averageData2() {
@@ -242,10 +242,10 @@ export default {
         this.getColumn1Datas.dislikePourcentage,
       );
       return [
-        Math.round((this.getColumn2Datas.averageViewCount * 100) / maxView),
-        Math.round((this.getColumn2Datas.likePourcentage * 100) / maxLike),
-        Math.round((this.getColumn2Datas.averageTime * 100) / maxAverageTime),
-        Math.round((this.getColumn2Datas.dislikePourcentage * 100) / maxDislike),
+        Math.round((this.getColumn2Datas.averageViewCount * 100) / (this.getColumn1Datas.averageViewCount + this.getColumn2Datas.averageViewCount)),
+        Math.round((this.getColumn2Datas.likePourcentage * 100) / (this.getColumn1Datas.likePourcentage + this.getColumn2Datas.likePourcentage)),
+        Math.round((this.getColumn2Datas.averageTime * 100) / (this.getColumn1Datas.averageTime + this.getColumn2Datas.averageTime)),
+        Math.round((this.getColumn2Datas.dislikePourcentage * 100) / (this.getColumn1Datas.dislikePourcentage + this.getColumn2Datas.dislikePourcentage)),
       ];
     },
     chartOptions() {

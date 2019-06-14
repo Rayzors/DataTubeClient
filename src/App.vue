@@ -34,12 +34,8 @@ export default {
   components: { SelectBoxContainer },
   data() {
     return {
-<<<<<<< HEAD
-      hideParticles: true,
-=======
       hideParticles: false,
       LogoSvg,
->>>>>>> fix: change logo
     };
   },
   async created() {
