@@ -4,7 +4,7 @@
       v-parallax="0.1"
       class="section_title"
       title="Like/Dislike"
-      edito="Vous pourrez comprendre ce qui marche autour de vous."
+      edito="Comprenez ce que les internautes aiment ou n’aiment pas."
     />
     <div class="grid__left" v-parallax="0.2">
       <likes-stats

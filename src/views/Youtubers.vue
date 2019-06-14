@@ -1,6 +1,11 @@
 <template>
   <div class="youtubers" v-parallax="0.2">
-    <h1 class="youtubers__title">Chaîne youtube</h1>
+    <section-title
+      v-parallax="0.1"
+      class="section_title"
+      title="Chaînes YouTube"
+      edito="Découvrez les trois meilleurs profils pour cette recherche."
+    />
     <div class="youtubers__container" v-parallax="0.1"> 
       <div class="youtubers__container-left">
         <channels :statsSide="1" :index="0" />
@@ -19,10 +24,11 @@
 <script>
 import Channels from "@/components/Channels.vue";
 import { api } from '@/api';
+import SectionTitle from '@/components/SectionTitle.vue'
 
 export default {
   components: {
-    Channels,
+    Channels, SectionTitle
   },
   methods: {
     async updateData (value, statsSide) {

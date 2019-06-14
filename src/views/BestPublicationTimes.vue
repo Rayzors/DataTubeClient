@@ -5,7 +5,7 @@
       v-parallax="0.1"
       class="section_title"
       title="Nombres de publications"
-      edito="(par tranche horaire)"
+      edito="Nous vous indiquons le meilleur moment pour publier votre vidéo."
     />
     <div class="grid__left" v-parallax="0.1">
        <div class="information__container">

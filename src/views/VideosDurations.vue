@@ -4,7 +4,7 @@
       v-parallax="0.1"
       class="section_title"
       title="Durée des vidéos"
-      edito="Vous pourrez comprendre ce qui marche autour de vous."
+      edito="Découvrez le meilleur temps de vidéo pour cette recherche."
     />
 
     <div class="grid__left" v-parallax="0.2">
