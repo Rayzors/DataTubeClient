@@ -76,9 +76,6 @@ $main-red: #ee5355;
     font-size: 24px;
     color: #7a7089;
 
-    .step__logo {
-      width: 370px;
-    }
   }
 
   &__image {
