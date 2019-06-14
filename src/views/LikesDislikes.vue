@@ -51,11 +51,11 @@
 </template>
 
 <script>
-import gaugeComparator from "@/components/GaugeComparator.vue";
-import likesStats from "@/components/LikesStats.vue";
-import SectionTitle from "@/components/SectionTitle.vue";
-import { TimelineLite } from "gsap";
-import { api } from "@/api";
+import gaugeComparator from '@/components/GaugeComparator.vue';
+import likesStats from '@/components/LikesStats.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import { TimelineLite } from 'gsap';
+import { api } from '@/api';
 
 export default {
   components: { gaugeComparator, likesStats, SectionTitle },
@@ -79,7 +79,7 @@ export default {
       return statsSide => this.$store.getters.getMaxDislikes(statsSide);
     },
     percentages() {
-      return type => {
+      return (type) => {
         const side1 = this[type](1);
         const side2 = this[type](2);
         const higherSide = Math.max(side1, side2);
@@ -87,20 +87,20 @@ export default {
         const total = higherSide + lowerSide;
         return [(side1 / (total || 1)) * 100, (side2 / (total || 1)) * 100];
       };
-    }
+    },
   },
   methods: {
     async updateLikeData(value, statsSide) {
       const datas = (await api.fetchVideosLikes(
         value.country,
         value.category,
-        this.$store.state["column" + statsSide].selected.range
+        this.$store.state[`column${ statsSide}`].selected.range,
       )).data;
       let maxLikes = 0;
       let minLikes = datas.length ? datas[0].likeCount : 0;
       let maxDislikes = 0;
       let minDislikes = datas.length ? datas[0].dislikeCount : 0;
-      datas.forEach(data => {
+      datas.forEach((data) => {
         const { likeCount } = data;
         const { dislikeCount } = data;
         if (likeCount > maxLikes) {
@@ -116,14 +116,14 @@ export default {
           minDislikes = dislikeCount;
         }
       });
-      this.$store.commit("setMinLikes", { statsSide, value: minLikes });
-      this.$store.commit("setMaxLikes", { statsSide, value: maxLikes });
-      this.$store.commit("setMinDislikes", { statsSide, value: minDislikes });
-      this.$store.commit("setMaxDislikes", { statsSide, value: maxDislikes });
+      this.$store.commit('setMinLikes', { statsSide, value: minLikes });
+      this.$store.commit('setMaxLikes', { statsSide, value: maxLikes });
+      this.$store.commit('setMinDislikes', { statsSide, value: minDislikes });
+      this.$store.commit('setMaxDislikes', { statsSide, value: maxDislikes });
     },
     enter(el, done) {
       const tl = new TimelineLite({
-        onComplete: done
+        onComplete: done,
       });
 
       tl.fromTo(
@@ -131,14 +131,14 @@ export default {
         0.5,
         { x: -100, opacity: 0 },
         { x: 0, opacity: 1 },
-        0.1
+        0.1,
       );
       tl.fromTo(
         this.$refs.left,
         0.26,
         { x: -100, opacity: 0 },
         { x: 0, opacity: 1 },
-        0.5
+        0.5,
       );
 
       tl.fromTo(
@@ -146,7 +146,7 @@ export default {
         0.26,
         { x: 100, opacity: 0 },
         { x: 0, opacity: 1 },
-        0.5
+        0.5,
       );
 
       tl.fromTo(
@@ -154,12 +154,12 @@ export default {
         0.26,
         { scale: 0, opacity: 0 },
         { scale: 1, opacity: 1 },
-        0.7
+        0.7,
       );
     },
     leave(el, done) {
       const tl = new TimelineLite({
-        onComplete: done
+        onComplete: done,
       });
 
       tl.fromTo(
@@ -167,14 +167,14 @@ export default {
         0.5,
         { x: 0, opacity: 1 },
         { x: -100, opacity: 0 },
-        0.24
+        0.24,
       );
       tl.fromTo(
         this.$refs.left,
         0.26,
         { x: 0, opacity: 1 },
         { x: -100, opacity: 0 },
-        0.26
+        0.26,
       );
 
       tl.fromTo(
@@ -182,7 +182,7 @@ export default {
         0.26,
         { x: 0, opacity: 1 },
         { x: 100, opacity: 0 },
-        0.26
+        0.26,
       );
 
       tl.fromTo(
@@ -190,9 +190,9 @@ export default {
         0.26,
         { scale: 1, opacity: 1 },
         { scale: 0, opacity: 0 },
-        0.1
+        0.1,
       );
-    }
+    },
   },
   mounted() {
     this.updateLikeData(this.$store.state.column1.selected, 1);
@@ -203,15 +203,15 @@ export default {
       async handler(value) {
         await this.updateLikeData(value, 1);
       },
-      deep: true
+      deep: true,
     },
     column2Selection: {
       async handler(value) {
         await this.updateLikeData(value, 2);
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 };
 </script>
 
