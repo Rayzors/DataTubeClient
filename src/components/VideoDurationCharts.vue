@@ -3,10 +3,10 @@
     <h2 class="statTitle">{{ title }}</h2>
     <div class="statBlocks">
       <div class="statBlock1" :style="statBlockStyle(0)">
-        <p class="statText">{{ videoTitles[0] }}</p>
+        <p class="statText"><a class="statTextLink" :href="'https://www.youtube.com/watch?v=' + $store.state.stats1.id">{{ videoTitles[0] }}</a></p>
       </div>
       <div class="statBlock2" :style="statBlockStyle(1)">
-        <p class="statText">{{ videoTitles[1] }}</p>
+        <p class="statText"><a class="statTextLink" :href="'https://www.youtube.com/watch?v=' + $store.state.stats2.id">{{ videoTitles[1] }}</a></p>
       </div>
     </div>
   </div>
@@ -56,6 +56,11 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       color: white;
+
+      &Link {
+        color: white;
+        text-decoration: none;
+      }
     }
   }
 

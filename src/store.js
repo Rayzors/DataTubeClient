@@ -19,6 +19,7 @@ const models = {
     maxLikes: 0,
     minDislikes: 0,
     maxDislikes: 0,
+    id: '',
     youtuber1: {
       title: '',
       subscriberCount: 0,
@@ -141,6 +142,9 @@ export default new Vuex.Store({
     setYoutuber(state, { statsSide, value, index }) {
       state[`stats${  statsSide}`][`youtuber` + (index + 1)] = value
     },
+    setVideoId(state, { statsSide, value }) {
+      state[`stats${  statsSide}`].id = value
+    },
     setMaxVideoDuration(state, { statsSide, value }) {
       state[`stats${  statsSide}`].maxVideoDuration = value;
     },
@@ -229,6 +233,7 @@ export default new Vuex.Store({
       state['stats' + statsSide].youtuber2,
       state['stats' + statsSide].youtuber3
     ],
+    getId: state => statsSide => state['stats' + statsSide].id,
 
     getMaxVideoDurations: state => [state.stats1.maxVideoDuration, state.stats2.maxVideoDuration],
     getMinVideoDurations: state => [state.stats1.minVideoDuration, state.stats2.minVideoDuration],

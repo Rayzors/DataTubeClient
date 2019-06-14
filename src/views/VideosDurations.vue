@@ -113,11 +113,13 @@ export default {
       let minDuration = datas.length ? datas[0].duration : 0;
       let shortestVideo = datas.length ? datas[0].title : '';
       let totalDuration = 0;
+      let videoId = ''
       datas.forEach((data) => {
-        const { duration, title } = data;
+        const { id, duration, title } = data;
         if (duration > maxDuration) {
           maxDuration = duration;
           longestVideo = title;
+          videoId = id
         }
         if (duration < minDuration) {
           minDuration = duration;
@@ -143,6 +145,7 @@ export default {
         statsSide,
         value: shortestVideo,
       });
+      this.$store.commit('setVideoId', { statsSide, value: videoId })
     },
   },
   mounted() {
