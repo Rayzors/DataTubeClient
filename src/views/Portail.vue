@@ -1,11 +1,15 @@
 <template>
   <div class="portail">
     <div class="portail__caption" v-parallax="0.2" v-if="index === 0">
-      <img :src="LogoSVG" class="step__logo"/>
-      <div
-        class="portail__description"
-      >Créez et optimisez vos contenus impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
-    </div>
+      <div>
+        <img :src="LogoSVG" class="step__logo"/>
+        <div class="portail__description">
+          Créez et optimisez vos contenus impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
+        </div>
+      </div>
+      <div>
+        <home-bg v-if="index == 0" v-parallax="0.2" />
+      </div>
     <step1 v-if="index === 1"/>
     <step2 v-if="index === 2"/>
     <div>
@@ -30,6 +34,7 @@ import image from '@/assets/portail-bg.svg';
 import Step1 from '@/components/Step1.vue';
 import Step2 from '@/components/Step2.vue';
 import nextArr from '@/assets/fleche.vue';
+import HomeBg from '@/assets/home-bg.vue';
 
 export default {
   data() {
@@ -43,6 +48,7 @@ export default {
     Step1,
     Step2,
     nextArr,
+    HomeBg,
   },
   methods: {
     nextStep() {
@@ -70,12 +76,31 @@ $main-red: #ee5355;
   min-height: 100vh;
 
   &__caption {
-    display: block;
+    display: flex;
+    justify-content: space-around;
 
     font-family: "geomanistregular", Arial, sans-serif;
     font-size: 24px;
     color: #7a7089;
+  }
 
+  &__description {
+    color: #000;
+    margin-left: 36px;
+    position: relative;
+    font-family: 'Geomanist';
+    font-weight: 500;
+      &:before {
+        content: '';
+        position: absolute;
+        border-radius: 2px;
+        background: #de543f;
+        width: 24px;
+        height: 8px;
+        left: -36px;
+        top: 50%;
+        transform: translateY(-50%)
+      }
   }
 
   &__image {

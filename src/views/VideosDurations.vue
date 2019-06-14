@@ -4,7 +4,7 @@
       v-parallax="0.1"
       class="section_title"
       title="Durée des vidéos"
-      edito="Découvrez le meilleur temps de vidéo pour cette recherche."
+      edito="Découvrez la durée idéale des vidéos pour cette recherche."
     />
 
     <div class="grid__left" v-parallax="0.2">
@@ -105,7 +105,7 @@ export default {
       const datas = (await api.fetchVideosDurations(
         value.country,
         value.category,
-        this.$store.state['column' + statsSide].selected.range,
+        this.$store.state[`column${statsSide}`].selected.range,
       )).data;
       let maxDuration = 0;
       let longestVideo = '';

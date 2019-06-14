@@ -1,48 +1,56 @@
 <template>
   <div class="youtubers" v-parallax="0.2">
-    <section-title
-      v-parallax="0.1"
-      class="section_title"
-      title="Chaînes YouTube"
-      edito="Découvrez les trois meilleurs profils pour cette recherche."
-    />
-    <div class="youtubers__container" v-parallax="0.1"> 
+    <h1 class="youtubers__title">Chaîne youtube</h1>
+    <div class="youtubers__container" v-parallax="0.1">
       <div class="youtubers__container-left">
-        <channels :statsSide="1" :index="0" />
-        <channels :statsSide="1" :index="1" />
-        <channels :statsSide="1" :index="2" />
+        <channels :statsSide="1" :index="0"/>
+        <channels :statsSide="1" :index="1"/>
+        <channels :statsSide="1" :index="2"/>
       </div>
       <div class="youtubers__container-right" v-if="$store.state.compare === true">
-        <channels :statsSide="2" :index="0" />
-        <channels :statsSide="2" :index="1" />
-        <channels :statsSide="2" :index="2" />
-      </div> 
-    </div> 
+        <channels :statsSide="2" :index="0"/>
+        <channels :statsSide="2" :index="1"/>
+        <channels :statsSide="2" :index="2"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Channels from "@/components/Channels.vue";
+import Channels from '@/components/Channels.vue';
 import { api } from '@/api';
-import SectionTitle from '@/components/SectionTitle.vue'
+import SectionTitle from '@/components/SectionTitle.vue';
 
 export default {
   components: {
-    Channels, SectionTitle
+    Channels,
+    SectionTitle,
   },
   methods: {
-    async updateData (value, statsSide) {
+    async updateData(value, statsSide) {
       const datas = (await api.fetchYoutubers(
         value.country,
         value.category,
-        this.$store.state['column' + statsSide].selected.range,
+        this.$store.state[`column${statsSide}`].selected.range,
       )).data;
-      this.$store.commit('setYoutuber', { statsSide, value: datas[0], index: 0 })
-      this.$store.commit('setYoutuber', { statsSide, value: datas[1], index: 1 })
-      this.$store.commit('setYoutuber', { statsSide, value: datas[2], index: 2 })
-    }
+      this.$store.commit('setYoutuber', {
+        statsSide,
+        value: datas[0],
+        index: 0,
+      });
+      this.$store.commit('setYoutuber', {
+        statsSide,
+        value: datas[1],
+        index: 1,
+      });
+      this.$store.commit('setYoutuber', {
+        statsSide,
+        value: datas[2],
+        index: 2,
+      });
+    },
   },
-  async mounted () {
+  async mounted() {
     this.updateData(this.$store.state.column1.selected, 1);
     this.updateData(this.$store.state.column2.selected, 2);
   },
@@ -68,7 +76,7 @@ export default {
       deep: true,
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -94,13 +102,12 @@ export default {
       width: 48%;
     }
 
-    &-right{
+    &-right {
       width: 48%;
-        .channel {
-          flex-direction: row-reverse;
+      .channel {
+        flex-direction: row-reverse;
       }
     }
   }
-
 }
 </style>

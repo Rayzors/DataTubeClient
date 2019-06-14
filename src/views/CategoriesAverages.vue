@@ -4,7 +4,7 @@
       v-parallax="0.1"
       class="section_title"
       title="Moyenne des catégories"
-      edito="Nous vous affichons une moyenne de toutes les informations principales pour cette recherche."
+      edito="Nous vous affichons une moyenne des informations principales pour cette recherche."
     />
     <div class="grid__left" v-parallax="0.2">
       <div class="information__container">
@@ -180,12 +180,10 @@ export default {
   },
   computed: {
     column1() {
-      return this.models.map(model => {
-        return {
-          ...model,
-          value: model.title === 'Durée moyenne des vidéos' ? this.getFormattedTime(this.getColumn1Datas[model.value]) : this.getColumn1Datas[model.value],
-        }
-      });
+      return this.models.map(model => ({
+        ...model,
+        value: model.title === 'Durée moyenne des vidéos' ? this.getFormattedTime(this.getColumn1Datas[model.value]) : this.getColumn1Datas[model.value],
+      }));
     },
     column2() {
       return this.models.map(model => ({
@@ -275,7 +273,7 @@ export default {
         + (m || h ? `${m}m` : '')
         + (s || m || h ? `${s}s` : '')
       );
-    }
+    },
   },
   watch: {},
 };
