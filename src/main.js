@@ -14,11 +14,6 @@ Vue.filter('numberWithSpace', (value) => {
   return newValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 });
 
-Vue.filter('secondToMinute', (value) => {
-  const newValue = +value;
-  return Math.round(newValue / 60);
-});
-
 new Vue({
   router,
   store,
