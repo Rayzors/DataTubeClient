@@ -11,7 +11,7 @@
     <div class="topbar" v-if="$route.path !== '/'">
       <div class="container">
         <div class="logo">
-          <LogoSVG/>
+          <img :src="LogoSvg" class="step__logo"/>
         </div>
       </div>
       <select-box-container
@@ -26,15 +26,20 @@
 </template>
 
 <script>
-import LogoSVG from '@/components/LogoSVG.vue';
+import LogoSvg from '@/assets/logo-datatube-default.png';
 import SelectBoxContainer from '@/components/SelectBoxContainer.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { SelectBoxContainer, LogoSVG },
+  components: { SelectBoxContainer },
   data() {
     return {
+<<<<<<< HEAD
       hideParticles: true,
+=======
+      hideParticles: false,
+      LogoSvg,
+>>>>>>> fix: change logo
     };
   },
   async created() {
@@ -81,6 +86,11 @@ body {
   color: #180940;
 }
 
+.step__logo {
+  height: 20px;
+  margin-bottom: 12px;
+  margin-left: 4px;
+}
 .container {
   padding: 0 64px;
   margin: 0 auto;
