@@ -1,6 +1,6 @@
 <template>
   <div class="step1">
-    <logo-svg class="step__logo"/>
+    <img :src="LogoSvg" class="step__logo"/>
     <div class="step1__left">
       <ul class="step1__left__nav">
         <li class="step1__left__nav-item--selected">Étape 1 (Votre pays de résidence)</li>
@@ -214,12 +214,16 @@
 <script>
 import SelectBox from '@/components/SelectBox.vue';
 import { mapGetters } from 'vuex';
-import LogoSvg from '@/components/LogoSVG.vue';
+import LogoSvg from '@/assets/logo-datatube-default.png';
 
 export default {
+  data() {
+    return {
+      LogoSvg,
+    };
+  },
   components: {
     SelectBox,
-    LogoSvg,
   },
   computed: {
     ...mapGetters(['getCountries']),
@@ -234,6 +238,7 @@ $red: #de543f;
   position: absolute;
   top: 5%;
   left: 64px;
+  height: 20px;
 }
 
 .step1 {
