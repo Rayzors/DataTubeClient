@@ -92,22 +92,11 @@ $main-red: #ee5355;
   }
 
   &__description {
+    width: 70%;
     color: #000;
-    margin-left: 36px;
     position: relative;
     font-family: 'Geomanist';
     font-weight: 500;
-      &:before {
-        content: '';
-        position: absolute;
-        border-radius: 2px;
-        background: #de543f;
-        width: 24px;
-        height: 8px;
-        left: -36px;
-        top: 50%;
-        transform: translateY(-50%)
-      }
   }
 
   &__image {
