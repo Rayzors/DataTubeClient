@@ -33,8 +33,9 @@
         <high-charts :options="chartOptions" v-if="!barChart"/>
       </div>
       <div class="btn-outline" @click="toggleBarchart" style="margin-top: 40px;">
-        {{ barChart ? 'Par tranche horaire' : 'Par jour'}}
-        <img :src="toggleIcon" class="toggleIcon"/>
+        <span>{{ barChart ? 'Par tranche horaire' : 'Par jour'}}
+        <tranche-horaire-icon />
+        </span>
       </div>
     </div>
     <div class="grid__right" v-parallax="0.1">
@@ -62,6 +63,7 @@ import { mapGetters } from 'vuex';
 import HomeBlock from '@/components/HomeBlock.vue';
 import toggleIcon from '@/assets/group-7@2x.png';
 import Utils from '@/mixins/Utils.vue';
+import TrancheHoraireIcon from '@/assets/tranche-horaire-icon.vue';
 
 export default {
   mixins: [Utils],
@@ -74,6 +76,9 @@ export default {
         },
         chart: {
           type: 'line',
+          style: {
+            fontFamily: '"Geomanist", sans-serif',
+          },
         },
         xAxis: {
           categories: [
@@ -111,7 +116,6 @@ export default {
           name: '',
         }],
       },
-      toggleIcon,
     };
   },
   components: {
@@ -119,6 +123,7 @@ export default {
     HighCharts,
     HomeBlock,
     SectionTitle,
+    TrancheHoraireIcon,
   },
   methods: {
     toggleBarchart() {
@@ -262,12 +267,22 @@ export default {
 
 <style lang="scss" scoped>
 .btn-outline{
+  position: relative;
   img {
     transform: rotate(0deg);
     transition: transform 0.5s ease;
   }
   &:active img {
     transform: rotate(-90deg);
+  }
+  &:hover {
+    svg {
+      position: relative;
+      z-index: 990;
+    }
+    #flechefill {
+      fill: #FFF;
+    }
   }
 }
 .grid__center {

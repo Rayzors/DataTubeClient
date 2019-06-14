@@ -4,7 +4,7 @@
       <LogoSVG :ratio="2"/>
       <div
         class="portail__description"
-      >Créez du contenu impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
+      >Créez et optimisez vos contenus impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
     </div>
     <!-- <div class="portail__image" v-parallax="0.2">
       <img :src="image" alt="image avec des gens qui font de la dataviz">
@@ -12,8 +12,9 @@
     <step1 v-if="index === 1"/>
     <step2 v-if="index === 2"/>
     <div>
-      <button @click="nextStep" class="portail__btn-next btn-outline">Suivant
-        <img :src="nextArr" alt="next arrow" class="portail__next-arrow">
+      <button @click="nextStep" class="portail__btn-next btn-outline">
+        <span>Suivant</span>
+        <next-arr class="portail__next-arrow" />
         <router-link
           v-if="index === 2"
           @click="nextStep"
@@ -31,20 +32,20 @@ import LogoSVG from '@/components/LogoSVG.vue';
 import image from '@/assets/portail-bg.svg';
 import Step1 from '@/components/Step1.vue';
 import Step2 from '@/components/Step2.vue';
-import nextArr from '@/assets/top-arrow-from-top@2x.png';
+import nextArr from '@/assets/fleche.vue';
 
 export default {
   data() {
     return {
       index: 0,
       image,
-      nextArr,
     };
   },
   components: {
     LogoSVG,
     Step1,
     Step2,
+    nextArr,
   },
   methods: {
     nextStep() {
