@@ -1,14 +1,11 @@
 <template>
   <div class="portail">
     <div class="portail__caption" v-parallax="0.2" v-if="index === 0">
-      <LogoSVG :ratio="2"/>
+      <img :src="LogoSVG" class="step__logo"/>
       <div
         class="portail__description"
       >Créez et optimisez vos contenus impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
     </div>
-    <!-- <div class="portail__image" v-parallax="0.2">
-      <img :src="image" alt="image avec des gens qui font de la dataviz">
-    </div>-->
     <step1 v-if="index === 1"/>
     <step2 v-if="index === 2"/>
     <div>
@@ -28,7 +25,7 @@
 </template>
 
 <script>
-import LogoSVG from '@/components/LogoSVG.vue';
+import LogoSVG from '@/assets/datatube-logo-home.png';
 import image from '@/assets/portail-bg.svg';
 import Step1 from '@/components/Step1.vue';
 import Step2 from '@/components/Step2.vue';
@@ -38,11 +35,11 @@ export default {
   data() {
     return {
       index: 0,
+      LogoSVG,
       image,
     };
   },
   components: {
-    LogoSVG,
     Step1,
     Step2,
     nextArr,
@@ -78,6 +75,10 @@ $main-red: #ee5355;
     font-family: "geomanistregular", Arial, sans-serif;
     font-size: 24px;
     color: #7a7089;
+
+    .step__logo {
+      width: 370px;
+    }
   }
 
   &__image {
