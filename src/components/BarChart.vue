@@ -183,73 +183,57 @@ export default {
       .attr('height', d => this.height - this.margin.top - this.margin.bottom - this.yScale(d.value2));
 
     // append min max bars
-    numberOfPublicationByDay.forEach((d) => {
-      if (d.value === d3.max(numberOfPublicationByDay, datum => datum.value)) {
-        this.svg.select('.maxRed')
-          .attr('x1', 0)
-          .attr('y1', () => this.yScale(d.value))
-          .attr('x2', () => this.width)
-          .attr('y2', () => this.yScale(d.value))
-          .attr('stroke', '#de543f');
-      }
-      if (d.value === d3.min(numberOfPublicationByDay, datum => datum.value)) {
-        this.svg.select('.minRed')
-          .attr('x1', 0)
-          .attr('y1', () => this.yScale(d.value))
-          .attr('x2', () => this.width)
-          .attr('y2', () => this.yScale(d.value))
-          .attr('stroke', '#de543f');
-      }
-      if (d.value2 === d3.max(numberOfPublicationByDay, datum => datum.value2)) {
-        this.svg.select('.maxBlue')
-          .attr('x1', 0)
-          .attr('y1', () => this.yScale(d.value2))
-          .attr('x2', () => this.width)
-          .attr('y2', () => this.yScale(d.value2))
-          .attr('stroke', '#3f78de');
-      }
-      if (d.value2 === d3.min(numberOfPublicationByDay, datum => datum.value2)) {
-        this.svg.select('.minBlue')
-          .attr('x1', 0)
-          .attr('y1', () => this.yScale(d.value2))
-          .attr('x2', () => this.width)
-          .attr('y2', () => this.yScale(d.value2))
-          .attr('stroke', '#3f78de');
-        this.chart.selectAll('.minBlue')
-          .style('opacity', 1);
-        this.chart.select('.maxBlue')
-          .style('opacity', 1);
-      }
-    });
     // append text values
     this.chart.selectAll('.bar.value2')
       .data(d => [d])
       .enter()
       .append('text');
 
-    this.chart.selectAll('.bar')
-      .data(d => [d])
-      .enter()
-      .append('text')
-      .attr('class', 'bartext')
-      .attr('text-anchor', 'middle')
-      .attr('fill', 'white')
-      .attr('x', (d, i) => this.xScale1(i) + this.xScale1.rangeBand() / 2)
-      .attr('y', d => this.height - this.yScale(d))
-      .text(d => d);
+    // this.chart.selectAll('.bar')
+    //   .data(d => [d])
+    //   .enter()
+    //   .append('text')
+    //   .attr('class', 'bartext')
+    //   .attr('text-anchor', 'middle')
+    //   .attr('fill', 'white')
+    //   .attr('x', (d, i) => this.xScale1(i) + this.xScale1.bandwidth() / 2)
+    //   .attr('y', d => this.height - this.yScale(d))
+    //   .text(d => d);
 
     // append days ticks axis
     this.svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', `translate(0,${this.height - this.margin.top - this.margin.bottom})`)
       .call(xAxis);
+
+    // append text
+    this.chart.selectAll('.bars')
+      .data(d => [d])
+      .enter()
+      .append('text')
+      .attr('class', 'bar-text')
+      .text(d => (d.value > 0 ? d.value : ''))
+      .attr('x', d => this.xScale0(d.label) - 1)
+      .attr('y', d => this.yScale(d.value) + 24)
+      .attr('fill', '#fff');
+    this.chart.selectAll('.bars')
+      .data(d => [d])
+      .enter()
+      .append('text')
+      .attr('class', 'bar-text')
+      .style('style', 'font-size: "Geomanist", sans-serif')
+      .text(d => (d.value2 > 0 ? d.value2 : ''))
+      .attr('x', d => this.xScale0(d.label) + 36)
+      .attr('y', d => this.yScale(d.value2) + 24)
+      .attr('fill', '#fff');
   },
+
   watch: {
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .axis {
   font: 10px sans-serif;
 
@@ -266,5 +250,10 @@ export default {
   svg {
     display: block;
     margin: 0 auto;
-}}
+  }
+}
+.bar-text {
+  font-weight: 500;
+  font-family: 'Geomanist', sans-serif;
+}
 </style>

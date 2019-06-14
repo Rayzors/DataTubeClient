@@ -1,5 +1,6 @@
 <template>
   <div class="step2">
+    <logo-svg class="step__logo"/>
     <div class="step2__left">
       <ul class="step2__left__nav">
         <li class="step2__left__nav-item">Étape 1 (Votre pays de résidence)</li>
@@ -417,10 +418,12 @@
 <script>
 import SelectBox from '@/components/SelectBox.vue';
 import { mapGetters } from 'vuex';
+import LogoSvg from '@/components/LogoSVG.vue';
 
 export default {
   components: {
     SelectBox,
+    LogoSvg,
   },
   computed: {
     ...mapGetters(['getSubscribersRanges']),
@@ -431,6 +434,11 @@ export default {
 <style lang="scss" scoped>
 $grey: #9a9a9a;
 $red: #de543f;
+.step__logo {
+  position: absolute;
+  top: 5%;
+  left: 64px;
+}
 .step2 {
   display: flex;
   flex-direction: row;
@@ -443,27 +451,53 @@ $red: #de543f;
       list-style: none;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       width: 70%;
+      font-family: 'Geomanist', sans-serif;
+      font-weight: 400;
+
+      position: absolute;
+      top: 17%;
+      left: 64px;
+      width: 36%;
+
 
       color: $grey;
       padding: 0;
 
       &-item {
         font-size: 17px;
-
+        white-space: nowrap;
+        padding-right: 32px;
         &--selected {
+          padding-right: 32px;
+          white-space: nowrap;
           color: $red;
         }
       }
     }
     &__subtitle {
-      color: $grey;
+      color: #000;
+      margin-left: 36px;
+      position: relative;
+      font-family: 'Geomanist';
+      font-weight: 500;
+      &:before {
+        content: '';
+        position: absolute;
+        border-radius: 2px;
+        background: #de543f;
+        width: 24px;
+        height: 8px;
+        left: -36px;
+        top: 50%;
+        transform: translateY(-50%)
+      }
     }
   }
   &__right {
     width: 40%;
     margin: auto;
+    font-family: 'integralcf', sans-serif;
 
     &__svg {
       width: 70%;

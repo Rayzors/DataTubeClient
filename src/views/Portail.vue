@@ -4,7 +4,7 @@
       <LogoSVG :ratio="2"/>
       <div
         class="portail__description"
-      >Créez du contenu impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
+      >Créez et optimisez vos contenus impactant grâce à notre outil d’accompagnement à la création de vidéo.</div>
     </div>
     <!-- <div class="portail__image" v-parallax="0.2">
       <img :src="image" alt="image avec des gens qui font de la dataviz">
@@ -12,13 +12,16 @@
     <step1 v-if="index === 1"/>
     <step2 v-if="index === 2"/>
     <div>
-      <button @click="nextStep" class="portail__btn-next">Suivant</button>
-      <router-link
-        v-if="index === 2"
-        @click="nextStep"
-        class="portail__btn-next"
-        to="/categories-averages"
-      >Suivant</router-link>
+      <button @click="nextStep" class="portail__btn-next btn-outline">
+        <span>Suivant</span>
+        <next-arr class="portail__next-arrow" />
+        <router-link
+          v-if="index === 2"
+          @click="nextStep"
+          class="portail__btn-enter"
+          to="/categories-averages"
+        ></router-link>
+      </button>
       <button v-if="index >= 1" @click="prevStep" class="portail__btn-prev">Retour</button>
     </div>
   </div>
@@ -29,6 +32,7 @@ import LogoSVG from '@/components/LogoSVG.vue';
 import image from '@/assets/portail-bg.svg';
 import Step1 from '@/components/Step1.vue';
 import Step2 from '@/components/Step2.vue';
+import nextArr from '@/assets/fleche.vue';
 
 export default {
   data() {
@@ -41,6 +45,7 @@ export default {
     LogoSVG,
     Step1,
     Step2,
+    nextArr,
   },
   methods: {
     nextStep() {
@@ -102,27 +107,27 @@ $main-red: #ee5355;
     }
     &-next {
       position: absolute;
-      bottom: 0;
-      right: 0;
+      bottom: 48px;
+      right: 64px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 20%;
       border: solid 2px $main-red;
 
-      padding: 10px;
-      font-size: 26px;
-      background-color: $main-red;
-      color: #fff;
-      transition: fill 3s;
-      text-transform: uppercase;
-      outline: none;
-      text-decoration: none;
+      padding: 16px 24px 12px 24px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    &-enter {
+      width: 100%;
+      position: absolute;
+      height: 100%;
+      top: 0;
     }
     &-prev {
       position: absolute;
-      left: 60px;
-      top: 35%;
+      left: 64px;
+      top: 15%;
 
       cursor: pointer;
 
@@ -136,6 +141,13 @@ $main-red: #ee5355;
         padding-right: 10px;
       }
     }
+  }
+
+  &__next-arrow {
+    width: 16px;
+    height: 10px;
+    margin-left: 8px;
+    margin-top: -3px;
   }
 }
 </style>

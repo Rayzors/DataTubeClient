@@ -82,11 +82,8 @@ export default {
         const side2 = this[type](2);
         const higherSide = Math.max(side1, side2);
         const lowerSide = Math.min(side1, side2);
-        const total = higherSide + lowerSide
-        return [
-          (side1 / (total || 1)) * 100,
-          (side2 / (total || 1)) * 100,
-        ];
+        const total = higherSide + lowerSide;
+        return [(side1 / (total || 1)) * 100, (side2 / (total || 1)) * 100];
       };
     },
   },
