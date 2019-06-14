@@ -1,17 +1,18 @@
 <template>
   <div class="grid">
     <section-title
+      ref="title"
       v-parallax="0.1"
       class="section_title"
       title="Durée des vidéos"
       edito="Découvrez le meilleur temps de vidéo pour cette recherche."
     />
 
-    <div class="grid__left" v-parallax="0.2">
+    <div class="grid__left" ref="left" v-parallax="0.2">
       <video-duration-stats :statsSide="1"/>
     </div>
 
-    <div v-parallax="0.3" class="grid__center">
+    <div v-parallax="0.3" ref="center" class="grid__center">
       <video-duration-charts
         :title="maxDurationTitle"
         :durations="maxVideoDurations"
@@ -37,7 +38,7 @@
       </div>
     </div>
 
-    <div class="grid__right" v-parallax="0.2">
+    <div class="grid__right" ref="right" v-parallax="0.2">
       <transition name="slide-fade" v-if="$store.state.compare">
         <video-duration-stats :statsSide="2"/>
       </transition>
@@ -46,28 +47,28 @@
 </template>
 
 <script>
-import videoDurationStats from '@/components/VideoDurationStats';
-import videoDurationCharts from '@/components/VideoDurationCharts';
-import SectionTitle from '@/components/SectionTitle.vue';
-import { api } from '@/api';
-import { mapGetters } from 'vuex';
+import videoDurationStats from "@/components/VideoDurationStats";
+import videoDurationCharts from "@/components/VideoDurationCharts";
+import SectionTitle from "@/components/SectionTitle.vue";
+import { api } from "@/api";
+import { mapGetters } from "vuex";
 
 export default {
   components: { videoDurationStats, videoDurationCharts, SectionTitle },
   data() {
     return {
-      maxDurationTitle: 'Durée de la vidéo la plus longue',
-      averageDurationTitle: 'Durée moyenne des vidéos',
-      minDurationTitle: 'Durée de la vidéo la plus courte',
+      maxDurationTitle: "Durée de la vidéo la plus longue",
+      averageDurationTitle: "Durée moyenne des vidéos",
+      minDurationTitle: "Durée de la vidéo la plus courte"
     };
   },
   computed: {
     ...mapGetters({
-      maxVideoDurations: 'getMaxVideoDurations',
-      minVideoDurations: 'getMinVideoDurations',
-      averageVideoDurations: 'getAverageVideoDurations',
-      longestVideos: 'getLongestVideos',
-      shortestVideos: 'getShortestVideos',
+      maxVideoDurations: "getMaxVideoDurations",
+      minVideoDurations: "getMinVideoDurations",
+      averageVideoDurations: "getAverageVideoDurations",
+      longestVideos: "getLongestVideos",
+      shortestVideos: "getShortestVideos"
     }),
     column1Selection() {
       return this.$store.getters.getColumn1Selection;
@@ -81,45 +82,46 @@ export default {
       return maxDuration1 > maxDuration2 ? maxDuration1 : maxDuration2;
     },
     rulerTime() {
-      return (index) => {
+      return index => {
         const value = (this.statSize / 8) * index;
         const h = Math.floor(value / 60 / 60);
         const m = Math.floor((value / 60) % 60);
         const s = value % 60;
         return (
-          (h ? `${h}h` : '')
-          + (m || h ? `${m}m` : '')
-          + (s || m || h ? `${s}s` : '')
+          (h ? `${h}h` : "") +
+          (m || h ? `${m}m` : "") +
+          (s || m || h ? `${s}s` : "")
         );
       };
     },
     statSize() {
       const ceiledHighestValue = Math.ceil(this.highestValue / 8);
-      const statSize =        (ceiledHighestValue % 2 ? ceiledHighestValue + 1 : ceiledHighestValue)
-        * 8;
+      const statSize =
+        (ceiledHighestValue % 2 ? ceiledHighestValue + 1 : ceiledHighestValue) *
+        8;
       return statSize;
-    },
+    }
   },
   methods: {
     async updateDurationData(value, statsSide) {
       const datas = (await api.fetchVideosDurations(
         value.country,
         value.category,
-        this.$store.state['column' + statsSide].selected.range,
+        this.$store.state["column" + statsSide].selected.range
       )).data;
       let maxDuration = 0;
-      let longestVideo = '';
+      let longestVideo = "";
       let averageDuration = 0;
       let minDuration = datas.length ? datas[0].duration : 0;
-      let shortestVideo = datas.length ? datas[0].title : '';
+      let shortestVideo = datas.length ? datas[0].title : "";
       let totalDuration = 0;
-      let videoId = ''
-      datas.forEach((data) => {
+      let videoId = "";
+      datas.forEach(data => {
         const { id, duration, title } = data;
         if (duration > maxDuration) {
           maxDuration = duration;
           longestVideo = title;
-          videoId = id
+          videoId = id;
         }
         if (duration < minDuration) {
           minDuration = duration;
@@ -128,25 +130,97 @@ export default {
         totalDuration += duration;
       });
       averageDuration = Math.round(totalDuration / datas.length);
-      this.$store.commit('setMaxVideoDuration', {
+      this.$store.commit("setMaxVideoDuration", {
         statsSide,
-        value: maxDuration,
+        value: maxDuration
       });
-      this.$store.commit('setAverageVideoDuration', {
+      this.$store.commit("setAverageVideoDuration", {
         statsSide,
-        value: averageDuration,
+        value: averageDuration
       });
-      this.$store.commit('setMinVideoDuration', {
+      this.$store.commit("setMinVideoDuration", {
         statsSide,
-        value: minDuration,
+        value: minDuration
       });
-      this.$store.commit('setLongestVideo', { statsSide, value: longestVideo });
-      this.$store.commit('setShortestVideo', {
+      this.$store.commit("setLongestVideo", { statsSide, value: longestVideo });
+      this.$store.commit("setShortestVideo", {
         statsSide,
-        value: shortestVideo,
+        value: shortestVideo
       });
-      this.$store.commit('setVideoId', { statsSide, value: videoId })
+      this.$store.commit("setVideoId", { statsSide, value: videoId });
     },
+    enter(el, done) {
+      const tl = new TimelineLite({
+        onComplete: done
+      });
+
+      tl.fromTo(
+        this.$refs.title.$el,
+        0.5,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.1
+      );
+      tl.fromTo(
+        this.$refs.left,
+        0.26,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.5
+      );
+
+      tl.fromTo(
+        this.$refs.right,
+        0.26,
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.5
+      );
+
+      tl.fromTo(
+        this.$refs.center,
+        0.26,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1 },
+        0.7
+      );
+    },
+    leave(el, done) {
+      const tl = new TimelineLite({
+        onComplete: done
+      });
+
+      tl.fromTo(
+        this.$refs.title.$el,
+        0.5,
+        { x: 0, opacity: 1 },
+        { x: -100, opacity: 0 },
+        0.24
+      );
+      tl.fromTo(
+        this.$refs.left,
+        0.26,
+        { x: 0, opacity: 1 },
+        { x: -100, opacity: 0 },
+        0.26
+      );
+
+      tl.fromTo(
+        this.$refs.right,
+        0.26,
+        { x: 0, opacity: 1 },
+        { x: 100, opacity: 0 },
+        0.26
+      );
+
+      tl.fromTo(
+        this.$refs.center,
+        0.26,
+        { scale: 1, opacity: 1 },
+        { scale: 0, opacity: 0 },
+        0.1
+      );
+    }
   },
   mounted() {
     this.updateDurationData(this.$store.state.column1.selected, 1);
@@ -157,15 +231,15 @@ export default {
       async handler(value) {
         await this.updateDurationData(value, 1);
       },
-      deep: true,
+      deep: true
     },
     column2Selection: {
       async handler(value) {
         await this.updateDurationData(value, 2);
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 };
 </script>
 

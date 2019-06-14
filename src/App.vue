@@ -34,7 +34,7 @@ export default {
   components: { SelectBoxContainer, LogoSVG },
   data() {
     return {
-      hideParticles: false,
+      hideParticles: true,
     };
   },
   async created() {
@@ -123,7 +123,7 @@ $default-z: 15;
   background-color: #ffffff;
 
   text-align: center;
-  font-family: 'Geomanist';
+  font-family: "Geomanist";
   font-size: 18px;
   font-weight: bold;
   line-height: 1;
@@ -143,11 +143,11 @@ $default-z: 15;
   &:after {
     position: absolute;
     z-index: $default-z;
-    content: '';
+    content: "";
     left: -$sz/2;
     top: 0;
     transition: transform 0.6s ease;
-    transform: translateX(-$sz/2) ;
+    transform: translateX(-$sz/2);
 
     width: $sz;
     height: 100%;
@@ -156,19 +156,19 @@ $default-z: 15;
   }
 
   &:hover {
-    color: #FFF;
+    color: #fff;
     position: #fff;
-    border-color: .6s ease;
+    border-color: 0.6s ease;
 
-    .portail__next-arrow  {
+    .portail__next-arrow {
       position: relative;
     }
     .portail__next-arrow #Homepage {
-      transition: fill .5s ease;
-      fill: #234
+      transition: fill 0.5s ease;
+      fill: #234;
     }
     &:after {
-      transform: scale(10)
+      transform: scale(10);
     }
   }
 }

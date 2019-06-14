@@ -1,12 +1,13 @@
 <template>
   <div class="grid">
     <section-title
+      ref="title"
       v-parallax="0.1"
       class="section_title"
       title="Nombres de vues"
       edito="Vous pourrez comprendre ce qui marche autour de vous."
     />
-    <div class="grid__left" v-parallax="0.2">
+    <div class="grid__left" ref="left" v-parallax="0.2">
       <div class="information__container">
         <home-block
           v-for="(block, i) in column1"
@@ -19,13 +20,13 @@
       </div>
     </div>
 
-    <div class="grid__center">
-      <round-chart v-parallax="0.3" :options="minimumChartOptions"/>
-      <round-chart v-parallax="0.3" :options="averageChartOptions"/>
-      <round-chart v-parallax="0.3" :options="maximumChartOptions"/>
+    <div class="grid__center" v-parallax="0.3">
+      <round-chart ref="center1" :options="minimumChartOptions"/>
+      <round-chart ref="center2" :options="averageChartOptions"/>
+      <round-chart ref="center3" :options="maximumChartOptions"/>
     </div>
 
-    <div class="grid__right" v-parallax="0.2">
+    <div class="grid__right" ref="right" v-parallax="0.2">
       <div class="information__container">
         <home-block
           v-for="(block, i) in column2"
@@ -46,6 +47,7 @@ import HomeBlock from '@/components/HomeBlock.vue';
 import RoundChart from '@/components/RoundChart.vue';
 import SectionTitle from '@/components/SectionTitle.vue';
 import { mapGetters } from 'vuex';
+import { TimelineLite } from 'gsap';
 
 export default {
   components: {
@@ -511,6 +513,106 @@ export default {
   methods: {
     toggleCompare() {
       this.$store.dispatch('toggleCompare');
+    },
+    enter(el, done) {
+      const tl = new TimelineLite({
+        onComplete: done,
+      });
+
+      tl.fromTo(
+        this.$refs.title.$el,
+        0.5,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.1,
+      );
+      tl.fromTo(
+        this.$refs.left,
+        0.26,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.5,
+      );
+
+      tl.fromTo(
+        this.$refs.right,
+        0.26,
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.5,
+      );
+
+      tl.fromTo(
+        this.$refs.center1.$el,
+        0.5,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1 },
+        0.7,
+      );
+      tl.fromTo(
+        this.$refs.center2.$el,
+        0.5,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1 },
+        0.8,
+      );
+      tl.fromTo(
+        this.$refs.center3.$el,
+        0.5,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1 },
+        0.9,
+      );
+    },
+    leave(el, done) {
+      const tl = new TimelineLite({
+        onComplete: done,
+      });
+
+      tl.fromTo(
+        this.$refs.title.$el,
+        0.5,
+        { x: 0, opacity: 1 },
+        { x: -100, opacity: 0 },
+        0.4,
+      );
+      tl.fromTo(
+        this.$refs.left,
+        0.26,
+        { x: 0, opacity: 1 },
+        { x: -100, opacity: 0 },
+        0.5,
+      );
+
+      tl.fromTo(
+        this.$refs.right,
+        0.26,
+        { x: 0, opacity: 1 },
+        { x: 100, opacity: 0 },
+        0.5,
+      );
+
+      tl.fromTo(
+        this.$refs.center1.$el,
+        0.26,
+        { scale: 1, opacity: 1 },
+        { scale: 0, opacity: 0 },
+        0.3,
+      );
+      tl.fromTo(
+        this.$refs.center2.$el,
+        0.26,
+        { scale: 1, opacity: 1 },
+        { scale: 0, opacity: 0 },
+        0.2,
+      );
+      tl.fromTo(
+        this.$refs.center3.$el,
+        0.26,
+        { scale: 1, opacity: 1 },
+        { scale: 0, opacity: 0 },
+        0.1,
+      );
     },
   },
   watch: {},

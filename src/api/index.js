@@ -25,10 +25,7 @@ const api = {
   },
 
   fetchYoutubers(regionId, videoCategoryId, range) {
-    return axios.get(
-      `http://localhost:3000/channels`,
-      config,
-    );
+    return axios.get(`${API_URL}/channels`, config);
   },
 };
 

@@ -1,12 +1,13 @@
 <template>
   <div class="grid">
     <section-title
+      ref="title"
       v-parallax="0.1"
       class="section_title"
       title="Moyenne des catégories"
       edito="Nous vous affichons une moyenne de toutes les informations principales pour cette recherche."
     />
-    <div class="grid__left" v-parallax="0.2">
+    <div class="grid__left" ref="left" v-parallax="0.2">
       <div class="information__container">
         <home-block
           v-for="(block, i) in column1"
@@ -19,11 +20,11 @@
       </div>
     </div>
 
-    <div class="grid__center">
+    <div class="grid__center" ref="center">
       <high-charts v-parallax="0.3" :options="chartOptions"/>
     </div>
 
-    <div class="grid__right" v-parallax="0.2">
+    <div class="grid__right" ref="right" v-parallax="0.2">
       <div class="information__container">
         <home-block
           v-for="(block, i) in column2"
@@ -40,143 +41,143 @@
 </template>
 
 <script>
-import HomeBlock from "@/components/HomeBlock.vue";
-import HighCharts from "@/components/HighCharts.vue";
-import SectionTitle from "@/components/SectionTitle.vue";
-import { mapGetters } from "vuex";
-import Utils from "@/mixins/Utils.vue";
-import { TweenMax } from "gsap";
+import HomeBlock from '@/components/HomeBlock.vue';
+import HighCharts from '@/components/HighCharts.vue';
+import SectionTitle from '@/components/SectionTitle.vue';
+import { mapGetters } from 'vuex';
+import Utils from '@/mixins/Utils.vue';
+import { TimelineLite } from 'gsap';
 
 export default {
   mixins: [Utils],
   components: {
     HighCharts,
     HomeBlock,
-    SectionTitle
+    SectionTitle,
   },
   data() {
     return {
       models: [
         {
-          title: "Nombre de vues",
-          value: "averageViewCount",
-          type: "string",
-          important: false
+          title: 'Nombre de vues',
+          value: 'averageViewCount',
+          type: 'string',
+          important: false,
         },
         {
-          title: "Durée moyenne des vidéos",
-          value: "averageTime",
-          type: "string",
-          important: false
+          title: 'Durée moyenne des vidéos',
+          value: 'averageTime',
+          type: 'string',
+          important: false,
         },
         {
-          title: "Meilleur moment de publication",
-          value: "bestNumberOfPublication",
-          type: "object",
-          important: false
+          title: 'Meilleur moment de publication',
+          value: 'bestNumberOfPublication',
+          type: 'object',
+          important: false,
         },
         {
-          title: "Meilleur moment de publication",
-          value: "bestTimeOfPublication",
-          type: "object",
-          important: false
+          title: 'Meilleur moment de publication',
+          value: 'bestTimeOfPublication',
+          type: 'object',
+          important: false,
         },
         {
-          title: "Likes / Dislike",
-          value: "likePourcentage",
-          type: "string",
-          important: false
+          title: 'Likes / Dislike',
+          value: 'likePourcentage',
+          type: 'string',
+          important: false,
         },
         {
-          title: "Tags les plus utilisés",
-          value: "bestTags",
-          type: "array",
-          important: false
-        }
+          title: 'Tags les plus utilisés',
+          value: 'bestTags',
+          type: 'array',
+          important: false,
+        },
       ],
       options: {
         title: {
-          text: undefined
+          text: undefined,
         },
         chart: {
           opacity: 1,
           clip: false,
           margin: [0, 0, 0, 0],
           width: null,
-          height: "95%",
-          polar: true
+          height: '95%',
+          polar: true,
         },
         legend: {
-          enabled: false
+          enabled: false,
         },
         tooltip: {
-          enabled: false
+          enabled: false,
         },
         xAxis: [
           {
-            type: "category",
-            categories: ["Nombre de vue", "Like", "Durée", "Dislike"],
+            type: 'category',
+            categories: ['Nombre de vue', 'Like', 'Durée', 'Dislike'],
             labels: {
               style: {
-                color: "#151515",
-                cursor: "default",
-                fontSize: "13px",
-                textOverflow: "none",
-                whiteSpace: "nowrap",
-                fontFamily: "Josefin Sans",
-                letterSpacing: "0.1px"
-              }
+                color: '#151515',
+                cursor: 'default',
+                fontSize: '13px',
+                textOverflow: 'none',
+                whiteSpace: 'nowrap',
+                fontFamily: 'Josefin Sans',
+                letterSpacing: '0.1px',
+              },
             },
-            tickColor: "#FF0000",
-            tickPosition: "inside",
-            tickmarkPlacement: "on",
+            tickColor: '#FF0000',
+            tickPosition: 'inside',
+            tickmarkPlacement: 'on',
             tickPixelInterval: 45,
-            gridLineColor: "#ddd",
-            lineColor: "#ddd"
-          }
+            gridLineColor: '#ddd',
+            lineColor: '#ddd',
+          },
         ],
         yAxis: {
-          gridLineColor: "#ddd",
+          gridLineColor: '#ddd',
           gridLineWidth: 0,
           labels: {
-            enabled: false
+            enabled: false,
           },
-          max: 100
+          max: 100,
         },
         series: [
           {
-            color: "#ee5355",
+            color: '#ee5355',
             fillOpacity: 0.65,
-            name: "Column",
+            name: 'Column',
             data: [],
-            pointPlacement: "on",
+            pointPlacement: 'on',
             lineWidth: 3,
             events: {
-              mouseOver: false
+              mouseOver: false,
             },
             enableMouseTracking: false,
-            type: "area",
-            marker: false
+            type: 'area',
+            marker: false,
           },
           {
-            color: "#3f78de",
+            color: '#3f78de',
             fillOpacity: 0.65,
-            name: "Column2",
-            pointPlacement: "on",
+            name: 'Column2',
+            pointPlacement: 'on',
             lineWidth: 3,
             data: [],
             events: {
-              mouseOver: false
+              mouseOver: false,
             },
             enableMouseTracking: false,
-            type: "area",
+            type: 'area',
             marker: false,
             animation: {
-              duration: 1000
-            }
-          }
-        ]
-      }
+              duration: 1000,
+            },
+          },
+        ],
+      },
     };
   },
   computed: {
@@ -184,67 +185,67 @@ export default {
       return this.models.map(model => ({
         ...model,
         value:
-          model.title === "Durée moyenne des vidéos"
+          model.title === 'Durée moyenne des vidéos'
             ? this.getFormattedTime(this.getColumn1Datas[model.value])
-            : this.getColumn1Datas[model.value]
+            : this.getColumn1Datas[model.value],
       }));
     },
     column2() {
       return this.models.map(model => ({
         ...model,
         value:
-          model.title === "Durée moyenne des vidéos"
+          model.title === 'Durée moyenne des vidéos'
             ? this.getFormattedTime(this.getColumn2Datas[model.value])
-            : this.getColumn2Datas[model.value]
+            : this.getColumn2Datas[model.value],
       }));
     },
     averageData1() {
       const maxView = Math.max(
         this.getColumn2Datas.averageViewCount,
-        this.getColumn1Datas.averageViewCount
+        this.getColumn1Datas.averageViewCount,
       );
       const maxAverageTime = Math.max(
         this.getColumn2Datas.averageTime,
-        this.getColumn1Datas.averageTime
+        this.getColumn1Datas.averageTime,
       );
       const maxLike = Math.max(
         this.getColumn2Datas.likePourcentage,
-        this.getColumn1Datas.likePourcentage
+        this.getColumn1Datas.likePourcentage,
       );
       const maxDislike = Math.max(
         this.getColumn2Datas.dislikePourcentage,
-        this.getColumn1Datas.dislikePourcentage
+        this.getColumn1Datas.dislikePourcentage,
       );
 
       return [
         Math.round((this.getColumn1Datas.averageViewCount * 100) / maxView),
         Math.round((this.getColumn1Datas.likePourcentage * 100) / maxLike),
         Math.round((this.getColumn1Datas.averageTime * 100) / maxAverageTime),
-        Math.round((this.getColumn1Datas.dislikePourcentage * 100) / maxDislike)
+        Math.round((this.getColumn1Datas.dislikePourcentage * 100) / maxDislike),
       ];
     },
     averageData2() {
       const maxView = Math.max(
         this.getColumn2Datas.averageViewCount,
-        this.getColumn1Datas.averageViewCount
+        this.getColumn1Datas.averageViewCount,
       );
       const maxAverageTime = Math.max(
         this.getColumn2Datas.averageTime,
-        this.getColumn1Datas.averageTime
+        this.getColumn1Datas.averageTime,
       );
       const maxLike = Math.max(
         this.getColumn2Datas.likePourcentage,
-        this.getColumn1Datas.likePourcentage
+        this.getColumn1Datas.likePourcentage,
       );
       const maxDislike = Math.max(
         this.getColumn2Datas.dislikePourcentage,
-        this.getColumn1Datas.dislikePourcentage
+        this.getColumn1Datas.dislikePourcentage,
       );
       return [
         Math.round((this.getColumn2Datas.averageViewCount * 100) / maxView),
         Math.round((this.getColumn2Datas.likePourcentage * 100) / maxLike),
         Math.round((this.getColumn2Datas.averageTime * 100) / maxAverageTime),
-        Math.round((this.getColumn2Datas.dislikePourcentage * 100) / maxDislike)
+        Math.round((this.getColumn2Datas.dislikePourcentage * 100) / maxDislike),
       ];
     },
     chartOptions() {
@@ -260,29 +261,101 @@ export default {
       return { ...newOptions };
     },
     ...mapGetters([
-      "getColumn1Selection",
-      "getColumn2Selection",
-      "getColumn1Datas",
-      "getColumn2Datas",
-      "getCompare"
-    ])
+      'getColumn1Selection',
+      'getColumn2Selection',
+      'getColumn1Datas',
+      'getColumn2Datas',
+      'getCompare',
+    ]),
   },
   methods: {
     toggleCompare() {
-      this.$store.dispatch("toggleCompare");
+      this.$store.dispatch('toggleCompare');
     },
     getFormattedTime(time) {
       const h = Math.floor(time / 60 / 60);
       const m = Math.floor((time / 60) % 60);
       const s = time % 60;
       return (
-        (h ? `${h}h` : "") +
-        (m || h ? `${m}m` : "") +
-        (s || m || h ? `${s}s` : "")
+        (h ? `${h}h` : '')
+        + (m || h ? `${m}m` : '')
+        + (s || m || h ? `${s}s` : '')
       );
-    }
+    },
+    enter(el, done) {
+      const tl = new TimelineLite({
+        onComplete: done,
+      });
+
+      tl.fromTo(
+        this.$refs.title.$el,
+        0.5,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.1,
+      );
+      tl.fromTo(
+        this.$refs.left,
+        0.26,
+        { x: -100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.5,
+      );
+
+      tl.fromTo(
+        this.$refs.right,
+        0.26,
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1 },
+        0.5,
+      );
+
+      tl.fromTo(
+        this.$refs.center,
+        0.26,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1 },
+        0.7,
+      );
+    },
+    leave(el, done) {
+      const tl = new TimelineLite({
+        onComplete: done,
+      });
+
+      tl.fromTo(
+        this.$refs.title.$el,
+        0.5,
+        { x: 0, opacity: 1 },
+        { x: -100, opacity: 0 },
+        0.24,
+      );
+      tl.fromTo(
+        this.$refs.left,
+        0.26,
+        { x: 0, opacity: 1 },
+        { x: -100, opacity: 0 },
+        0.26,
+      );
+
+      tl.fromTo(
+        this.$refs.right,
+        0.26,
+        { x: 0, opacity: 1 },
+        { x: 100, opacity: 0 },
+        0.26,
+      );
+
+      tl.fromTo(
+        this.$refs.center,
+        0.26,
+        { scale: 1, opacity: 1 },
+        { scale: 0, opacity: 0 },
+        0.1,
+      );
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
