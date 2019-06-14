@@ -4,7 +4,8 @@
     <div class="step1__left">
       <ul class="step1__left__nav">
         <li class="step1__left__nav-item--selected">Étape 1 (Votre pays de résidence)</li>
-        <li class="step1__left__nav-item">Étape 2 (Votre nombres d’abonnés)</li>
+        <li class="step1__left__nav-item">Étape 2 (Votre catégorie)</li>
+        <li class="step1__left__nav-item">Étape 3 (Votre nombres d’abonnés)</li>
       </ul>
       <div>
         <h1 class="step1__left__title">Quel est votre pays de résidence ?</h1>
@@ -248,14 +249,13 @@ $red: #de543f;
       display: flex;
       flex-direction: row;
       width: 70%;
-      font-family: 'Geomanist', sans-serif;
+      font-family: "Geomanist", sans-serif;
       font-weight: 400;
 
       position: absolute;
       top: 17%;
       left: 64px;
       width: 36%;
-
 
       color: $grey;
       padding: 0;
@@ -275,10 +275,10 @@ $red: #de543f;
       color: #000;
       margin-left: 36px;
       position: relative;
-      font-family: 'Geomanist';
+      font-family: "Geomanist";
       font-weight: 500;
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         border-radius: 2px;
         background: #de543f;
@@ -286,14 +286,14 @@ $red: #de543f;
         height: 8px;
         left: -36px;
         top: 50%;
-        transform: translateY(-50%)
+        transform: translateY(-50%);
       }
     }
   }
   &__right {
     width: 40%;
     margin: auto;
-    font-family: 'integralcf', sans-serif;
+    font-family: "integralcf", sans-serif;
 
     &__svg {
       width: 70%;

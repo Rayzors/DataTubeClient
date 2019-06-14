@@ -11,17 +11,22 @@
     </div>-->
     <step1 v-if="index === 1"/>
     <step2 v-if="index === 2"/>
+    <step3 v-if="index === 3"/>
+
     <div>
-      <button @click="nextStep" class="portail__btn-next btn-outline">
+      <button @click="nextStep" v-if="index < 3" class="portail__btn-next btn-outline">
         <span>Suivant</span>
-        <next-arr class="portail__next-arrow" />
-        <router-link
-          v-if="index === 2"
-          @click="nextStep"
-          class="portail__btn-enter"
-          to="/categories-averages"
-        ></router-link>
+        <next-arr class="portail__next-arrow"/>
       </button>
+      <router-link
+        v-if="index === 3"
+        @click="nextStep"
+        class="portail__btn-next btn-outline"
+        to="/categories-averages"
+      >
+        <span>Suivant</span>
+        <next-arr class="portail__next-arrow"/>
+      </router-link>
       <button v-if="index >= 1" @click="prevStep" class="portail__btn-prev">Retour</button>
     </div>
   </div>
@@ -32,6 +37,7 @@ import LogoSVG from '@/components/LogoSVG.vue';
 import image from '@/assets/portail-bg.svg';
 import Step1 from '@/components/Step1.vue';
 import Step2 from '@/components/Step2.vue';
+import Step3 from '@/components/Step3.vue';
 import nextArr from '@/assets/fleche.vue';
 
 export default {
@@ -45,6 +51,7 @@ export default {
     LogoSVG,
     Step1,
     Step2,
+    Step3,
     nextArr,
   },
   methods: {
@@ -106,6 +113,8 @@ $main-red: #ee5355;
       font-family: "Josefin Sans", sans-serif;
     }
     &-next {
+      text-decoration: none;
+      display: block;
       position: absolute;
       bottom: 48px;
       right: 64px;

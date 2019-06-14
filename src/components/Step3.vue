@@ -4,16 +4,16 @@
     <div class="step2__left">
       <ul class="step2__left__nav">
         <li class="step2__left__nav-item">Étape 1 (Votre pays de résidence)</li>
-        <li class="step2__left__nav-item--selected">Étape 2 (Votre catégorie)</li>
-        <li class="step2__left__nav-item">Étape 3 (Votre nombres d’abonnés)</li>
+        <li class="step2__left__nav-item">Étape 2 (Votre catégorie)</li>
+        <li class="step2__left__nav-item--selected">Étape 3 (Votre nombres d’abonnés)</li>
       </ul>
       <div>
-        <h1 class="step2__left__title">Quelle est la catégorie qui vous intéresse ?</h1>
+        <h1 class="step2__left__title">Quel est votre nombre d'abonnés ?</h1>
         <p
           class="step2__left__subtitle"
         >Nous vous proposerons des contenus adaptés à votre audience.</p>
       </div>
-      <select-box :options="getCategories" column="1" name="category"/>
+      <select-box :options="getSubscribersRanges[0]" column="1" name="range"/>
     </div>
     <div class="step2__right">
       <svg
@@ -427,7 +427,7 @@ export default {
     LogoSvg,
   },
   computed: {
-    ...mapGetters(['getCategories']),
+    ...mapGetters(['getSubscribersRanges']),
   },
 };
 </script>
