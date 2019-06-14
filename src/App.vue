@@ -157,18 +157,23 @@ $default-z: 15;
 
   &:hover {
     color: #FFF;
-    position: #fff;
-    border-color: .6s ease;
 
     .portail__next-arrow  {
       position: relative;
-    }
-    .portail__next-arrow #Homepage {
-      transition: fill .5s ease;
-      fill: #234
+      #Homepage {
+        transition: fill .5s ease;
+        fill: #FFF;
+      }
     }
     &:after {
       transform: scale(10)
+    }
+    svg {
+      position: relative;
+      z-index: 990;
+      #flechefill {
+        fill: #FFF;
+      }
     }
   }
 }
