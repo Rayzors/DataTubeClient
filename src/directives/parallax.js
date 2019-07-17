@@ -10,10 +10,10 @@ const parallaxFunc = (element, binding) => _.throttle((e) => {
 }, 100);
 
 Vue.directive('parallax', {
-  bind(el, binding) {
-    window.addEventListener('mousemove', parallaxFunc(el, binding));
-  },
-  unbind(el, binding) {
-    window.removeEventListener('mousemove', parallaxFunc(el, binding));
-  },
+  // bind(el, binding) {
+  //   window.addEventListener('mousemove', parallaxFunc(el, binding));
+  // },
+  // unbind(el, binding) {
+  //   window.removeEventListener('mousemove', parallaxFunc(el, binding));
+  // },
 });

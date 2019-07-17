@@ -11,7 +11,7 @@
     <div class="topbar" v-if="$route.path !== '/'">
       <div class="container">
         <div class="logo">
-          <img :src="LogoSvg" class="step__logo">
+          <img :src="LogoSvg" class="step__logo"/>
         </div>
       </div>
       <select-box-container
@@ -162,13 +162,13 @@ $default-z: 15;
   }
 
   &:hover {
-    color: #fff;
+    color: #FFF;
 
     .portail__next-arrow {
       position: relative;
       #Homepage {
-        transition: fill 0.5s ease;
-        fill: #fff;
+        transition: fill .5s ease;
+        fill: #FFF;
       }
     }
     &:after {
@@ -178,7 +178,7 @@ $default-z: 15;
       position: relative;
       z-index: 990;
       #flechefill {
-        fill: #fff;
+        fill: #FFF;
       }
     }
   }

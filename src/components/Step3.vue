@@ -7,11 +7,13 @@
         <li class="step2__left__nav-item">Étape 2 (Votre catégorie)</li>
         <li class="step2__left__nav-item--selected">Étape 3 (Votre nombres d’abonnés)</li>
       </ul>
-      <div>
+      <div style="margin-bottom: 24px;">
         <h1 class="step2__left__title">Quel est votre nombre d'abonnés ?</h1>
         <p
           class="step2__left__subtitle"
-        >Nous vous proposerons des contenus adaptés à votre audience.</p>
+        >Nous vous proposerons des contenus adaptés à votre audience.
+        <div class="step2__left--separator"></div>
+        </p>
       </div>
       <select-box :options="getSubscribersRanges[0]" column="1" name="range"/>
     </div>
@@ -477,21 +479,20 @@ $red: #de543f;
     }
     &__subtitle {
       color: #000;
-      margin-left: 36px;
       position: relative;
       font-family: "Geomanist";
       font-weight: 500;
-      &:before {
-        content: "";
-        position: absolute;
-        border-radius: 2px;
-        background: #de543f;
-        width: 24px;
-        height: 8px;
-        left: -36px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
+      font-size: 22px;
+    }
+    &__title {
+      font-family: 'integralcf', sans-serif;
+    }
+    &--separator {
+      display: inline-block;
+      border-radius: 2px;
+      background: #de543f;
+      width: 24px;
+      height: 8px;
     }
   }
   &__right {

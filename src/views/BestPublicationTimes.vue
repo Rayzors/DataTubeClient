@@ -1,22 +1,24 @@
 <template>
-  <div class="grid">
-    <section-title
-      ref="title"
-      v-parallax="0.1"
-      class="section_title"
-      title="Nombres de publications"
-      edito="Ayez une vision sur l’ensemble des contenus publiés en fonction des jours de la semaine"
-    />
-    <div class="grid__left" ref="left" v-parallax="0.2">
-      <div class="information__container">
-        <home-block
-          v-for="(block, i) in column1"
-          :key="i"
-          :title="block.name"
-          :value="block.value"
-          :important="block.important"
-          :type="block.type"
-        />
+  <div>
+    <div class="grid">
+      <section-title
+        ref="title"
+        v-parallax="0.1"
+        class="section_title"
+        title="Nombres de publications"
+        edito="Ayez une vision sur l’ensemble des contenus publiés en fonction des jours de la semaine."
+      />
+      <div class="grid__left" ref="left" v-parallax="0.2">
+        <div class="information__container">
+          <home-block
+            v-for="(block, i) in column1"
+            :key="i"
+            :title="block.name"
+            :value="block.value"
+            :important="block.important"
+            :type="block.type"
+          />
+        </div>
       </div>
       <div class="grid__center" ref="center" v-parallax="0.3">
         <div class="grid__center-chart-container">
