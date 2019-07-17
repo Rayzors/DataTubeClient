@@ -8,7 +8,7 @@
         <li class="step2__left__nav-item">Étape 3 (Votre nombres d’abonnés)</li>
       </ul>
       <div style="margin-bottom: 24px;">
-        <h1 class="step2__left__title">Quel est votre nombre d'abonnés ?</h1>
+        <h1 class="step2__left__title">Quel est votre catégorie ?</h1>
         <p
           class="step2__left__subtitle"
         >Nous vous proposerons des contenus adaptés à votre audience.</p>

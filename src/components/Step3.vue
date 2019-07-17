@@ -484,6 +484,9 @@ $red: #de543f;
       font-weight: 500;
       font-size: 22px;
     }
+    &__title {
+      font-family: 'integralcf', sans-serif;
+    }
     &--separator {
       display: inline-block;
       border-radius: 2px;
